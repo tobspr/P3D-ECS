@@ -1,18 +1,17 @@
 #pragma once
-#ifndef P3ECS_COMPONENT_H
-#define P3ECS_COMPONENT_H
-
+#ifndef P3DECS_COMPONENT_H
+#define P3DECS_COMPONENT_H
 
 #include "config_module.h"
 
 #include <stdint.h>
 
-using ComponentUniqueID = uint_fast8_t;
+#define DEFINE_COMPONENT() static const Component::id_t component_id;
+#define IMPLEMENT_COMPONENT(name, id) const Component::id_t name::component_id = id;
 
-class Component
+struct Component
 {
-public:
-    static const ComponentUniqueID class_id;
+    using id_t = uint_fast8_t;
 };
 
 #endif

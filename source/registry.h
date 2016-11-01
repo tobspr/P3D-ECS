@@ -2,6 +2,7 @@
 #ifndef P3ECS_REGISTRY_H
 #define P3ECS_REGISTRY_H
 
+#include <stdint.h>
 #include <map>
 #include <functional>
 #include <iostream>
