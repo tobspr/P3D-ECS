@@ -6,13 +6,13 @@ class EntityManager;
 class EntityCollector;
 
 class EntitySystem {
-public:
-    EntitySystem(EntityManager* manager);
+ public:
+  EntitySystem(EntityManager* manager);
 
-    virtual void process(float dt) = 0;
+  virtual void process(float dt) = 0;
 
-protected:
-    EntityManager* _manager;
+ protected:
+  EntityManager* _manager;
 };
 
 #endif

@@ -5,13 +5,13 @@
 #include "entity_system.h"
 
 class MovementSystem : public EntitySystem {
-public:
-    MovementSystem(EntityManager* manager);
+ public:
+  MovementSystem(EntityManager* manager);
 
-    virtual void process(float dt) override;
+  virtual void process(float dt) override;
 
-private:
-    EntityCollector* _relevant_entities;
+ private:
+  EntityCollector* _relevant_entities;
 };
 
 #endif
