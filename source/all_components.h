@@ -8,27 +8,28 @@
 
 // All available components
 
-struct TransformComponent : public Component
-{
+struct TransformComponent : public Component {
     DEFINE_COMPONENT();
 
     LVecBase3f pos;
     LVecBase3f scale;
     LVecBase3f hpr;
 
-    inline TransformComponent(const LVecBase3f &pos, const LVecBase3f &scale, const LVecBase3f &hpr)
-        : pos(pos), scale(scale), hpr(hpr){};
+    inline TransformComponent(const LVecBase3f& pos, const LVecBase3f& scale, const LVecBase3f& hpr)
+        : pos(pos)
+        , scale(scale)
+        , hpr(hpr){};
 };
 
-struct PhysicsComponent : public Component
-{
+struct PhysicsComponent : public Component {
     DEFINE_COMPONENT();
 
     float mass;
     LVecBase2f velocity;
 
-    inline PhysicsComponent(float mass, const LVecBase2f &velocity)
-        : velocity(velocity), mass(mass){};
+    inline PhysicsComponent(float mass, const LVecBase2f& velocity)
+        : velocity(velocity)
+        , mass(mass){};
 };
 
 #endif

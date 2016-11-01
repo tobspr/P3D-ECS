@@ -9,48 +9,57 @@
 #include "entity_collector.h"
 
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
-class EntityManager {
-  friend class Entity;
+class EntityManager final {
+    friend class Entity;
 
- public:
-  Entity* new_entity();
+public:
+    ~EntityManager();
 
-  template <typename T>
-  T* new_system() {
-    // Some stuff will happen here later on ..
-    return new T(this);
-  };
+    Entity* new_entity();
+
+    template <typename T>
+    T* new_system()
+    {
+        // Some stuff will happen here later on ..
+        return new T(this);
+    };
 
 #ifndef INTERROGATE
-  template <typename... Args>
-  EntityCollector* new_collector() {
-    static_assert(sizeof...(Args) > 0,
-                  "Cannot create a collector without component types!");
+    template <typename... Args>
+    EntityCollector* new_collector()
+    {
+        static_assert(sizeof...(Args) > 0,
+            "Cannot create a collector without component types!");
 
-    EntityCollector* collector = EntityCollector::create<Args...>();
-    // Todo: find collectors with same masks, and connect to them to avoid
-    // computing everything twice
-    // For example, if collector1 collects Transform and Physics Components, and
-    // collector2 collects only Physics Components,
-    // collector2 could start with the entities that collector1 collected,
-    // instead of having to iterate over all entities.
-    _collectors.push_back(collector);
+        EntityCollector* collector = EntityCollector::create<Args...>();
+        // Todo: find collectors with same masks, and connect to them to avoid
+        // computing everything twice
+        // For example, if collector1 collects Transform and Physics Components, and
+        // collector2 collects only Physics Components,
+        // collector2 could start with the entities that collector1 collected,
+        // instead of having to iterate over all entities.
+        _collectors.push_back(collector);
 
-    ECS_OUTPUT_DEBUG("Registering new collector at " << collector);
-    return collector;
-  }
+        ECS_OUTPUT_DEBUG("Registering new collector at " << collector);
+        return collector;
+    }
 #endif
 
-  void single_step(float dt);
+    void single_step(float dt);
+    void shutdown();
 
- private:
-  void register_entity(Entity* entity);
+private:
+    void register_entity(Entity* entity);
+    void delete_entity(Entity* entity);
 
- private:
-  std::vector<Entity*> _new_entities;
-  std::vector<EntityCollector*> _collectors;
+private:
+    std::vector<Entity*> _new_entities;
+    std::vector<Entity*> _entities_to_delete;
+    std::vector<EntityCollector*> _collectors;
+    std::unordered_set<Entity*> _all_entities;
 };
 
 #include "entity_manager.I"
