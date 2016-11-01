@@ -8,48 +8,51 @@
 #include <stdint.h>
 #include <cassert>
 #include <utility>
+#include <iostream>
 
 class EntityManager;
 
 class Entity
 {
     friend class EntityManager;
+    static id_t next_id;
 
   public:
     using id_t = uint_fast64_t;
-    using component_mask_t = uint_fast64_t;
 
     inline id_t get_id() const { return _id; };
+    inline size_t get_num_components() const { return _components.size(); };
+    inline Component::bitmask_t get_component_mask() const { return _component_mask; }
 
     template <typename T>
-    T *get_component()
+    T &get()
     {
-        assert(has_component<T>());
-        Component* component = _components.find(T::component_id)->second;
-        return static_cast<T*>(component); // assumed to be safe
+        //assert(has_component<T>());
+        Component *component = _components.find(T::component_id)->second;
+        return *static_cast<T *>(component); // has to be safe
     };
 
     template <typename T>
-    const T *get_component() const
+    const T &get() const
     {
-        return const_cast<Entity *>(this)->get_component<T>();
+        return const_cast<Entity *>(this)->get<T>();
     };
 
     template <typename T>
     bool has_component() const
     {
-        return (_component_mask & (((component_mask_t)1u) << T::component_id)) != 0u;
+        return (_component_mask & Component::to_bitmask(T::component_id) != 0u;
     };
 
-    #ifndef INTERROGATE
+#ifndef INTERROGATE
     template <typename T, typename... Args>
-    void add_component(Args && ...args)
+    void add(Args &&... args)
     {
         assert(!has_component<T>());
         T *component = new T(std::forward<Args>(args)...);
         register_component(T::component_id, component);
     };
-    #endif
+#endif
 
   private:
     inline explicit Entity(EntityManager *manager);
@@ -57,14 +60,19 @@ class Entity
     void register_entity();
     void register_component(Component::id_t id, Component *ptr);
 
-    id_t _id;
-    component_mask_t _component_mask;
     EntityManager *_manager;
 
+    id_t _id;
+    Component::bitmask_t _component_mask;
+
     std::map<Component::id_t, Component *> _components;
-    static id_t next_id;
 };
 
 #include "entity.I"
+
+inline ostream &operator<<(ostream &stream, const Entity &entity)
+{
+    return stream << "[Entity @" << &entity << ", id=" << entity.get_id() << ", components=" << entity.get_num_components() << "]";
+}
 
 #endif

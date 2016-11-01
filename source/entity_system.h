@@ -10,7 +10,7 @@ public:
     EntitySystem(EntityManager* manager);
 
     virtual void process(float dt) = 0;
-  
+
 protected:
     EntityManager* _manager;
 };

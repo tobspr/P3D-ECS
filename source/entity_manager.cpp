@@ -1,21 +1,33 @@
 
 #include "entity_manager.h"
 
-void EntityManager::EntityPool::register_entity(Entity *ptr) {
-    ECS_OUTPUT_DEBUG("Registered entity " << ptr << " (id: " << ptr->get_id() << ")");
-    _entities.emplace(ptr->get_id(), ptr);
-}
-
-void EntityManager::register_entity_with_component(Component::id_t id, Entity *ptr)
+void EntityManager::register_entity(Entity* entity)
 {
-    ECS_OUTPUT_DEBUG("New entity (" << ptr << ", id=" << ptr->get_id() << ") with component " << id << " registered.");
-    get_component_pool(id).register_entity(ptr);    
+    ECS_OUTPUT_DEBUG("Registering new entity to manager: " << *entity);
+    for (EntityCollector* collector : _collectors) 
+    {
+        collector->consider_register(entity);
+    }
 }
 
 Entity* EntityManager::new_entity()
 {
     Entity* entity = new Entity(this);
     _new_entities.push_back(entity);
-    ECS_OUTPUT_DEBUG("Constructed new entity with id " << entity->get_id());
+    ECS_OUTPUT_DEBUG("Constructed new entity: " << *entity);
     return entity;
+}
+
+void EntityManager::single_step(float dt)
+{
+    ECS_OUTPUT_DEBUG("Single step, dt = " << dt);
+
+    ECS_OUTPUT_DEBUG("Adding " << _new_entities.size() << " new entities from last frame ..");
+    for (Entity* entity : _new_entities)
+    {
+        ECS_OUTPUT_DEBUG("  -> Adding: " << entity);
+        entity->register_entity();
+    
+    }
+    _new_entities.clear();
 }

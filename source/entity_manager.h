@@ -6,44 +6,51 @@
 
 #include "component.h"
 #include "entity.h"
+#include "entity_collector.h"
 
 #include <unordered_map>
 #include <vector>
 
 class EntityManager
 {
-    class EntityPool
-    {
-		friend class EntityManager;
-      public:
-        using entity_map_t = std::unordered_map<Entity::id_t, Entity *>;
+  friend class Entity;
 
-        entity_map_t::iterator begin() { return _entities.begin(); };
-        entity_map_t::iterator end() { return _entities.end(); };
+public:
+  Entity *new_entity();
 
-      private:
-        void register_entity(Entity *ptr);
+  template < typename T >
+  T* new_system() {
+    // Some stuff will happen here later on ..
+    return new T(this);
+  };
 
-        entity_map_t _entities;
-    };
+#ifndef INTERROGATE
+  template < typename... Args>
+  EntityCollector* new_collector() { 
+    static_assert(sizeof...(Args) > 0);
+    EntityCollector* collector = EntityCollector::create<Args...>();
+    // Todo: find collectors with same masks, and connect to them to avoid computing everything twice
+    // For example, if collector1 collects Transform and Physics Components, and collector2 collects only Physics Components,
+    // collector2 could start with the entities that collector1 collected, instead of having to iterate over all entities.
+    _collectors.push_back(collector);
+    return collector; 
+  }
+#else
+  // workarround until interrogate supports variadic templates
+  template < typename A, typename B >
+  EntityCollector* new_collector();
+#endif
 
-  public:
+  void single_step(float dt);
 
-    Entity* new_entity();
+private:
+  void register_entity(Entity* entity);
 
-    void register_entity_with_component(Component::id_t id, Entity *ptr);
 
-    template <typename T>
-    inline EntityPool &get_by_component()
-    {
-        return get_component_pool(T::component_id);
-    };
+private:
 
-  private:
-    inline EntityPool &get_component_pool(Component::id_t id);
-
-    std::unordered_map<Component::id_t, EntityPool> _entities_by_component;
-    std::vector<Entity*> _new_entities;
+  std::vector<Entity *> _new_entities;
+  std::vector<EntityCollector*> _collectors;
 };
 
 #include "entity_manager.I"
