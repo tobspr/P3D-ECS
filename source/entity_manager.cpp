@@ -1,7 +1,15 @@
 
 #include "entity_manager.h"
+#include "perf_utility.h"
 
 #include <algorithm>
+
+EntityManager::EntityManager()
+{
+    _all_entities.reserve(10000);
+    _entities_to_delete.reserve(100);
+    _new_entities.reserve(1000);
+}
 
 EntityManager::~EntityManager()
 {
@@ -31,7 +39,11 @@ void EntityManager::single_step(float dt)
     ECS_OUTPUT_DEBUG("Deleting " << _entities_to_delete.size() << " entities from last frame ..");
     for (Entity* entity : _entities_to_delete)
     {
-        _all_entities.erase(_all_entities.find(entity));
+        vector_erase_fast(_all_entities, entity);
+        for (EntityCollector* collector : _collectors)
+        {
+            collector->remove_entity(entity);
+        }
         delete entity;
     }
     _entities_to_delete.clear();
@@ -41,7 +53,7 @@ void EntityManager::single_step(float dt)
     for (Entity* entity : _new_entities) {
         ECS_OUTPUT_DEBUG("  -> Adding: " << entity);
         entity->register_entity();
-        _all_entities.emplace(entity);
+        _all_entities.push_back(entity);
     }
     _new_entities.clear();
 }

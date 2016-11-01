@@ -10,9 +10,8 @@ NotifyCategoryDecl(mymodule, EXPORT_CLASS, EXPORT_TEMPL);
 
 extern void init_libmymodule();
 
+
 #if 1
-
-
 #define WANT_LEAK_DETECTION 1
 #include <map>
 #include <string>

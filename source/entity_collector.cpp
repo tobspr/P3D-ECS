@@ -17,7 +17,20 @@ EntityCollector::EntityCollector(const component_list& components)
 
 void EntityCollector::consider_register(Entity* entity)
 {
-    if ((entity->get_component_mask() & _component_mask) == _component_mask) {
-        _matching_entities.emplace(entity);
+    if (entity_fits(entity)) {
+        _matching_entities.push_back(entity);
     }
 };
+
+bool EntityCollector::entity_fits(Entity* entity) const
+{
+    return (entity->get_component_mask() & _component_mask) == _component_mask;
+}
+
+void EntityCollector::remove_entity(Entity* entity)
+{
+    if (entity_fits(entity)) {
+        ECS_OUTPUT_DEBUG("Removing entity " << *entity << " from collector");
+        vector_erase_fast(_matching_entities, entity);
+    }
+}

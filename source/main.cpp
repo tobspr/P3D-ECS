@@ -32,8 +32,8 @@ void testcase_1()
 
     cout << "\n\nTC> Constructing another entity" << endl;
     Entity* entity2 = mgr->new_entity();
-    entity2->add<TransformComponent>(LVecBase3f(), LVecBase3f(), LVecBase3f());
-    entity2->add<PhysicsComponent>(0.0, LVecBase2f());
+    entity2->add<TransformComponent>();
+    entity2->add<PhysicsComponent>();
 
     cout << "\n\nTC> Constructing new movement system" << endl;
     MovementSystem* sys = mgr->new_system<MovementSystem>();
@@ -63,6 +63,8 @@ void testcase_1()
 
     cout << "\n\nTC> Constructing new entity to delete it afterwards" << endl;
     Entity* entity4 = mgr->new_entity();
+    entity4->add<TransformComponent>();
+    entity4->add<PhysicsComponent>();
 
     update();
     entity4->remove();

@@ -4,6 +4,7 @@
 #define P3D_ECS_ENTITYCOLLECTOR_H
 
 #include "component.h"
+#include "perf_utility.h"
 
 #include <vector>
 #include <unordered_set>
@@ -22,7 +23,7 @@ class EntityCollector final {
    */
 
     using component_list = std::vector<Component::id_t>;
-    using entity_list = std::unordered_set<Entity*>;
+    using entity_list = std::vector<Entity*>;
 
     EntityCollector(const component_list& components);
 
@@ -36,10 +37,16 @@ public:
     };
 #endif
 
-    ~EntityCollector() { ECS_ON_DELETE("EntityCollector"); }
+    ~EntityCollector()
+    {
+        ECS_ON_DELETE("EntityCollector");
+    }
 
     void consider_register(Entity* entity);
+    void remove_entity(Entity* entity);
 
+	bool entity_fits(Entity* entity) const;
+    
     inline const component_list& get_components() const { return _components; };
     inline Component::bitmask_t get_component_mask() const
     {

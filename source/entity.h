@@ -47,10 +47,17 @@ public:
         return (_component_mask & Component::to_bitmask(Component::extract_id<T>())) != 0u;
     };
 
+    template < typename T >
+    void remove_component()  {
+        // TODO: assert(!_deleted)
+        // TODO.
+    }
+
 #ifndef INTERROGATE
     template <typename T, typename... Args>
     void add(Args&&... args)
     {
+        // TODO: assert(!_deleted)
         assert(!has_component<T>());
         T* component = new T(std::forward<Args>(args)...);
         register_component(Component::extract_id<T>(), component);

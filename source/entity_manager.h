@@ -16,6 +16,7 @@ class EntityManager final {
     friend class Entity;
 
 public:
+    EntityManager();
     ~EntityManager();
 
     Entity* new_entity();
@@ -59,7 +60,7 @@ private:
     std::vector<Entity*> _new_entities;
     std::vector<Entity*> _entities_to_delete;
     std::vector<EntityCollector*> _collectors;
-    std::unordered_set<Entity*> _all_entities;
+    std::vector<Entity*> _all_entities;
 };
 
 #include "entity_manager.I"

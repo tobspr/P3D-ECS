@@ -19,6 +19,7 @@ struct TransformComponent : public Component {
         : pos(pos)
         , scale(scale)
         , hpr(hpr){};
+    inline TransformComponent(){};
 };
 
 struct PhysicsComponent : public Component {
@@ -30,6 +31,8 @@ struct PhysicsComponent : public Component {
     inline PhysicsComponent(float mass, const LVecBase2f& velocity)
         : velocity(velocity)
         , mass(mass){};
+
+    inline PhysicsComponent(){};
 };
 
 #endif
