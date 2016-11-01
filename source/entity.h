@@ -14,11 +14,12 @@ class EntityManager;
 
 class Entity
 {
-    friend class EntityManager;
-    static id_t next_id;
+	friend class EntityManager;
 
+	using id_t = uint_fast64_t;
+	static id_t next_id;
+	
   public:
-    using id_t = uint_fast64_t;
 
     inline id_t get_id() const { return _id; };
     inline size_t get_num_components() const { return _components.size(); };
@@ -28,7 +29,7 @@ class Entity
     T &get()
     {
         //assert(has_component<T>());
-        Component *component = _components.find(T::component_id)->second;
+        Component *component = _components.find(Component::extract_id<T>())->second;
         return *static_cast<T *>(component); // has to be safe
     };
 
@@ -41,7 +42,7 @@ class Entity
     template <typename T>
     bool has_component() const
     {
-        return (_component_mask & Component::to_bitmask(T::component_id) != 0u;
+        return (_component_mask & Component::to_bitmask(Component::extract_id<T>())) != 0u;
     };
 
 #ifndef INTERROGATE
@@ -50,7 +51,7 @@ class Entity
     {
         assert(!has_component<T>());
         T *component = new T(std::forward<Args>(args)...);
-        register_component(T::component_id, component);
+        register_component(Component::extract_id<T>(), component);
     };
 #endif
 
@@ -62,6 +63,7 @@ class Entity
 
     EntityManager *_manager;
 
+    bool _registered;
     id_t _id;
     Component::bitmask_t _component_mask;
 

@@ -26,19 +26,19 @@ public:
 
 #ifndef INTERROGATE
   template < typename... Args>
-  EntityCollector* new_collector() { 
-    static_assert(sizeof...(Args) > 0);
+  EntityCollector* new_collector() {
+
+    static_assert(sizeof...(Args) > 0, "Cannot create a collector without component types!");
+
     EntityCollector* collector = EntityCollector::create<Args...>();
     // Todo: find collectors with same masks, and connect to them to avoid computing everything twice
     // For example, if collector1 collects Transform and Physics Components, and collector2 collects only Physics Components,
     // collector2 could start with the entities that collector1 collected, instead of having to iterate over all entities.
     _collectors.push_back(collector);
+
+    ECS_OUTPUT_DEBUG("Registering new collector at " << collector);
     return collector; 
   }
-#else
-  // workarround until interrogate supports variadic templates
-  template < typename A, typename B >
-  EntityCollector* new_collector();
 #endif
 
   void single_step(float dt);

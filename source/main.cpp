@@ -34,15 +34,29 @@ void testcase_1() {
     cout << "TC> Modifying transform component" << endl;
     entity->get<TransformComponent>().pos = LVecBase3f(5, 5, 6);
 
+    cout << "TC> Constructing another entity" << endl;
+    Entity* entity2 = mgr->new_entity();
+    entity2->add<TransformComponent>(LVecBase3f(), LVecBase3f(), LVecBase3f());
+    entity2->add<PhysicsComponent>(0.0, LVecBase2f());
+
     cout << "TC> Constructing new movement system" << endl;
     MovementSystem* sys = mgr->new_system<MovementSystem>();
 
-    cout << "TC> Single step .." << endl;
-    float dt = 0.05;
-    mgr->single_step(dt);
+    auto update = [&](){
+        cout << "TC> Single step .." << endl;
+        float dt = 0.05;
+        mgr->single_step(dt);
 
-    cout << "TC> Update system.. " << endl;
-    sys->process(dt);
+        cout << "TC> Update system.. " << endl;
+        sys->process(dt);
+    };
+    
+    update();
+
+    cout << "TC> Modifying first entry so it also has a pyhsics component" << endl;
+    entity->add<PhysicsComponent>(0.0, LVecBase2f());
+
+    update();
 
     cout << "TC> Done." << endl;
 

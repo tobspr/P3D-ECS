@@ -15,6 +15,12 @@ struct Component
     {
         return ((bitmask_t)1u) << id; 
     }
+
+    template < typename T >
+    static inline id_t extract_id()
+    {
+        return T::component_id;
+    }
 };
 
 #define DEFINE_COMPONENT() static const Component::id_t component_id;
