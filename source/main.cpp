@@ -12,25 +12,34 @@
 #include <unordered_set>
 #include <functional>
 #include <string>
-
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 #define TC_STATUS(content) cout << "\n\nTC> " << content << endl;
 #define TC_EXPECT(value, expected) testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__, __LINE__);
 
 
+void write_tc_log(const std::string& msg) {
+    ofstream outfile("test-output.txt", ios_base::app);
+    outfile << msg;
+}
+
 template < typename T >
 void testsuite_expect(T value, T expected, const std::string& comparison, const char* file, size_t line)
 {
 	if (value != expected) {
-        cerr << "\n\n========================================================================" << endl;
-		cerr << "\n\nTESTCASE FAIL!" << endl;
-        cerr << "In file " << file << " Line " << line << endl; 
-		cout << "Expected: " << expected << endl;
-		cout << "Actual: " << value << endl;
-		cout << "Expression: " << comparison << endl;
-        cerr << "\n\n========================================================================" << endl;
-		cout << "\n\n\n\n\n";
+        stringstream s;
+        s << "\n\n========================================================================" << endl;
+		s << "\n\nTESTCASE FAIL!" << endl;
+        s << "In file " << file << " Line " << line << endl; 
+		s << "Expected: " << expected << endl;
+		s << "Actual: " << value << endl;
+		s << "Expression: " << comparison << endl;
+        s << "\n\n========================================================================" << endl;
+		s << "\n\n\n\n\n";
+        write_tc_log(s.str());
+		cerr << s.str();
 	} else {
         cout << "Expression succeeded: " << comparison << " (value: " << value << ")" << endl;
     }
@@ -44,6 +53,7 @@ void testsuite_expect(A value, B expected, const std::string& comparison, const 
 
 void general_testsuite(const std::string& name, std::function<void(EntityManager*)> inner)
 {
+    write_tc_log("Testcase: " + name + "\n");
     ECS_RESET_LEAKS();
     cout << "\n\n\n=========== Test " << name << " ===========" << endl;
 
@@ -59,6 +69,8 @@ void general_testsuite(const std::string& name, std::function<void(EntityManager
 
     TC_EXPECT(mgr->get_num_entities(), 0);
     ECS_PRINT_LEAKS();
+
+    write_tc_log("Done.\n");
 }
 
 

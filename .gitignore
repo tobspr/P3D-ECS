@@ -17,3 +17,5 @@ scripts/
 CMakeLists.txt
 build.py
 LICENSE
+
+test-output.txt

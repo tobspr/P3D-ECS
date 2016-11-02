@@ -8,24 +8,40 @@ Example:
 
 ```cpp
 
-    EntityManager* mgr = new EntityManager();
+    // System which processes all entities which have at least a PhysicsCompoonent.
+    struct MySystem : public SimpleEntitySystem<PhysicsComponent> {
+        TestSystem(EntityManager* mgr)
+            : SimpleEntitySystem<PhysicsComponent>(mgr){};
+        virtual void process(float dt) override
+        {
+		   for (auto entity : get_entities()) {
+                // Do something fancy with this entity
+            };
+        }
+    };
 
-    Entity* entity = mgr->new_entity();
-    entity->add<TransformComponent>(
-        LVecBase3f(1, 2, 3),
-        LVecBase3f(2, 3, 4),
-        LVecBase3f(5, 6, 7)
-    );
 
-    entity->get<TransformComponent>().pos = LVecBase3f(5, 5, 6);
+    EntityManager* manager = new EntityManager();
 
-    Entity* entity2 = mgr->new_entity();
-    entity2->add<TransformComponent>(LVecBase3f(), LVecBase3f(), LVecBase3f());
-    entity2->add<PhysicsComponent>(0.0, LVecBase2f());
+    // Construct a new system to process entities
+    MySystem* entity_sys = manager->new_system<MySystem>();
 
-    MovementSystem* sys = mgr->new_system<MovementSystem>();
+    // Construct a new entity with two components
+    Entity* entity = manager->new_entity();
+    entity->add<TransformComponent>();
+    entity->add<PhysicsComponent>();
 
+    // Construct a child entity
+    Entity* child_entity = manager->new_entity();
+    child_entity->add<TransformComponent>();
+    child_entity->set_parent(entity);
+
+    // Modifying components is straightforward
+    entity->get<TransformComponent>().set_pos({5, 5, 6});
+
+    // Update loop, the order of the systems is controlled by the user (you!)
     float dt = 0.05;
-    mgr->single_step(dt);
-    sys->process(dt);
+    manager->single_step(dt);
+    entity_sys->process(dt);
+
 ```
