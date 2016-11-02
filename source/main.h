@@ -8,6 +8,9 @@
 BEGIN_PUBLISH;
 
 void testcase_1();
+void testcase_parent_child();
+
+void testcase_collectors();
 
 END_PUBLISH;
 

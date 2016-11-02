@@ -19,7 +19,7 @@ void Entity::register_component(Component::id_t id, Component* ptr)
     if (_registered) {
         // In case the entity is already registered, reregister it to make
         // sure it is registered on all collectors
-        register_entity();
+        _manager->on_component_added(this);
     }
 }
 
@@ -34,6 +34,7 @@ void Entity::remove()
 {
     if (_deleted) {
         // TODO: Warning about this entity being deleted twice
+        return;
     }
     _manager->delete_entity(this);
     _deleted = true;

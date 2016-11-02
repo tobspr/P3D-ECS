@@ -8,14 +8,35 @@ class EntityManager;
 class EntityCollector;
 
 class EntitySystem {
+    friend class EntityManager;
 public:
-    EntitySystem(EntityManager* manager);
     virtual ~EntitySystem();
 
     virtual void process(float dt) = 0;
 
 protected:
+
+    EntitySystem(EntityManager* manager);
     EntityManager* _manager;
+};
+
+#ifdef INTERROGATE
+template < typename T >
+#else
+template <typename... Args>
+#endif
+class SimpleEntitySystem : public EntitySystem {
+public:
+    SimpleEntitySystem(EntityManager* manager)
+        : EntitySystem(manager)
+    {
+        _collector = manager->new_collector<Args...>();
+    };
+
+    EntityCollector& get_entities() const { return *_collector; };
+
+private:
+    EntityCollector* _collector;
 };
 
 #endif

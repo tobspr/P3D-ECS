@@ -67,12 +67,12 @@ public:
 
     inline size_t size() const { return _matching_entities.size(); };
 
+    void print_status();
+
 private:
     component_list _components;
     entity_list _matching_entities;
     Component::bitmask_t _component_mask;
 };
-
-using EntityCollectorPtr = std::shared_ptr<EntityCollector>;
 
 #endif

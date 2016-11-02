@@ -11,9 +11,18 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <iostream>
 
 class EntityManager final {
     friend class Entity;
+
+    enum class EntityDeletionContext {
+        InUpdate,
+        NeverAdded,
+        OnDeleteCascade
+    };
+
+	friend inline std::ostream& operator<<(std::ostream& stream, EntityManager::EntityDeletionContext context);
 
 public:
     EntityManager();
@@ -24,6 +33,10 @@ public:
     template <typename T>
     T* new_system()
     {
+        // Can not create a new system after entities have been constructed already
+        // TODO: Make this possible
+        assert(_all_entities.empty() && _new_entities.empty() && _entities_to_delete.empty());
+        
         // Some stuff will happen here later on ..
         return new T(this);
     };
@@ -52,16 +65,38 @@ public:
     void single_step(float dt);
     void shutdown();
 
+    void print_status();
+
+    size_t get_num_entities() const { return _all_entities.size() + _new_entities.size() + _entities_to_delete.size(); };
+
 private:
     void register_entity(Entity* entity);
     void delete_entity(Entity* entity);
+    void on_component_added(Entity* entity);
+
+    void do_delete_entity(Entity* entity, EntityDeletionContext context);
 
 private:
+    // Each entity can only belong to one of these 3 containers at a time:
     std::vector<Entity*> _new_entities;
     std::vector<Entity*> _entities_to_delete;
-    std::vector<EntityCollector*> _collectors;
     std::vector<Entity*> _all_entities;
+
+    std::vector<EntityCollector*> _collectors;
+
+    std::vector<Entity*> _entities_with_new_components;
+    
 };
+
+
+inline std::ostream& operator<<(std::ostream& stream, EntityManager::EntityDeletionContext context) {
+    switch (context) {
+	case EntityManager::EntityDeletionContext::InUpdate: return stream << "[EDC::InUpdate]";
+	case EntityManager::EntityDeletionContext::NeverAdded: return stream << "[EDC::NeverAdded]";
+	case EntityManager::EntityDeletionContext::OnDeleteCascade: return stream << "[EDC::OnDeleteCascade]";
+    }
+    return stream << "[EDC:: Undefined!]";
+}
 
 #include "entity_manager.I"
 

@@ -40,17 +40,17 @@ void alloc_instance(const std::string& msg)
     auto it = _MEMORY_LEAKS_TRACKING.find(msg);
     if (it == _MEMORY_LEAKS_TRACKING.end()) {
         _MEMORY_LEAKS_TRACKING[msg] = 1;
-        std::cout << "After alloc, there are now 1 instances of " << msg << std::endl;
+        //std::cout << "After alloc, there are now 1 instances of " << msg << std::endl;
     } else {
         ++(it->second);
-        std::cout << "After alloc, there are now " << it->second << " instances of "<< msg << std::endl;
+        //std::cout << "After alloc, there are now " << it->second << " instances of "<< msg << std::endl;
     } 
 }
 
 void dealloc_instance(const std::string& msg)
 {
     _MEMORY_LEAKS_TRACKING[msg]--;
-    std::cout << "After dealloc, there are now " << _MEMORY_LEAKS_TRACKING[msg] << " instances of " << msg << std::endl;
+    //std::cout << "After dealloc, there are now " << _MEMORY_LEAKS_TRACKING[msg] << " instances of " << msg << std::endl;
 }
 
 void print_memory_leaks()
@@ -68,6 +68,12 @@ void print_memory_leaks()
     {
         std::cout << "No leaks detected." << std::endl;
     }
+}
+
+
+void reset_memory_leaks()
+{
+  _MEMORY_LEAKS_TRACKING.clear();
 }
 
 #endif

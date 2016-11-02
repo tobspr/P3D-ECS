@@ -6,7 +6,12 @@
 
 #include <stdint.h>
 
+class Entity;
+class EntityManager;
+
 struct Component {
+    friend class EntityManager;
+    
     using id_t = uint_fast8_t;
     using bitmask_t = uint_fast64_t;
 
@@ -17,6 +22,12 @@ struct Component {
     {
         return T::component_id;
     }
+
+protected:
+    Component(Entity* entity)
+        : _entity(entity){};
+
+    Entity* _entity;
 };
 
 #define DEFINE_COMPONENT() static const Component::id_t component_id;

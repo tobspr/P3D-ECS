@@ -2,8 +2,9 @@
 import panda3d
 import panda3d.core
 
-from p3d_ecs import testcase_1
+from p3d_ecs import *
 
-testcase_1()
+testcase_collectors()
+
 
 print("Done!")

@@ -30,7 +30,7 @@ public:
     template <typename T>
     T& get()
     {
-        // assert(has_component<T>());
+        // assert(has<T>());
         Component* component = _components.find(Component::extract_id<T>())->second;
         return *static_cast<T*>(component); // has to be safe
     };
@@ -42,7 +42,7 @@ public:
     };
 
     template <typename T>
-    bool has_component() const
+    bool has() const
     {
         return (_component_mask & Component::to_bitmask(Component::extract_id<T>())) != 0u;
     };
@@ -50,7 +50,7 @@ public:
     template < typename T >
     void remove_component()  {
         // TODO: assert(!_deleted)
-        // TODO.
+        // TODO: if (T == TransformComponent) assert(TransformComponent.children.empty)
     }
 
 #ifndef INTERROGATE
@@ -58,8 +58,8 @@ public:
     void add(Args&&... args)
     {
         // TODO: assert(!_deleted)
-        assert(!has_component<T>());
-        T* component = new T(std::forward<Args>(args)...);
+        assert(!has<T>());
+        T* component = new T(this, std::forward<Args>(args)...);
         register_component(Component::extract_id<T>(), component);
     };
 #endif

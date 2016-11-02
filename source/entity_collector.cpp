@@ -2,6 +2,8 @@
 #include "entity_collector.h"
 #include "entity.h"
 
+#include <iomanip>
+
 EntityCollector::EntityCollector(const component_list& components)
     : _components(components)
 {
@@ -18,7 +20,10 @@ EntityCollector::EntityCollector(const component_list& components)
 void EntityCollector::consider_register(Entity* entity)
 {
     if (entity_fits(entity)) {
-        _matching_entities.push_back(entity);
+        // TODO: Slow!
+        if (std::find(_matching_entities.begin(), _matching_entities.end(), entity) == _matching_entities.end()) {
+            _matching_entities.push_back(entity);
+        }
     }
 };
 
@@ -31,6 +36,24 @@ void EntityCollector::remove_entity(Entity* entity)
 {
     if (entity_fits(entity)) {
         ECS_OUTPUT_DEBUG("Removing entity " << *entity << " from collector");
-        vector_erase_fast(_matching_entities, entity);
+        // Notice: it is not always sure that if the entity matches our mask, it is in our
+        // container. For example, assuming a Collector which collects TransformComponents
+        //   Entity* e = mgr->new_entity();
+        //   e->add<TransformComponent>();
+        //     ^ At this point, the entity already matches the collectors mask, but it will
+        //       only be in the collectors entity list after the single_step call
+        //   mgr->single_step(...);
+        //
+        // For this reason, we use the _if_present version of the erase method.
+        vector_erase_fast_if_present(_matching_entities, entity);
+        ECS_OUTPUT_DEBUG("Removed entity.");
+    }
+}
+
+void EntityCollector::print_status()
+{
+    ECS_OUTPUT_DEBUG("  Collector with mask " << std::hex << _component_mask << std::dec << " and " << _matching_entities.size() << " entities:");
+    for (Entity* e : _matching_entities) {
+        ECS_OUTPUT_DEBUG("    - " << *e);
     }
 }
