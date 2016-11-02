@@ -34,7 +34,7 @@ Example:
     // Construct a child entity
     Entity* child_entity = manager->new_entity();
     child_entity->new_component<TransformComponent>();
-    child_entity->set_parent(entity);
+    child_entity->get_component<TransformComponent>().set_parent(entity);
 
     // Modifying components is straightforward
     entity->get_component<TransformComponent>().set_pos({5, 5, 6});
