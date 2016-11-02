@@ -19,6 +19,6 @@ void MovementSystem::process(float dt)
 
     for (Entity* entity : *_relevant_entities) {
         ECS_OUTPUT_DEBUG("  -> Updating transform component of " << *entity);
-		entity->get<TransformComponent>().set_pos({ 1.0, 2.0, 5.0 });
+		entity->get_component<TransformComponent>().set_pos({ 1.0, 2.0, 5.0 });
     }
 };

@@ -28,21 +28,21 @@ public:
     }
 
     template <typename T>
-    T& get()
+    T& get_component()
     {
-        // assert(has<T>());
+        assert(has_component<T>());
         Component* component = _components.find(Component::extract_id<T>())->second;
         return *static_cast<T*>(component); // has to be safe
     };
 
     template <typename T>
-    const T& get() const
+    const T& get_component() const
     {
-        return const_cast<Entity*>(this)->get<T>();
+        return const_cast<Entity*>(this)->get_component<T>();
     };
 
     template <typename T>
-    bool has() const
+    bool has_component() const
     {
         return (_component_mask & Component::to_bitmask(Component::extract_id<T>())) != 0u;
     };
@@ -55,10 +55,10 @@ public:
 
 #ifndef INTERROGATE
     template <typename T, typename... Args>
-    void add(Args&&... args)
+    void new_component(Args&&... args)
     {
         // TODO: assert(!_deleted)
-        assert(!has<T>());
+        assert(!has_component<T>());
         T* component = new T(this, std::forward<Args>(args)...);
         register_component(Component::extract_id<T>(), component);
     };

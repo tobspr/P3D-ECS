@@ -118,9 +118,9 @@ void EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext conte
     for (EntityCollector* collector : _collectors)
         collector->remove_entity(entity);
 
-    if (entity->has<TransformComponent>()) {
+    if (entity->has_component<TransformComponent>()) {
         // Deregister from parent
-        TransformComponent& transform = entity->get<TransformComponent>();
+        TransformComponent& transform = entity->get_component<TransformComponent>();
         transform.unregister_from_parent();
 
         // Also delete all children

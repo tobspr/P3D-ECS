@@ -82,16 +82,16 @@ void testcase_1()
         Entity* entity = mgr->new_entity();
 
         cout << "\n\nTC> Adding transform component" << endl;
-        entity->add<TransformComponent>(LVecBase3f(1, 2, 3), LVecBase3f(2, 3, 4),
+        entity->new_component<TransformComponent>(LVecBase3f(1, 2, 3), LVecBase3f(2, 3, 4),
             LVecBase3f(5, 6, 7));
 
         cout << "\n\nTC> Modifying transform component" << endl;
-        entity->get<TransformComponent>().set_pos(LVecBase3f(5, 5, 6));
+        entity->get_component<TransformComponent>().set_pos(LVecBase3f(5, 5, 6));
 
         cout << "\n\nTC> Constructing another entity" << endl;
         Entity* entity2 = mgr->new_entity();
-        entity2->add<TransformComponent>();
-        entity2->add<PhysicsComponent>();
+        entity2->new_component<TransformComponent>();
+        entity2->new_component<PhysicsComponent>();
 
         cout << "\n\nTC> Constructing new movement system" << endl;
         MovementSystem* sys = mgr->new_system<MovementSystem>();
@@ -109,7 +109,7 @@ void testcase_1()
 
         cout << "\n\nTC> Modifying first entry so it also has a pyhsics component"
              << endl;
-        entity->add<PhysicsComponent>(0.0, LVecBase2f());
+        entity->new_component<PhysicsComponent>(0.0, LVecBase2f());
 
         update();
 
@@ -121,8 +121,8 @@ void testcase_1()
 
         cout << "\n\nTC> Constructing new entity to delete it afterwards" << endl;
         Entity* entity4 = mgr->new_entity();
-        entity4->add<TransformComponent>();
-        entity4->add<PhysicsComponent>();
+        entity4->new_component<TransformComponent>();
+        entity4->new_component<PhysicsComponent>();
 
         update();
         entity4->remove();
@@ -225,7 +225,7 @@ void testcase_parent_child()
 
             auto make_entity = [&]() {
                 Entity* tmp = mgr->new_entity();
-                tmp->add<TransformComponent>();
+                tmp->new_component<TransformComponent>();
                 return tmp;
             };
             Entity* root = nullptr;
@@ -241,7 +241,7 @@ void testcase_parent_child()
                     child = make_entity();
                     break;
                 case Operation::ReparentChild:
-                    child->get<TransformComponent>().set_parent(root);
+                    child->get_component<TransformComponent>().set_parent(root);
                     break;
                 case Operation::Update:
                     mgr->single_step(1.0);
@@ -281,8 +281,8 @@ void testcase_collectors()
         TestSystem* sys = mgr->new_system<TestSystem>();
 
         Entity* entity = mgr->new_entity();
-        entity->add<TransformComponent>();
-        entity->add<PhysicsComponent>();
+        entity->new_component<TransformComponent>();
+        entity->new_component<PhysicsComponent>();
 
         mgr->single_step(1.0);
         sys->process(1.0);
@@ -303,14 +303,14 @@ void testcase_collectors()
         TestSystem* sys = mgr->new_system<TestSystem>();
 
         Entity* entity = mgr->new_entity();
-        entity->add<TransformComponent>();
+        entity->new_component<TransformComponent>();
     
         mgr->single_step(1.0);
         sys->process(1.0);
 
 		TC_EXPECT(sys->get_entities().size(), 0u);
 
-        entity->add<PhysicsComponent>();
+        entity->new_component<PhysicsComponent>();
         mgr->single_step(1.0);
 
 		TC_EXPECT(sys->get_entities().size(), 1u);
@@ -336,7 +336,7 @@ void testcase_collectors()
 		TC_EXPECT(sys->get_entities().size(), 0u);
         mgr->single_step(1.0);
 
-        entity->add<TransformComponent>();
+        entity->new_component<TransformComponent>();
     
         sys->process(1.0);
 

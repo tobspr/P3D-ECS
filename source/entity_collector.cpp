@@ -39,7 +39,7 @@ void EntityCollector::remove_entity(Entity* entity)
         // Notice: it is not always sure that if the entity matches our mask, it is in our
         // container. For example, assuming a Collector which collects TransformComponents
         //   Entity* e = mgr->new_entity();
-        //   e->add<TransformComponent>();
+        //   e->new_component<TransformComponent>();
         //     ^ At this point, the entity already matches the collectors mask, but it will
         //       only be in the collectors entity list after the single_step call
         //   mgr->single_step(...);

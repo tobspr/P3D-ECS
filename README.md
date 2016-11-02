@@ -28,16 +28,16 @@ Example:
 
     // Construct a new entity with two components
     Entity* entity = manager->new_entity();
-    entity->add<TransformComponent>();
-    entity->add<PhysicsComponent>();
+    entity->new_component<TransformComponent>();
+    entity->new_component<PhysicsComponent>();
 
     // Construct a child entity
     Entity* child_entity = manager->new_entity();
-    child_entity->add<TransformComponent>();
+    child_entity->new_component<TransformComponent>();
     child_entity->set_parent(entity);
 
     // Modifying components is straightforward
-    entity->get<TransformComponent>().set_pos({5, 5, 6});
+    entity->get_component<TransformComponent>().set_pos({5, 5, 6});
 
     // Update loop, the order of the systems is controlled by the user (you!)
     float dt = 0.05;
