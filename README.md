@@ -10,7 +10,7 @@ Example:
 
     // System which processes all entities which have at least a PhysicsCompoonent.
     struct MySystem : public SimpleEntitySystem<PhysicsComponent> {
-        TestSystem(EntityManager* mgr)
+        MySystem(EntityManager* mgr)
             : SimpleEntitySystem<PhysicsComponent>(mgr){};
         virtual void process(float dt) override
         {
