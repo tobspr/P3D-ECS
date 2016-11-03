@@ -3,6 +3,7 @@
 #define P3D_ECS_ENTITYSYSTEM_H
 
 #include "config_module.h"
+#include "entity_manager.h"
 
 class EntityManager;
 class EntityCollector;

@@ -1,4 +1,6 @@
 
+#include "all_components.h"
+
 inline Entity::Entity(EntityManager *manager)
     : _manager(manager), _component_mask(0u), _registered(false),
       _flagged_for_deletion(false) {
