@@ -57,13 +57,13 @@ public:
         // instead of having to iterate over all entities.
         _collectors.push_back(collector);
 
-        ECS_OUTPUT_DEBUG("Registering new collector at " << collector);
+        ECS_OUTPUT_SPAM("Registering new collector at " << collector);
         return collector;
     }
 #endif
 
     void single_step(float dt);
-    void shutdown();
+    void reset();
 
     void print_status();
 

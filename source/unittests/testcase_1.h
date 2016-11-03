@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MAIN_HEADER_H
-#define MAIN_HEADER_H
+#ifndef P3D_ECS_TESTCASE1_H
+#define P3D_ECS_TESTCASE1_H
 
 #include "pandabase.h"
 

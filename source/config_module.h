@@ -10,13 +10,18 @@ NotifyCategoryDecl(mymodule, EXPORT_CLASS, EXPORT_TEMPL);
 
 extern void init_libmymodule();
 
-#if 1
+
+#define ECS_PERFTEST 1
+
+#ifndef ECS_PERFTEST
 #define ECS_OUTPUT_DEBUG(content) std::cout << content << std::endl;
+#define ECS_OUTPUT_SPAM(content)
 #else
 #define ECS_OUTPUT_DEBUG(content)
+#define ECS_OUTPUT_SPAM(content)
 #endif
 
-#if 1
+#ifndef ECS_PERFTEST
 #define WANT_LEAK_DETECTION 1
 #include <map>
 #include <string>
@@ -35,4 +40,5 @@ void reset_memory_leaks();
 #define ECS_ON_CREATE(content)
 #define ECS_ON_DELETE(content)
 #define ECS_PRINT_LEAKS()
+#define ECS_RESET_LEAKS()
 #endif

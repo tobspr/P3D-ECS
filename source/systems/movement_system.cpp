@@ -13,12 +13,12 @@ MovementSystem::MovementSystem(EntityManager* manager)
 
 void MovementSystem::process(float dt)
 {
-    ECS_OUTPUT_DEBUG("MovementSystem::process(dt = " << dt << ")");
-    ECS_OUTPUT_DEBUG("Our relevant collector has " << _relevant_entities->size()
+    ECS_OUTPUT_SPAM("MovementSystem::process(dt = " << dt << ")");
+    ECS_OUTPUT_SPAM("Our relevant collector has " << _relevant_entities->size()
                                                    << " entries.");
 
     for (Entity* entity : *_relevant_entities) {
-        ECS_OUTPUT_DEBUG("  -> Updating transform component of " << *entity);
+        ECS_OUTPUT_SPAM("  -> Updating transform component of " << *entity);
 		entity->get_component<TransformComponent>().set_pos({ 1.0, 2.0, 5.0 });
     }
 };

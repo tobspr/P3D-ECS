@@ -1,3 +1,8 @@
+"""
+
+Generates various testcase-variations for the first testcase (testcase_1.cpp)
+
+"""
 
 operations = {
     "CR": "ConstructRoot",

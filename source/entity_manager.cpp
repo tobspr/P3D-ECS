@@ -2,6 +2,7 @@
 #include "entity_manager.h"
 #include "perf_utility.h"
 #include "all_components.h"
+#include "memory_pool.h"
 
 #include <algorithm>
 
@@ -14,12 +15,13 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-    shutdown();
+    reset();
 }
 
 void EntityManager::register_entity(Entity* entity)
 {
     ECS_OUTPUT_DEBUG("Registering new entity to manager: " << *entity);
+    entity->on_registered_by_manager();
     for (EntityCollector* collector : _collectors) {
         collector->consider_register(entity);
     }
@@ -27,7 +29,7 @@ void EntityManager::register_entity(Entity* entity)
 
 Entity* EntityManager::new_entity()
 {
-    Entity* entity = new Entity(this);
+    Entity* entity = MemoryPool<Entity>::new_object(this);
     _new_entities.push_back(entity);
     ECS_OUTPUT_DEBUG("Constructed new entity: " << *entity);
     return entity;
@@ -50,7 +52,7 @@ void EntityManager::single_step(float dt)
                                << " new entities from last frame ..");
     for (Entity* entity : _new_entities) {
         ECS_OUTPUT_DEBUG("  -> Adding: " << *entity);
-        entity->register_entity();
+        register_entity(entity);
         _all_entities.push_back(entity);
     }
     _new_entities.clear();
@@ -63,24 +65,29 @@ void EntityManager::single_step(float dt)
 
 }
 
-void EntityManager::shutdown()
+void EntityManager::reset()
 {
     ECS_OUTPUT_DEBUG("Shutting down entity manager");
 
     ECS_OUTPUT_DEBUG("Deleting entities");
     for (Entity* entity : _all_entities)
-        delete entity;
+        MemoryPool<Entity>::delete_object(entity);
 
     for (Entity* entity : _new_entities)
-        delete entity;
+        MemoryPool<Entity>::delete_object(entity);
 
     for (Entity* entity : _entities_to_delete)
-        delete entity;
+        MemoryPool<Entity>::delete_object(entity);
 
     ECS_OUTPUT_DEBUG("Deleting collectors");
 
-    for (EntityCollector* collector : _collectors)
-        delete collector;
+	for (EntityCollector* collector : _collectors)
+		delete collector;
+
+    _all_entities.clear();
+    _new_entities.clear();
+    _entities_to_delete.clear();
+    _collectors.clear();
 }
 
 void EntityManager::delete_entity(Entity* entity)
@@ -131,7 +138,7 @@ void EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext conte
         }
     }
 
-    delete entity;
+    MemoryPool<Entity>::delete_object(entity);
 }
 
 void EntityManager::print_status()

@@ -1,12 +1,8 @@
 
-#include "main.h"
-
-#include "entity_manager.h"
-#include "entity_system.h"
-#include "all_components.h"
-#include "entity.h"
+#include "testcase_1.h"
 
 #include "movement_system.h"
+#include "unittest.h"
 
 #include <iostream>
 #include <unordered_set>
@@ -15,63 +11,6 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-
-#define TC_STATUS(content) cout << "\n\nTC> " << content << endl;
-#define TC_EXPECT(value, expected) testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__, __LINE__);
-
-
-void write_tc_log(const std::string& msg) {
-    ofstream outfile("test-output.txt", ios_base::app);
-    outfile << msg;
-}
-
-template < typename T >
-void testsuite_expect(T value, T expected, const std::string& comparison, const char* file, size_t line)
-{
-	if (value != expected) {
-        stringstream s;
-        s << "\n\n========================================================================" << endl;
-		s << "\n\nTESTCASE FAIL!" << endl;
-        s << "In file " << file << " Line " << line << endl; 
-		s << "Expected: " << expected << endl;
-		s << "Actual: " << value << endl;
-		s << "Expression: " << comparison << endl;
-        s << "\n\n========================================================================" << endl;
-		s << "\n\n\n\n\n";
-        write_tc_log(s.str());
-		cerr << s.str();
-	} else {
-        cout << "Expression succeeded: " << comparison << " (value: " << value << ")" << endl;
-    }
-}
-
-template < typename A, typename B >
-void testsuite_expect(A value, B expected, const std::string& comparison, const char* file, size_t line)
-{
-    return testsuite_expect(value, (A)expected, comparison, file, line);
-}
-
-void general_testsuite(const std::string& name, std::function<void(EntityManager*)> inner)
-{
-    write_tc_log("Testcase: " + name + "\n");
-    ECS_RESET_LEAKS();
-    cout << "\n\n\n=========== Test " << name << " ===========" << endl;
-
-    TC_STATUS("Constructing new entity manager");
-    EntityManager* mgr = new EntityManager();
-
-    TC_STATUS("Running testsuite");
-    inner(mgr);
-
-    TC_STATUS("Testsuite done, cleaning up ..");
-    mgr->print_status();
-    mgr->shutdown();
-
-    TC_EXPECT(mgr->get_num_entities(), 0);
-    ECS_PRINT_LEAKS();
-
-    write_tc_log("Done.\n");
-}
 
 
 void testcase_1()
@@ -150,7 +89,7 @@ void testcase_parent_child()
     };
 
     // see unittest/generate_tc1_code.py
-    std::vector<std::vector<Operation> > testcases = {
+    vector<vector<Operation> > testcases = {
         { Operation::ConstructRoot, Operation::Update, Operation::ConstructChild, Operation::Update, Operation::ReparentChild, Operation::Update, Operation::DeleteRoot, Operation::Update }, // Testcase 1
         { Operation::ConstructRoot, Operation::ConstructChild, Operation::Update, Operation::ReparentChild, Operation::Update, Operation::DeleteRoot, Operation::Update }, // Testcase 2
         { Operation::ConstructRoot, Operation::Update, Operation::ConstructChild, Operation::ReparentChild, Operation::Update, Operation::DeleteRoot, Operation::Update }, // Testcase 3
@@ -221,7 +160,7 @@ void testcase_parent_child()
     size_t i = 0;
     for (const auto& order : testcases) {
         ++i;
-        general_testsuite("Parent Child Relations - CASE " + std::to_string(i), [&](EntityManager* mgr) {
+        general_testsuite("Parent Child Relations - CASE " + to_string(i), [&](EntityManager* mgr) {
 
             auto make_entity = [&]() {
                 Entity* tmp = mgr->new_entity();

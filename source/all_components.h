@@ -6,14 +6,14 @@
 
 #include "luse.h"
 #include "perf_utility.h"
+#include "memory_pool.h"
 #include <vector>
 
 class Entity;
 class EntityManager;
 
 struct TransformComponent : public Component {
-	friend class EntityManager;
-	DEFINE_COMPONENT();
+	DEFINE_COMPONENT(TransformComponent);
 
     using child_vec_t = std::vector<Entity*>;
 
@@ -82,7 +82,7 @@ protected:
 };
 
 struct PhysicsComponent : public Component {
-    DEFINE_COMPONENT();
+    DEFINE_COMPONENT(PhysicsComponent);
 
     float mass;
     LVecBase2f velocity;

@@ -7,7 +7,7 @@ IMPLEMENT_COMPONENT(PhysicsComponent, 2u);
 
 void TransformComponent::set_parent(Entity* new_parent)
 {
-    ECS_OUTPUT_DEBUG("Setting parent to " << *new_parent);
+    ECS_OUTPUT_SPAM("Setting parent to " << *new_parent);
     assert(new_parent == nullptr || new_parent->has_component<TransformComponent>());
 
     _dirty = true;

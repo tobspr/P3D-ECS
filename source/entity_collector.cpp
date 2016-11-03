@@ -13,7 +13,7 @@ EntityCollector::EntityCollector(const component_list& components)
         mask |= Component::to_bitmask(component_id);
     }
     _component_mask = mask;
-    ECS_OUTPUT_DEBUG(
+    ECS_OUTPUT_SPAM(
         "Constructed new collector with bitmask: " << _component_mask);
 }
 
@@ -21,8 +21,9 @@ void EntityCollector::consider_register(Entity* entity)
 {
     if (entity_fits(entity)) {
         // TODO: Slow!
-        if (std::find(_matching_entities.begin(), _matching_entities.end(), entity) == _matching_entities.end()) {
+        if (!entity->is_registered_to_collector(this)) {
             _matching_entities.push_back(entity);
+            entity->on_registered_to_collector(this);
         }
     }
 };
@@ -35,18 +36,11 @@ bool EntityCollector::entity_fits(Entity* entity) const
 void EntityCollector::remove_entity(Entity* entity)
 {
     if (entity_fits(entity)) {
-        ECS_OUTPUT_DEBUG("Removing entity " << *entity << " from collector");
-        // Notice: it is not always sure that if the entity matches our mask, it is in our
-        // container. For example, assuming a Collector which collects TransformComponents
-        //   Entity* e = mgr->new_entity();
-        //   e->new_component<TransformComponent>();
-        //     ^ At this point, the entity already matches the collectors mask, but it will
-        //       only be in the collectors entity list after the single_step call
-        //   mgr->single_step(...);
-        //
-        // For this reason, we use the _if_present version of the erase method.
-        vector_erase_fast_if_present(_matching_entities, entity);
-        ECS_OUTPUT_DEBUG("Removed entity.");
+        if (entity->is_registered_to_collector(this)) {
+            ECS_OUTPUT_SPAM("Removing entity " << *entity << " from collector");
+            vector_erase_fast(_matching_entities, entity);
+            entity->on_deregistered_from_collector(this);
+        }
     }
 }
 
