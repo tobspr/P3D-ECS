@@ -34,6 +34,12 @@ public:
         // validty while iterating
         using iter_t = entity_list_t::iterator;
 
+        using value_type = Entity*;
+        using reference = Entity*&;
+        using pointer = Entity**;
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+
         EntityIterator(iter_t pos, iter_t end, Component::bitmask_t target_mask);
 
         EntityIterator& operator++();
