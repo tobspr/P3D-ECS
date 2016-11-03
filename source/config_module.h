@@ -10,7 +10,6 @@ NotifyCategoryDecl(mymodule, EXPORT_CLASS, EXPORT_TEMPL);
 
 extern void init_libmymodule();
 
-
 #define ECS_PERFTEST 1
 
 #ifndef ECS_PERFTEST
@@ -27,8 +26,8 @@ extern void init_libmymodule();
 #include <string>
 #include <iostream>
 
-void alloc_instance(const std::string& msg);
-void dealloc_instance(const std::string& msg);
+void alloc_instance(const std::string &msg);
+void dealloc_instance(const std::string &msg);
 void print_memory_leaks();
 void reset_memory_leaks();
 

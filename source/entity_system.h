@@ -8,31 +8,28 @@ class EntityManager;
 class EntityCollector;
 
 class EntitySystem {
-    friend class EntityManager;
-public:
-    virtual ~EntitySystem();
+  friend class EntityManager;
 
-    virtual void process(float dt) = 0;
+public:
+  virtual ~EntitySystem();
+
+  virtual void process(float dt) = 0;
 
 protected:
-
-    EntitySystem(EntityManager* manager);
-    EntityManager* _manager;
+  EntitySystem(EntityManager *manager);
+  EntityManager *_manager;
 };
 
-template <typename... Args>
-class SimpleEntitySystem : public EntitySystem {
+template <typename... Args> class SimpleEntitySystem : public EntitySystem {
 public:
-    SimpleEntitySystem(EntityManager* manager)
-        : EntitySystem(manager)
-    {
-        _collector = manager->new_collector<Args...>();
-    };
+  SimpleEntitySystem(EntityManager *manager) : EntitySystem(manager) {
+    _collector = manager->new_collector<Args...>();
+  };
 
-    EntityCollector& get_entities() const { return *_collector; };
+  EntityCollector &get_entities() const { return *_collector; };
 
 private:
-    EntityCollector* _collector;
+  EntityCollector *_collector;
 };
 
 #endif

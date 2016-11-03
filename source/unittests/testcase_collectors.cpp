@@ -12,176 +12,174 @@
 #include <sstream>
 using namespace std;
 
-void testcase_collectors()
-{
+void testcase_collectors() {
 
-    struct TestSystem : public SimpleEntitySystem<PhysicsComponent> {
-        TestSystem(EntityManager* mgr)
-            : SimpleEntitySystem<PhysicsComponent>(mgr){};
-        virtual void process(float dt) override
-        {
-            
-            processed_entities = 0;
-            for (auto entity : get_entities()) {
-				TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
-				++processed_entities;
-            };
-        }
+  struct TestSystem : public SimpleEntitySystem<PhysicsComponent> {
+    TestSystem(EntityManager *mgr)
+        : SimpleEntitySystem<PhysicsComponent>(mgr){};
+    virtual void process(float dt) override {
 
-        size_t processed_entities = 0;
-    };
+      processed_entities = 0;
+      for (auto entity : get_entities()) {
+        TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
+        ++processed_entities;
+      };
+    }
 
-    general_testsuite("Collectors - Initial test", [](EntityManager* mgr) {
+    size_t processed_entities = 0;
+  };
 
-        TestSystem* sys = mgr->new_system<TestSystem>();
+  general_testsuite("Collectors - Initial test", [](EntityManager *mgr) {
 
-        Entity* entity = mgr->new_entity();
-        entity->new_component<TransformComponent>();
-        entity->new_component<PhysicsComponent>();
+    TestSystem *sys = mgr->new_system<TestSystem>();
 
-        mgr->process_changes();
-        sys->process(1.0);
+    Entity *entity = mgr->new_entity();
+    entity->new_component<TransformComponent>();
+    entity->new_component<PhysicsComponent>();
 
-		TC_EXPECT(sys->get_entities().size(), 1u);
+    mgr->process_changes();
+    sys->process(1.0);
 
-		entity->remove();
+    TC_EXPECT(sys->get_entities().size(), 1u);
 
-		mgr->process_changes();
+    entity->remove();
 
-		TC_EXPECT(sys->get_entities().size(), 0u);
+    mgr->process_changes();
 
-        delete sys;
-    });
+    TC_EXPECT(sys->get_entities().size(), 0u);
 
-    general_testsuite("Collectors - Add component after creation", [](EntityManager* mgr) {
+    delete sys;
+  });
 
-        TestSystem* sys = mgr->new_system<TestSystem>();
+  general_testsuite("Collectors - Add component after creation",
+                    [](EntityManager *mgr) {
 
-        Entity* entity = mgr->new_entity();
-        entity->new_component<TransformComponent>();
-    
-        mgr->process_changes();
-        sys->process(1.0);
+                      TestSystem *sys = mgr->new_system<TestSystem>();
 
-		TC_EXPECT(sys->get_entities().size(), 0u);
+                      Entity *entity = mgr->new_entity();
+                      entity->new_component<TransformComponent>();
 
-        entity->new_component<PhysicsComponent>();
-        mgr->process_changes();
+                      mgr->process_changes();
+                      sys->process(1.0);
 
-		TC_EXPECT(sys->get_entities().size(), 1u);
+                      TC_EXPECT(sys->get_entities().size(), 0u);
 
-        mgr->process_changes();
+                      entity->new_component<PhysicsComponent>();
+                      mgr->process_changes();
 
-		entity->remove();
+                      TC_EXPECT(sys->get_entities().size(), 1u);
 
-		mgr->process_changes();
+                      mgr->process_changes();
 
-		TC_EXPECT(sys->get_entities().size(), 0u);
+                      entity->remove();
 
-        delete sys;
-    });
+                      mgr->process_changes();
 
+                      TC_EXPECT(sys->get_entities().size(), 0u);
 
-    general_testsuite("Collectors - Add component and remove entity", [](EntityManager* mgr) {
+                      delete sys;
+                    });
 
-        TestSystem* sys = mgr->new_system<TestSystem>();
+  general_testsuite("Collectors - Add component and remove entity",
+                    [](EntityManager *mgr) {
 
-        Entity* entity = mgr->new_entity();
+                      TestSystem *sys = mgr->new_system<TestSystem>();
 
-		TC_EXPECT(sys->get_entities().size(), 0u);
-        mgr->process_changes();
+                      Entity *entity = mgr->new_entity();
 
-        entity->new_component<PhysicsComponent>();
-    
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);
+                      TC_EXPECT(sys->get_entities().size(), 0u);
+                      mgr->process_changes();
 
-        mgr->process_changes();
+                      entity->new_component<PhysicsComponent>();
 
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 1);
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        entity->remove();
+                      mgr->process_changes();
 
-        mgr->print_status();
-		mgr->process_changes();
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 1);
 
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);
+                      entity->remove();
 
+                      mgr->print_status();
+                      mgr->process_changes();
 
-        TC_EXPECT(sys->get_entities().size(), 0u);
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        delete sys;    
-    });
+                      TC_EXPECT(sys->get_entities().size(), 0u);
 
-    
-    general_testsuite("Collectors - Add and then remove component", [](EntityManager* mgr) {
+                      delete sys;
+                    });
 
-        TestSystem* sys = mgr->new_system<TestSystem>();
+  general_testsuite("Collectors - Add and then remove component",
+                    [](EntityManager *mgr) {
 
-        Entity* entity = mgr->new_entity();
-        mgr->process_changes();
+                      TestSystem *sys = mgr->new_system<TestSystem>();
 
-        entity->new_component<PhysicsComponent>();
-    
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);
+                      Entity *entity = mgr->new_entity();
+                      mgr->process_changes();
 
-        mgr->process_changes();
-    
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 1);
+                      entity->new_component<PhysicsComponent>();
 
-        entity->remove_component<PhysicsComponent>();
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        sys->process(1.0);
-        // Removal of components directly affects the list of captured entities
-        TC_EXPECT(sys->processed_entities, 0);
+                      mgr->process_changes();
 
-        mgr->process_changes();
-        
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);        
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 1);
 
-        entity->remove();
+                      entity->remove_component<PhysicsComponent>();
 
-        mgr->print_status();
-		mgr->process_changes();
+                      sys->process(1.0);
+                      // Removal of components directly affects the list of
+                      // captured entities
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        TC_EXPECT(sys->get_entities().size(), 0u);
+                      mgr->process_changes();
 
-        delete sys;    
-    });
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
+                      entity->remove();
 
-    general_testsuite("Collectors - Remove entity while iterating", [](EntityManager* mgr) {
+                      mgr->print_status();
+                      mgr->process_changes();
+
+                      TC_EXPECT(sys->get_entities().size(), 0u);
+
+                      delete sys;
+                    });
+
+  general_testsuite(
+      "Collectors - Remove entity while iterating", [](EntityManager *mgr) {
 
         struct FaultySystem : public SimpleEntitySystem<PhysicsComponent> {
-            FaultySystem(EntityManager* mgr)
-                : SimpleEntitySystem<PhysicsComponent>(mgr){};
-            virtual void process(float dt) override
-            {
-                processed_entities = 0;
-                for (auto entity : get_entities()) {
-					TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
-					++processed_entities;
-                    if (processed_entities == 10)
-                        entity->remove();
-                };
+          FaultySystem(EntityManager *mgr)
+              : SimpleEntitySystem<PhysicsComponent>(mgr){};
+          virtual void process(float dt) override {
+            processed_entities = 0;
+            for (auto entity : get_entities()) {
+              TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
+              ++processed_entities;
+              if (processed_entities == 10)
+                entity->remove();
             };
+          };
 
-            size_t processed_entities = 0; 
+          size_t processed_entities = 0;
         };
 
-        FaultySystem* sys = mgr->new_system<FaultySystem>();
-        TestSystem* sys2 = mgr->new_system<TestSystem>();
+        FaultySystem *sys = mgr->new_system<FaultySystem>();
+        TestSystem *sys2 = mgr->new_system<TestSystem>();
 
-        std::vector<Entity*> entities;
+        std::vector<Entity *> entities;
         for (size_t i = 0; i < 10; ++i) {
-            Entity* entity = mgr->new_entity();
-            entity->new_component<PhysicsComponent>();
-            entities.push_back(entity);
+          Entity *entity = mgr->new_entity();
+          entity->new_component<PhysicsComponent>();
+          entities.push_back(entity);
         }
 
         TC_EXPECT(mgr->get_num_entities(), 10);
@@ -196,7 +194,7 @@ void testcase_collectors()
 
         mgr->process_changes(); // entity should be removed here
         TC_EXPECT(mgr->get_num_entities(), 9);
-        
+
         sys->process(1.0);
         sys2->process(1.0);
 
@@ -206,42 +204,41 @@ void testcase_collectors()
 
         entities.pop_back(); // last one is already removed
         for (auto entity : entities)
-            entity->remove();
+          entity->remove();
 
         mgr->process_changes();
 
         TC_EXPECT(mgr->get_num_entities(), 0);
-    });
+      });
 
-
-    general_testsuite("Collectors - Remove same component while iterating", [](EntityManager* mgr) {
+  general_testsuite(
+      "Collectors - Remove same component while iterating",
+      [](EntityManager *mgr) {
 
         struct FaultySystem : public SimpleEntitySystem<PhysicsComponent> {
-            FaultySystem(EntityManager* mgr)
-                : SimpleEntitySystem<PhysicsComponent>(mgr){};
-            virtual void process(float dt) override
-            {
-                processed_entities = 0;
-                for (auto entity : get_entities()) {
-                    TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
-                    ++processed_entities;
-                    if (processed_entities == 10)
-                        entity->remove_component<PhysicsComponent>();
-                    
-                };
+          FaultySystem(EntityManager *mgr)
+              : SimpleEntitySystem<PhysicsComponent>(mgr){};
+          virtual void process(float dt) override {
+            processed_entities = 0;
+            for (auto entity : get_entities()) {
+              TC_EXPECT(entity->has_component<PhysicsComponent>(), true);
+              ++processed_entities;
+              if (processed_entities == 10)
+                entity->remove_component<PhysicsComponent>();
             };
+          };
 
-            size_t processed_entities = 0; 
+          size_t processed_entities = 0;
         };
 
-        FaultySystem* sys = mgr->new_system<FaultySystem>();
-        TestSystem* sys2 = mgr->new_system<TestSystem>();
+        FaultySystem *sys = mgr->new_system<FaultySystem>();
+        TestSystem *sys2 = mgr->new_system<TestSystem>();
 
-        std::vector<Entity*> entities;
+        std::vector<Entity *> entities;
         for (size_t i = 0; i < 10; ++i) {
-            Entity* entity = mgr->new_entity();
-            entity->new_component<PhysicsComponent>();
-            entities.push_back(entity);
+          Entity *entity = mgr->new_entity();
+          entity->new_component<PhysicsComponent>();
+          entities.push_back(entity);
         }
 
         TC_EXPECT(mgr->get_num_entities(), 10);
@@ -256,7 +253,7 @@ void testcase_collectors()
 
         mgr->process_changes(); // entity should be removed here
         TC_EXPECT(mgr->get_num_entities(), 10);
-        
+
         sys->process(1.0);
         sys2->process(1.0);
 
@@ -265,53 +262,50 @@ void testcase_collectors()
         TC_EXPECT(mgr->get_num_entities(), 10);
 
         for (auto entity : entities)
-            entity->remove();
+          entity->remove();
 
         mgr->process_changes();
 
         TC_EXPECT(mgr->get_num_entities(), 0);
-    });
+      });
 
+  general_testsuite("Collectors - Add and Remove multiple times",
+                    [](EntityManager *mgr) {
 
+                      TestSystem *sys = mgr->new_system<TestSystem>();
 
-    general_testsuite("Collectors - Add and Remove multiple times", [](EntityManager* mgr) {
+                      Entity *entity = mgr->new_entity();
 
-        TestSystem* sys = mgr->new_system<TestSystem>();
+                      for (size_t i = 0; i < 10; ++i) {
+                        entity->new_component<PhysicsComponent>();
+                        entity->new_component<TransformComponent>();
+                        entity->remove_component<TransformComponent>();
+                        entity->remove_component<PhysicsComponent>();
+                      }
 
-        Entity* entity = mgr->new_entity();
+                      TC_EXPECT(entity->get_num_components(), 0);
+                      TC_EXPECT(entity->get_component_mask(), 0);
 
-        for (size_t i = 0; i < 10; ++i) 
-        {
-            entity->new_component<PhysicsComponent>();
-            entity->new_component<TransformComponent>();
-            entity->remove_component<TransformComponent>();
-            entity->remove_component<PhysicsComponent>();            
-        }
+                      mgr->process_changes();
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        TC_EXPECT(entity->get_num_components(), 0);
-        TC_EXPECT(entity->get_component_mask(), 0);
-        
-        mgr->process_changes();
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);
+                      entity->new_component<PhysicsComponent>();
+                      entity->remove_component<PhysicsComponent>();
 
-        entity->new_component<PhysicsComponent>();
-        entity->remove_component<PhysicsComponent>();
-        
-        mgr->process_changes();
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 0);
+                      mgr->process_changes();
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 0);
 
-        entity->new_component<PhysicsComponent>();
+                      entity->new_component<PhysicsComponent>();
 
-        mgr->process_changes();
-        sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 1);
+                      mgr->process_changes();
+                      sys->process(1.0);
+                      TC_EXPECT(sys->processed_entities, 1);
 
-        entity->remove();
+                      entity->remove();
 
-        delete sys;
+                      delete sys;
 
-    });
-
+                    });
 }
