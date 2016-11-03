@@ -136,7 +136,8 @@ void testcase_collectors()
         entity->remove_component<PhysicsComponent>();
 
         sys->process(1.0);
-        TC_EXPECT(sys->processed_entities, 1);
+        // Removal of components directly affects the list of captured entities
+        TC_EXPECT(sys->processed_entities, 0);
 
         mgr->process_changes();
         
@@ -189,7 +190,7 @@ void testcase_collectors()
         sys->process(1.0);
         sys2->process(1.0);
         TC_EXPECT(sys->processed_entities, 10);
-        TC_EXPECT(sys2->processed_entities, 10);
+        TC_EXPECT(sys2->processed_entities, 9);
 
         TC_EXPECT(mgr->get_num_entities(), 10);
 
@@ -249,7 +250,7 @@ void testcase_collectors()
         sys->process(1.0);
         sys2->process(1.0);
         TC_EXPECT(sys->processed_entities, 10);
-        TC_EXPECT(sys2->processed_entities, 10);
+        TC_EXPECT(sys2->processed_entities, 9);
 
         TC_EXPECT(mgr->get_num_entities(), 10);
 

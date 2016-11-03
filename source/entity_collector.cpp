@@ -39,7 +39,7 @@ void EntityCollector::EntityIterator::inc_until_valid()
 
 EntityCollector::EntityIterator& EntityCollector::EntityIterator::operator++()
 {
-    ++_pos;6
+    ++_pos;
     inc_until_valid();
     return *this;
 };
