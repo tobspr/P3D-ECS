@@ -19,3 +19,5 @@ build.py
 LICENSE
 
 test-output.txt
+CoverageReport-*
+LastCoverageResults.log

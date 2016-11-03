@@ -7,7 +7,6 @@
 
 BEGIN_PUBLISH;
 
-void testcase_1();
 void testcase_parent_child();
 
 END_PUBLISH;

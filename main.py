@@ -10,8 +10,11 @@ with open("test-output.txt", "w") as handle:
 # input("Press enter to start: ")
 
 testcase_parent_child()
+
+testcase_generic()
+
 testcase_collectors()
 
-perftest_entities()
-# 
+#perftest_entities()
+ 
 print("Done!")

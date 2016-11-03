@@ -35,7 +35,7 @@ void Entity::on_registered_by_manager() { _registered = true; }
 
 void Entity::remove() {
   if (_flagged_for_deletion) {
-    // TODO: Warning about this entity being deleted twice
+    // TODO: Warning about this entity being deleted twice (instead of printing to cerr)
     std::cerr << "Warning: remove() called twice." << std::endl;
     return;
   }

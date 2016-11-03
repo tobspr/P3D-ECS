@@ -9,10 +9,6 @@ void write_tc_log(const string &msg) {
   outfile << msg;
 };
 
-void reset_tc_log() {
-  ofstream outfile("test-output.txt");
-  outfile << "Test output:" << endl;
-}
 
 void measure_time(const string &desc, function<void()> method,
                   size_t num_iterations) {
@@ -64,6 +60,8 @@ void general_testsuite(const string &name,
 
   TC_EXPECT(mgr->get_num_entities(), 0);
   ECS_PRINT_LEAKS();
+
+  delete mgr;
 
   write_tc_log("Done.\n");
 }

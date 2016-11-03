@@ -12,6 +12,7 @@
 #include <sstream>
 using namespace std;
 
+/*
 void testcase_1() {
   general_testsuite("Testcase 1", [](EntityManager *mgr) {
 
@@ -73,6 +74,7 @@ void testcase_1() {
 
   });
 };
+*/
 
 void testcase_parent_child() {
 
@@ -336,4 +338,6 @@ void testcase_parent_child() {
 
         });
   }
+
+
 };
