@@ -31,7 +31,7 @@ void perftest_entities()
             iterations);
 
         measure_time("First manager update", [&]() {
-            mgr->single_step(1.0);
+            mgr->process_changes();
         });
 
         measure_time("Manager cleanup", [&]() { mgr->reset(); });
@@ -50,7 +50,7 @@ void perftest_entities()
             iterations);
 
         measure_time("First manager update", [&]() {
-            mgr->single_step(1.0);
+            mgr->process_changes();
         });
 
         mgr->reset();
@@ -81,8 +81,8 @@ void perftest_entities()
             TransformComponent& transform = entity->new_component<TransformComponent>();
         }
 
-        measure_time("mgr->single_step(dt)", [&]() {
-            mgr->single_step(1.0);
+        measure_time("mgr->process_changes()", [&]() {
+            mgr->process_changes();
         },
             iterations);
 

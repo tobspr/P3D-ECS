@@ -13,7 +13,6 @@ public:
     static const size_t obj_size = sizeof(T);
     static const size_t block_size = 50000;
 
-#ifndef INTERROGATE
     template <typename... Args>
     inline static T* new_object(Args... args)
     {
@@ -22,7 +21,6 @@ public:
         ::new ((void*)mem) T(std::forward<Args>(args)...);
         return mem;
     }
-#endif
 
     inline static void delete_object(T* ptr)
     {

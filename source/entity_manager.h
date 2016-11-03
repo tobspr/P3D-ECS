@@ -41,7 +41,6 @@ public:
         return new T(this);
     };
 
-#ifndef INTERROGATE
     template <typename... Args>
     EntityCollector* new_collector()
     {
@@ -60,9 +59,8 @@ public:
         ECS_OUTPUT_SPAM("Registering new collector at " << collector);
         return collector;
     }
-#endif
 
-    void single_step(float dt);
+    void process_changes();
     void reset();
 
     void print_status();
@@ -72,9 +70,13 @@ public:
 private:
     void register_entity(Entity* entity);
     void delete_entity(Entity* entity);
+
     void on_component_added(Entity* entity);
+    void on_component_removed(Entity* entity);
 
     void do_delete_entity(Entity* entity, EntityDeletionContext context);
+
+    const std::vector<EntityCollector*>& get_collectors() const { return _collectors; }
 
 private:
     // Each entity can only belong to one of these 3 containers at a time:
@@ -84,7 +86,7 @@ private:
 
     std::vector<EntityCollector*> _collectors;
 
-    std::vector<Entity*> _entities_with_new_components;
+    std::vector<Entity*> _entities_with_new_or_deleted_components;
     
 };
 

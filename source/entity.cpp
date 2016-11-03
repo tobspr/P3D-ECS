@@ -17,14 +17,21 @@ Entity::~Entity()
     }
 }
 
-void Entity::register_component(Component::id_t id, Component* ptr)
+void Entity::on_component_added(Component::id_t id, Component* ptr)
 {
-    _component_mask |= Component::to_bitmask(id);
-    _components.emplace_back(id, ptr);
     if (_registered) {
         // In case the entity is already registered, reregister it to make
         // sure it is registered on all collectors
         _manager->on_component_added(this);
+    }
+}
+
+void Entity::on_component_removed(Component::id_t id)
+{
+    if (_registered) {
+        // In case the entity is already registered, reregister it to make
+        // sure it is registered correctly on all collectors
+        _manager->on_component_removed(this);
     }
 }
 
@@ -35,12 +42,13 @@ void Entity::on_registered_by_manager()
 
 void Entity::remove()
 {
-    if (_deleted) {
+    if (_flagged_for_deletion) {
         // TODO: Warning about this entity being deleted twice
+        std::cerr << "Warning: remove() called twice." << std::endl;
         return;
     }
     _manager->delete_entity(this);
-    _deleted = true;
+    _flagged_for_deletion = true;
 }
 
 void Entity::on_registered_to_collector(EntityCollector* collector)

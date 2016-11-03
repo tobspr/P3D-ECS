@@ -1,5 +1,5 @@
 
-#include "testcase_1.h"
+#include "testcase_parent_child.h"
 
 #include "movement_system.h"
 #include "unittest.h"
@@ -38,7 +38,7 @@ void testcase_1()
         auto update = [&]() {
             cout << "\n\nTC> Single step .." << endl;
             float dt = 0.05;
-            mgr->single_step(dt);
+            mgr->process_changes();
 
             cout << "\n\nTC> Update system.. " << endl;
             sys->process(dt);
@@ -183,7 +183,7 @@ void testcase_parent_child()
                     child->get_component<TransformComponent>().set_parent(root);
                     break;
                 case Operation::Update:
-                    mgr->single_step(1.0);
+                    mgr->process_changes();
                     break;
                 case Operation::DeleteRoot:
                     root->remove();
@@ -197,99 +197,3 @@ void testcase_parent_child()
         });
     }
 };
-
-void testcase_collectors()
-{
-
-    struct TestSystem : public SimpleEntitySystem<PhysicsComponent> {
-        TestSystem(EntityManager* mgr)
-            : SimpleEntitySystem<PhysicsComponent>(mgr){};
-        virtual void process(float dt) override
-        {
-			processed_entities = 0;
-            for (auto entity : get_entities()) {
-                ++processed_entities;
-            };
-        }
-
-        size_t processed_entities = 0;
-    };
-
-    general_testsuite("Collectors - Initial test", [](EntityManager* mgr) {
-
-        TestSystem* sys = mgr->new_system<TestSystem>();
-
-        Entity* entity = mgr->new_entity();
-        entity->new_component<TransformComponent>();
-        entity->new_component<PhysicsComponent>();
-
-        mgr->single_step(1.0);
-        sys->process(1.0);
-
-		TC_EXPECT(sys->get_entities().size(), 1u);
-
-		entity->remove();
-
-		mgr->single_step(1.0);
-
-		TC_EXPECT(sys->get_entities().size(), 0u);
-
-        delete sys;
-    });
-
-    general_testsuite("Collectors - Add component after creation", [](EntityManager* mgr) {
-
-        TestSystem* sys = mgr->new_system<TestSystem>();
-
-        Entity* entity = mgr->new_entity();
-        entity->new_component<TransformComponent>();
-    
-        mgr->single_step(1.0);
-        sys->process(1.0);
-
-		TC_EXPECT(sys->get_entities().size(), 0u);
-
-        entity->new_component<PhysicsComponent>();
-        mgr->single_step(1.0);
-
-		TC_EXPECT(sys->get_entities().size(), 1u);
-
-        mgr->single_step(1.0);
-
-		entity->remove();
-
-		mgr->single_step(1.0);
-
-		TC_EXPECT(sys->get_entities().size(), 0u);
-
-        delete sys;
-    });
-
-
-    general_testsuite("Collectors - Add component and remove entity", [](EntityManager* mgr) {
-
-        TestSystem* sys = mgr->new_system<TestSystem>();
-
-        Entity* entity = mgr->new_entity();
-
-		TC_EXPECT(sys->get_entities().size(), 0u);
-        mgr->single_step(1.0);
-
-        entity->new_component<TransformComponent>();
-    
-        sys->process(1.0);
-
-        TC_EXPECT(sys->processed_entities, 0);
-
-        entity->remove();
-
-        mgr->print_status();
-		mgr->single_step(0.0);
-
-        TC_EXPECT(sys->get_entities().size(), 0u);
-
-        delete sys;    
-    });
-
-
-}

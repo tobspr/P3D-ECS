@@ -35,9 +35,8 @@ Entity* EntityManager::new_entity()
     return entity;
 }
 
-void EntityManager::single_step(float dt)
+void EntityManager::process_changes()
 {
-    ECS_OUTPUT_DEBUG("Single step, dt = " << dt);
 
     // Delete queued entities
     ECS_OUTPUT_DEBUG("Deleting " << _entities_to_delete.size() << " entities from last frame ..");
@@ -58,11 +57,24 @@ void EntityManager::single_step(float dt)
     _new_entities.clear();
 
     // Reevaluate changed entities
-    for (Entity* entity : _entities_with_new_components)
-    {
+    for (Entity* entity : _entities_with_new_or_deleted_components) {
+
+        // First, evaluate the current membership on the collectors
+        std::vector<EntityCollector*> collectors_to_deregister_from;
+        for (EntityCollector* collector : entity->get_collectors()) {
+            if (!collector->entity_fits(entity)) {
+                collectors_to_deregister_from.push_back(collector);
+            }
+        }
+
+        // Deregister from all collectors which are now obsolete
+        for (EntityCollector* collector : collectors_to_deregister_from) {
+            collector->remove_entity(entity);
+        }
+
+        // Now register to all new collectors
         register_entity(entity);
     }
-
 }
 
 void EntityManager::reset()
@@ -81,8 +93,8 @@ void EntityManager::reset()
 
     ECS_OUTPUT_DEBUG("Deleting collectors");
 
-	for (EntityCollector* collector : _collectors)
-		delete collector;
+    for (EntityCollector* collector : _collectors)
+        delete collector;
 
     _all_entities.clear();
     _new_entities.clear();
@@ -120,10 +132,10 @@ void EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext conte
         break;
     }
 
-    vector_erase_fast_if_present(_entities_with_new_components, entity);
+    vector_erase_fast_if_present(_entities_with_new_or_deleted_components, entity);
 
     for (EntityCollector* collector : _collectors)
-        collector->remove_entity(entity);
+        collector->consider_remove_entity(entity);
 
     if (entity->has_component<TransformComponent>()) {
         // Deregister from parent
@@ -155,8 +167,7 @@ void EntityManager::print_status()
     print_vec("_all_entities", _all_entities);
     print_vec("_entities_to_delete", _entities_to_delete);
     print_vec("_new_entities", _new_entities);
-    print_vec("_entities_with_new_components", _new_entities);
-
+    print_vec("_entities_with_new_or_deleted_components", _new_entities);
 
     ECS_OUTPUT_DEBUG("\nCollectors (total: " << _collectors.size() << "):");
 
@@ -169,7 +180,14 @@ void EntityManager::print_status()
 
 void EntityManager::on_component_added(Entity* entity)
 {
-    if (std::find(_entities_with_new_components.begin(), _entities_with_new_components.end(), entity) == _entities_with_new_components.end()) {
-        _entities_with_new_components.push_back(entity);
+    if (std::find(_entities_with_new_or_deleted_components.begin(), _entities_with_new_or_deleted_components.end(), entity) == _entities_with_new_or_deleted_components.end()) {
+        _entities_with_new_or_deleted_components.push_back(entity);
+    }
+}
+
+void EntityManager::on_component_removed(Entity* entity)
+{
+    if (std::find(_entities_with_new_or_deleted_components.begin(), _entities_with_new_or_deleted_components.end(), entity) == _entities_with_new_or_deleted_components.end()) {
+        _entities_with_new_or_deleted_components.push_back(entity);
     }
 }

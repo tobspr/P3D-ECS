@@ -41,7 +41,7 @@ Example:
 
     // Update loop, the order of the systems is controlled by the user (you!)
     float dt = 0.05;
-    manager->single_step(dt);
+    manager->process_changes();
     entity_sys->process(dt);
 
 ```

@@ -15,10 +15,10 @@ extern void init_libmymodule();
 
 #ifndef ECS_PERFTEST
 #define ECS_OUTPUT_DEBUG(content) std::cout << content << std::endl;
-#define ECS_OUTPUT_SPAM(content)
+#define ECS_OUTPUT_SPAM(content) ;
 #else
-#define ECS_OUTPUT_DEBUG(content)
-#define ECS_OUTPUT_SPAM(content)
+#define ECS_OUTPUT_DEBUG(content) ;
+#define ECS_OUTPUT_SPAM(content) ;
 #endif
 
 #ifndef ECS_PERFTEST
@@ -37,8 +37,8 @@ void reset_memory_leaks();
 #define ECS_PRINT_LEAKS() print_memory_leaks();
 #define ECS_RESET_LEAKS() reset_memory_leaks();
 #else
-#define ECS_ON_CREATE(content)
-#define ECS_ON_DELETE(content)
-#define ECS_PRINT_LEAKS()
-#define ECS_RESET_LEAKS()
+#define ECS_ON_CREATE(content) ;
+#define ECS_ON_DELETE(content) ;
+#define ECS_PRINT_LEAKS() ;
+#define ECS_RESET_LEAKS() ;
 #endif

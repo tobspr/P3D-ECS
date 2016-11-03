@@ -28,57 +28,30 @@ public:
     static inline void reset_id_pool() { next_id = 1000u; };
 
     ~Entity();
+    Entity(const Entity& other) = delete; // nope
+    Entity(Entity&& other) = delete; // nope
+    Entity& operator=(const Entity& other) = delete; // nope
+    Entity& operator=(Entity&& other) = delete; // nope
+    
     inline id_t get_id() const { return _id; };
     inline size_t get_num_components() const { return _components.size(); };
-    inline Component::bitmask_t get_component_mask() const
-    {
-        return _component_mask;
-    }
+    inline Component::bitmask_t get_component_mask() const { return _component_mask; }
+    inline bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
 
     template <typename T>
-    T& get_component()
-    {
-        assert(has_component<T>());
-        Component::id_t id = Component::extract_id<T>();
-        for (component_pair_t& id_and_ptr : _components) {
-            if (id_and_ptr.first == id)
-                return *static_cast<T*>(id_and_ptr.second);
-        }
-
-		assert(false); // should never happen
-		return *static_cast<T*>(nullptr);
-    };
+    inline T& get_component();
 
     template <typename T>
-    const T& get_component() const
-    {
-        return const_cast<Entity*>(this)->get_component<T>();
-    };
+    inline const T& get_component() const;
 
     template <typename T>
-    bool has_component() const
-    {
-        return (_component_mask & Component::to_bitmask(Component::extract_id<T>())) != 0u;
-    };
+    inline bool has_component() const;
 
     template <typename T>
-    void remove_component()
-    {
-        // TODO: assert(!_deleted)
-        // TODO: if (T == TransformComponent) assert(TransformComponent.children.empty)
-    }
+    inline void remove_component();
 
-#ifndef INTERROGATE
     template <typename T, typename... Args>
-    T& new_component(Args&&... args)
-    {
-        // TODO: assert(!_deleted)
-        assert(!has_component<T>());
-        T* component = MemoryPool<T>::new_object(this, std::forward<Args>(args)...);
-        register_component(Component::extract_id<T>(), component);
-        return *component;
-    };
-#endif
+    inline T& new_component(Args&&... args);
 
     void remove();
 
@@ -86,16 +59,19 @@ private:
     inline explicit Entity(EntityManager* manager);
 
     void on_registered_by_manager();
-    void register_component(Component::id_t id, Component* ptr);
+    void on_component_added(Component::id_t id, Component* ptr);
+    void on_component_removed(Component::id_t id);
 
     bool is_registered_to_collector(EntityCollector* collector);
     void on_registered_to_collector(EntityCollector* collector);
     void on_deregistered_from_collector(EntityCollector* collector);
 
+    inline const std::vector<EntityCollector*>& get_collectors() const { return _registered_collectors; };
+
     EntityManager* _manager;
 
     bool _registered;
-    bool _deleted;
+    bool _flagged_for_deletion;
     id_t _id;
     Component::bitmask_t _component_mask;
 

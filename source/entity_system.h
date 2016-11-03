@@ -20,11 +20,7 @@ protected:
     EntityManager* _manager;
 };
 
-#ifdef INTERROGATE
-template < typename T >
-#else
 template <typename... Args>
-#endif
 class SimpleEntitySystem : public EntitySystem {
 public:
     SimpleEntitySystem(EntityManager* manager)
