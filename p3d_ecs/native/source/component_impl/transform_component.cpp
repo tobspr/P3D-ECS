@@ -10,16 +10,16 @@ void TransformComponent::set_parent(Entity *new_parent) {
 
   _is_dirty = true;
   // Deregister from old parent
-  if (_parent.has_access())
+  if (_parent)
     _parent->get_component<TransformComponent>().unregister_child(_entity);
 
   // Register to new parent
   _parent = new_parent;
-  if (_parent.has_access())
+  if (_parent)
     _parent->get_component<TransformComponent>().register_child(_entity);
 }
 
 void TransformComponent::unregister_from_parent() {
-  if (_parent.has_access())
+  if (_parent)
     _parent->get_component<TransformComponent>().unregister_child(_entity);
 }

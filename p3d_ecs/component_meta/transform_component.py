@@ -32,10 +32,9 @@ class TransformComponent(object):
         serialize=False
     )
 
-    parent = EntityRefProperty(
-    )
-     
-    children = InternalProperty(
-        data_type="std::vector<Entity*>",
-        includes=["<vector>"]
+    #parent = EntityRefProperty()
+    parent = EntityPtrProperty()
+
+    children = ContainerProperty(
+        value_type="Entity*"
     )

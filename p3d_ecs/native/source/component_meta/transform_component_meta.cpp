@@ -5,10 +5,10 @@
 
 IMPLEMENT_COMPONENT_BASE(TransformComponentMeta, 2u);
 
-void TransformComponentMeta::serialize(YAMLSerializer* serializer) const {
+void TransformComponentMeta::serialize(PlainTextSerializer* serializer) const {
   // Serialize children
-  if (true) {
-      serializer->serialize_prop("children", _children);
+  if (!_children.empty()) {
+      serializer->serialize_prop_vec("children", _children);
   }
   // Serialize hpr
   if (_hpr != LVecBase3f()) {
@@ -19,11 +19,11 @@ void TransformComponentMeta::serialize(YAMLSerializer* serializer) const {
       serializer->serialize_prop("is_dirty", _is_dirty);
   }
   // Serialize mat
-  if (_mat != LMatrix4f()) {
+  if (_mat != LMatrix4f(LMatrix4f::ident_mat())) {
       serializer->serialize_prop("mat", _mat);
   }
   // Serialize parent
-  if (!_parent.is_empty()) {
+  if (_parent != nullptr) {
       serializer->serialize_prop("parent", _parent);
   }
   // Serialize pos
@@ -31,7 +31,7 @@ void TransformComponentMeta::serialize(YAMLSerializer* serializer) const {
       serializer->serialize_prop("pos", _pos);
   }
   // Serialize scale
-  if (_scale != LVecBase3f()) {
+  if (_scale != LVecBase3f(1, 1, 1)) {
       serializer->serialize_prop("scale", _scale);
   }
 

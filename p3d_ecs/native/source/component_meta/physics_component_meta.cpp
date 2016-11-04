@@ -5,7 +5,7 @@
 
 IMPLEMENT_COMPONENT_BASE(PhysicsComponentMeta, 1u);
 
-void PhysicsComponentMeta::serialize(YAMLSerializer* serializer) const {
+void PhysicsComponentMeta::serialize(PlainTextSerializer* serializer) const {
   // Serialize hpr
   if (_hpr != LVecBase2f()) {
       serializer->serialize_prop("hpr", _hpr);

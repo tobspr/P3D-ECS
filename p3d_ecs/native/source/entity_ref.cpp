@@ -30,8 +30,12 @@ Entity *EntityRef::get_ptr(EntityManager *mgr) {
 bool EntityRef::has_access() const {
   if (_cached_ptr == nullptr)
     return false;
-  // if (_cached_ptr->is_flagged_for_deletion())
-  // return false;
+
+  // This is problematic, and it does not harm not to check this.
+  // While one can access entities flagged for deletion, they will
+  // get unavailable soon anyways:
+  //   if (_cached_ptr->is_flagged_for_deletion())
+  //     return false;
   return true;
 }
 
@@ -106,13 +110,12 @@ void EntityRef::reset(Entity *new_ptr) {
 void EntityRef::reset(Entity::id_t id) {
   if (id == _ref_id)
     return; // Nothing to do
-  
-  if (_cached_ptr != nullptr)
-  {
+
+  if (_cached_ptr != nullptr) {
     // Deregister from old pointer (Detected by Entity Ref Test - CASE 155)
     _cached_ptr->on_ref_deleted(this);
   }
-  
+
   _cached_ptr = nullptr;
   _ref_id = id;
 }

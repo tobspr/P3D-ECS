@@ -2,6 +2,7 @@
 #include "entity.h"
 #include "entity_manager.h"
 #include "perf_utility.h"
+#include "entity_ref.h"
 
 #include <algorithm>
 

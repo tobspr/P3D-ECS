@@ -14,7 +14,7 @@
 
 class Entity;
 class EntityManager;
-class YAMLSerializer;
+class PlainTextSerializer;
 class PhysicsComponent;
 
 class PhysicsComponentMeta : public Component {
@@ -26,13 +26,13 @@ class PhysicsComponentMeta : public Component {
     // AUTOGEN:: accessors
     inline const LVecBase2f& get_hpr() const { return _hpr; }
     inline void set_hpr(const LVecBase2f& val) { _hpr = val; }
-
+	
     inline float get_mass() const { return _mass; }
     inline void set_mass(float val) { _mass = val; }
 
 
     // AUTOGEN:: serialization
-    void serialize(YAMLSerializer* serializer) const;
+    virtual void serialize(PlainTextSerializer* serializer) const override;
 
   protected:
     // AUTOGEN:: constructor

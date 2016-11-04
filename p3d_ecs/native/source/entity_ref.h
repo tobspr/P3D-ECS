@@ -5,6 +5,7 @@
 
 #include "config_module.h"
 
+
 class Entity;
 class EntityManager;
 

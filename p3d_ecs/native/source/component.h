@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-class YAMLSerializer;
+class PlainTextSerializer;
 class Entity;
 class EntityManager;
 
@@ -29,6 +29,9 @@ struct Component {
   Component(Component&& other) = delete;
   Component& operator=(const Component& other) = delete;  
   Component& operator=(Component&& other) = delete;  
+
+  virtual void serialize(PlainTextSerializer* serializer) const = 0;
+
 
 protected:
   Component(Entity *entity) : _entity(entity){};

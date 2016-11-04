@@ -50,7 +50,7 @@ class VectorProperty(BaseProperty):
         return "LVecBase" + str(self.dimensions) + prefix
 
     def check_for_default(self, identifier):
-        return identifier + " != " + self.DATA_TYPE + "()"
+        return identifier + " != " + self.DATA_TYPE + "(" + (self.init_with or "") + ")"
 
 class Mat4Property(BaseProperty):
     DATA_TYPE = "LMatrix4f"
@@ -60,7 +60,8 @@ class Mat4Property(BaseProperty):
         super().__init__(**kwargs)
 
     def check_for_default(self, identifier):
-        return identifier + " != LMatrix4f()"
+        return identifier + " != LMatrix4f(" + (self.init_with or "") + ")"
+
 
 class EntityRefProperty(BaseProperty):
     PASS_AS_REF = True
@@ -72,7 +73,36 @@ class EntityRefProperty(BaseProperty):
 
     def check_for_default(self, identifier):
         return "!" + identifier + ".is_empty()"
+
+
+class EntityPtrProperty(BaseProperty):
+    PASS_AS_REF = False
+    DATA_TYPE = "Entity*"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def check_for_default(self, identifier):
+        return identifier + " != nullptr"
+
+
         
+class ContainerProperty(BaseProperty):
+    PASS_AS_REF = True
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.value_type = kwargs.get("value_type")
+        self.includes = kwargs.get("includes", []) + ["<vector>"]
+
+    @property
+    def DATA_TYPE(self):
+        return "std::vector<" + self.value_type + ">"
+
+    def check_for_default(self, identifier):
+        return "!" + identifier + ".empty()"
+
+    
 class InternalProperty(BaseProperty):
     PASS_AS_REF = True
 

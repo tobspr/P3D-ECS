@@ -12,7 +12,7 @@ import inspect
 from os.path import isfile, isdir, join, realpath, dirname
 from os import listdir
 
-from p3d_ecs.meta.component_properties import BaseProperty, InternalProperty
+from p3d_ecs.meta.component_properties import BaseProperty, InternalProperty, ContainerProperty
 
 THIS_DIR = realpath(dirname(__file__))
 
@@ -88,7 +88,6 @@ def generate_cpp_header_component_definition(name, members, index):
     out += generate_additional_component_includes(members)
     out += "class Entity;\n"
     out += "class EntityManager;\n"    
-    out += "class YAMLSerializer;\n"    
     out += "class " + name + ";\n\n"
     out += "class " + cls_name + " : public Component {\n"
 
@@ -99,7 +98,7 @@ def generate_cpp_header_component_definition(name, members, index):
     out += generate_component_accessors(members, 2 * indent)
     out += "\n"
     out += 2 * indent + "// AUTOGEN:: serialization\n"
-    out += 2 * indent + "void serialize(YAMLSerializer* serializer) const;\n"
+    out += 2 * indent + "virtual void serialize(PlainTextSerializer* serializer) const override;\n"
     out += "\n"
 
     out += indent + "protected:\n"
@@ -120,15 +119,22 @@ def generate_cpp_file_component_definition(header, name, members, index):
     out += "IMPLEMENT_COMPONENT_BASE(" + cls_name + ", " + str(index) + "u);\n"
     out += "\n"
 
-    out += "void " + cls_name + "::serialize(YAMLSerializer* serializer) const {\n"
+    out += "void " + cls_name + "::serialize(PlainTextSerializer* serializer) const {\n"
     indent = "  "
     for member_name, member_type in members:
+        # Serialization code
         out += indent + "// Serialize " + member_name + "\n"
         if isinstance(member_type, InternalProperty) and member_type.serializer is not None:
             out += indent + "   " + member_type.serializer + "(serializer, \"" + member_name + "\", _" + member_name + ");\n"
         else:
+
+            # Vector properties
             out += indent + "if (" + member_type.check_for_default("_" + member_name) + ") {\n"
-            out += indent + "    serializer->serialize_prop(\"" + member_name + "\", _" + member_name + ");\n"
+
+            if isinstance(member_type, ContainerProperty):
+                out += indent + "    serializer->serialize_prop_vec(\"" + member_name + "\", _" + member_name + ");\n"
+            else:
+                out += indent + "    serializer->serialize_prop(\"" + member_name + "\", _" + member_name + ");\n"
             out += indent + "}\n"
 
     out += "\n}\n"
