@@ -37,7 +37,7 @@ void perftest_entities() {
 
   general_testsuite("Entity creation with component", [](EntityManager *mgr) {
 
-    size_t iterations = 12000000 * MULTIPLIER;
+    size_t iterations = 1500000 * MULTIPLIER;
     measure_time("Create entities",
                  [&]() {
                    for (size_t i = 0; i < iterations; ++i) {
@@ -74,7 +74,7 @@ void perftest_entities() {
 
     TestSystem_1 *sys = mgr->new_system<TestSystem_1>();
 
-    size_t iterations = 5000000 * MULTIPLIER;
+    size_t iterations = 1000000 * MULTIPLIER;
     for (size_t i = 0; i < iterations; ++i) {
       Entity *entity = mgr->new_entity();
       TransformComponent &transform =

@@ -21,3 +21,5 @@ LICENSE
 test-output.txt
 CoverageReport-*
 LastCoverageResults.log
+
+output.txt

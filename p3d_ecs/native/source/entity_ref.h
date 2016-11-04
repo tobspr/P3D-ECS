@@ -52,6 +52,7 @@ public:
 
   void reset();
   void reset(Entity *new_ptr);
+  void reset(Entity_id_t id);
 
 private:
   void on_entity_removed();

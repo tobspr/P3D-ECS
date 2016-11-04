@@ -73,7 +73,11 @@ EntityRef::operator Entity *() { return _cached_ptr; }
 
 void EntityRef::reset() {
   if (_cached_ptr == nullptr) {
-    assert(_ref_id == Entity::EMPTY_ID); // Cannot hurt to check
+    // a_ssert(_ref_id == Entity::EMPTY_ID)
+    // ^ This can actually happen, when the ref points to an entity, but has not
+    //   accquired a pointer yet. In this case, the pointer is NULL but id is
+    //   not empty. (Detected by Entity Ref Test - CASE 85)
+    _ref_id = Entity::EMPTY_ID;
   } else {
     _cached_ptr->on_ref_deleted(this);
     _cached_ptr = nullptr;
@@ -82,9 +86,33 @@ void EntityRef::reset() {
 }
 
 void EntityRef::reset(Entity *new_ptr) {
+  if (new_ptr == _cached_ptr) {
+    if (new_ptr == nullptr) {
+      // We do not have an actual ref to our entity right now.
+      // Also, it seems that the user wants to reset this reference to empty.
+      // so just set the id to empty and were done, no de-registration required.
+      _ref_id = Entity::EMPTY_ID;
+    }
+    return;
+  }
   reset();
   if (new_ptr == nullptr)
     return;
   _cached_ptr = new_ptr;
+  _cached_ptr->on_ref_created(this);
   _ref_id = _cached_ptr->get_id();
+}
+
+void EntityRef::reset(Entity::id_t id) {
+  if (id == _ref_id)
+    return; // Nothing to do
+  
+  if (_cached_ptr != nullptr)
+  {
+    // Deregister from old pointer (Detected by Entity Ref Test - CASE 155)
+    _cached_ptr->on_ref_deleted(this);
+  }
+  
+  _cached_ptr = nullptr;
+  _ref_id = id;
 }
