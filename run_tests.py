@@ -2,7 +2,7 @@
 import panda3d
 import panda3d.core
 
-from p3d_ecs import *
+from p3d_ecs.native.p3d_ecs import *
 
 with open("test-output.txt", "w") as handle:
     pass

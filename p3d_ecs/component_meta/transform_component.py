@@ -1,53 +1,43 @@
 
-from panda3d.core import Vec3, Mat4
-
 from p3d_ecs.meta.component_properties import *
 
 class TransformComponent(object):
 
     # Public
-    pos = Vec3Property(
-        identifier="pos",
+    pos = VectorProperty(
         name="Position",
-        default=Vec3(0),
-        generate_setter=False
+        dimensions=3
     )
 
-    hpr = Vec3Property(
-        identifier="hpr",
+    hpr = VectorProperty(
         name="Rotation",
-        default=Vec3(0),
-        generate_setter=False
+        dimensions=3
     )
 
-    scale = Vec3Property(
-        identifier="scale",
+    scale = VectorProperty(
         name="Scale",
-        default=Vec3(1),
-        generate_setter=False
+        dimensions=3,
+        init_with="{1, 1, 1}"
     )
 
     # Private
-    dirty = BoolProperty(
-        identifier="is_dirty",
-        default=False,
+    is_dirty = BoolProperty(
         editor_visible=False,
-        generate_setter=False
+        init_with="false"
     )
 
     mat = Mat4Property(
-        identifier="mat",
-        default=Mat4.identMat(),
+        init_with="LMatrix4f::ident_mat()",
+        editor_visible=False
     )
 
     parent = InternalProperty(
-        identifier="parent",
         data_type="Entity*",
-        generate_setter=False,
+        init_with="nullptr",
+        generate_getter=False
     )
      
     children = InternalProperty(
-        identifier="children",
         data_type="std::vector<Entity*>",
-        generate_setter=False
+        includes=["<vector>"]
     )

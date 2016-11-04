@@ -23,6 +23,12 @@ struct Component {
     return T::component_id;
   }
 
+  // Prevent copies / moves
+  Component(const Component& other) = delete;
+  Component(Component&& other) = delete;
+  Component& operator=(const Component& other) = delete;  
+  Component& operator=(Component&& other) = delete;  
+
 protected:
   Component(Entity *entity) : _entity(entity){};
 
@@ -30,7 +36,6 @@ protected:
 };
 
 #define DEFINE_COMPONENT(ClassName)                                            \
-  static const id_t component_id;                                              \
   friend class MemoryPool<ClassName>;                                          \
   friend class EntityManager;                                                  \
   virtual void deleter() override {                                            \
@@ -38,7 +43,10 @@ protected:
     this->~ClassName();                                                        \
   }
 
-#define IMPLEMENT_COMPONENT(name, id)                                          \
+#define DEFINE_COMPONENT_BASE() static const id_t component_id;
+
+
+#define IMPLEMENT_COMPONENT_BASE(name, id)                                     \
   const Component::id_t name::component_id = id;
 
 #endif

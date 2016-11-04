@@ -45,3 +45,63 @@ Example:
     entity_sys->process(dt);
 
 ```
+
+## Adding new components
+
+Components are generated from meta files. To add a new component, first create a new meta file, if your 
+component is named `MyComponent` then you would have to create `p3d_ecs/component_meta/my_component.py`.
+
+You can then declare your component in your `my_component.py` file:
+
+```python
+from p3d_ecs.meta.component_properties import *
+
+class MyComponent(object):
+
+    something = FloatProperty(
+        name="Something",
+        default=5.0,
+        generate_setter=True
+    )
+
+    another = VectorProperty(
+        name="Rotation",
+        dimensions=2,
+        init_with="{0.5, 1.0}",
+        generate_setter=True
+    )
+```
+
+After running `process_meta_files.py`, there are now all required files for your compnent generated.
+You can head over to `p3d_ecs/native/component_meta/my_component_meta.h` to see the generated meta-class,
+and you can find your component class in
+`p3d_ecs/native/component_impl/my_component.h`.
+
+The meta class is auto generated and should not be added, but you can add getters, setters and attributes
+to your component class, if you need them.
+
+Your generated component class will look like this:
+
+```cpp
+#pragma once
+// ...
+
+class MyComponent final : public MyComponentMeta {
+public:
+  DEFINE_COMPONENT(MyComponent);
+
+  // Add your custom getters/setters here
+
+private:
+
+  inline MyComponent(Entity *entity) : superclass(entity){};
+
+  // Add your custom additional attributes here, notice they
+  // are not serialized
+};
+```
+
+Notice that only the members specified in your meta class can be serialized, if you need to serialize
+your additional members, consider adding them either to the meta class, or override the serialization methods.
+
+
