@@ -18,13 +18,17 @@ THIS_DIR = realpath(dirname(__file__))
 
 def generate_additional_component_includes(members):
     includes = set()
-    for member_type in members:
+    for member_name, member_type in members:
         if isinstance(member_type, InternalProperty):
-            includes += member_type.includes
+            for inc in member_type.includes:
+                includes.add(inc)
 
-    out = ""
+    out = "// AUTOGEN:: aditional includes\n"
     for include in includes:
         out += '#include ' + include + '\n'
+    out += "\n"
+    if not includes:
+        return ""
     return out
 
 def generate_component_member_attributes(members, indent="  "):
@@ -58,8 +62,8 @@ def generate_component_accessors(members, indent="  "):
     return out
 
 def generate_component_constructor_init(members, cls_name, indent="  "):
-
-    out = indent + cls_name + "(Entity* entity) : Component(entity)\n"
+    out = indent + "// AUTOGEN:: constructor\n"
+    out += indent + "inline " + cls_name + "(Entity* entity) : Component(entity)\n"
     for member_name, member_type in members:
         if member_type.init_with is not None:
             out += indent + "  , _" + member_name + "(" + str(member_type.init_with) + ")\n"

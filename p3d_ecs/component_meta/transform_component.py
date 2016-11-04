@@ -17,7 +17,7 @@ class TransformComponent(object):
     scale = VectorProperty(
         name="Scale",
         dimensions=3,
-        init_with="{1, 1, 1}"
+        init_with="1, 1, 1"
     )
 
     # Private

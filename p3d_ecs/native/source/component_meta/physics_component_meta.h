@@ -30,6 +30,7 @@ class PhysicsComponentMeta : public Component {
     inline void set_mass(float val) { _mass = val; }
 
   protected:
+    // AUTOGEN:: constructor
     PhysicsComponentMeta(Entity* entity) : Component(entity)
       , _mass(10.0)
       {};

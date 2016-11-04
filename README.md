@@ -67,17 +67,17 @@ class MyComponent(object):
     another = VectorProperty(
         name="Rotation",
         dimensions=2,
-        init_with="{0.5, 1.0}",
+        init_with="0.5, 1.0",
         generate_setter=True
     )
 ```
 
-After running `process_meta_files.py`, there are now all required files for your compnent generated.
+After running `process_meta_files.py`, there are now all required files for your component generated.
 You can head over to `p3d_ecs/native/component_meta/my_component_meta.h` to see the generated meta-class,
 and you can find your component class in
 `p3d_ecs/native/component_impl/my_component.h`.
 
-The meta class is auto generated and should not be added, but you can add getters, setters and attributes
+The meta class is auto generated and should not be modified, but you can add getters, setters and attributes
 to your component class, if you need them.
 
 Your generated component class will look like this:

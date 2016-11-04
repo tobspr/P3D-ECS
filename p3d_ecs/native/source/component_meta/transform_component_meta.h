@@ -12,6 +12,9 @@
 #include "memory_pool.h"
 #include "luse.h"
 
+// AUTOGEN:: aditional includes
+#include <vector>
+
 class Entity;
 class EntityManager;
 class TransformComponent;
@@ -36,11 +39,12 @@ class TransformComponentMeta : public Component {
     inline const LVecBase3f& get_scale() const { return _scale; }
 
   protected:
+    // AUTOGEN:: constructor
     TransformComponentMeta(Entity* entity) : Component(entity)
       , _is_dirty(false)
       , _mat(LMatrix4f::ident_mat())
       , _parent(nullptr)
-      , _scale({1, 1, 1})
+      , _scale(1, 1, 1)
       {};
 
     // AUTOGEN:: internal members
