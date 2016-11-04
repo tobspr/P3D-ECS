@@ -1,7 +1,7 @@
 
 from panda3d.core import Vec3, Mat4
 
-from .properties import *
+from p3d_ecs.meta.component_properties import *
 
 class TransformComponent(object):
 
