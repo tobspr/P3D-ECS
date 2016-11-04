@@ -21,7 +21,7 @@ EntityRef::~EntityRef() {
     _cached_ptr->on_ref_deleted(this);
 }
 
-inline Entity *EntityRef::get_ptr(EntityManager *mgr) {
+Entity *EntityRef::get_ptr(EntityManager *mgr) {
   if (!fill_ptr(mgr))
     return nullptr;
   return _cached_ptr;

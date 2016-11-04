@@ -11,7 +11,7 @@
 #include <utility>
 #include <iostream>
 
-    class EntityManager;
+class EntityManager;
 class EntityCollector;
 class EntityRef;
 
@@ -24,9 +24,10 @@ class Entity final {
   using id_t = uint_fast64_t;
   using component_pair_t = std::pair<Component::id_t, Component *>;
   static id_t next_id;
-  static const id_t EMPTY_ID = 0u;
 
 public:
+  static const id_t EMPTY_ID = 0u;
+
   // Required for unittests
   static inline void reset_id_pool() { next_id = 1000u; };
 
@@ -67,8 +68,8 @@ private: // Internal Interface
   void on_registered_to_collector(EntityCollector *collector);
   void on_deregistered_from_collector(EntityCollector *collector);
 
-  void on_ref_created(EntityRef* ref);
-  void on_ref_deleted(EntityRef* ref);
+  void on_ref_created(EntityRef *ref);
+  void on_ref_deleted(EntityRef *ref);
 
   inline const std::vector<EntityCollector *> &get_collectors() const {
     return _registered_collectors;
@@ -84,7 +85,7 @@ private: // Private stuff
 
   std::vector<component_pair_t> _components;
   std::vector<EntityCollector *> _registered_collectors;
-  std::vector<EntityRef*> _referencing_refs;
+  std::vector<EntityRef *> _referencing_refs;
 };
 
 #include "entity.I"

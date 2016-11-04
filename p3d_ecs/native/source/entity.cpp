@@ -13,6 +13,8 @@ Entity::~Entity() {
   for (auto it : _components) {
     it.second->deleter();
   }
+  for (EntityRef* entity_ref : _referencing_refs)
+    entity_ref->on_entity_removed();
 }
 
 void Entity::on_component_added(Component::id_t id, Component *ptr) {
