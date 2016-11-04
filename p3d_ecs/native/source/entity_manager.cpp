@@ -97,7 +97,7 @@ void EntityManager::reset() {
 
 void EntityManager::delete_entity(Entity *entity) {
   ECS_OUTPUT_DEBUG("Deletion of " << *entity << " was requested");
-  auto it = std::find(_new_entities.begin(), _new_entities.end(), entity);
+  auto it = vector_find(_new_entities, entity);
   if (it != _new_entities.end()) {
     ECS_OUTPUT_DEBUG("Entity was not registered yet. Can just delete it again");
     _new_entities.erase(it);
@@ -173,17 +173,27 @@ void EntityManager::print_status() {
 }
 
 void EntityManager::on_component_added(Entity *entity) {
-  if (std::find(_entities_with_new_or_deleted_components.begin(),
-                _entities_with_new_or_deleted_components.end(),
-                entity) == _entities_with_new_or_deleted_components.end()) {
+  if (!vector_contains(_entities_with_new_or_deleted_components, entity)) {
     _entities_with_new_or_deleted_components.push_back(entity);
   }
 }
 
 void EntityManager::on_component_removed(Entity *entity) {
-  if (std::find(_entities_with_new_or_deleted_components.begin(),
-                _entities_with_new_or_deleted_components.end(),
-                entity) == _entities_with_new_or_deleted_components.end()) {
+  if (!vector_contains(_entities_with_new_or_deleted_components, entity)) {
     _entities_with_new_or_deleted_components.push_back(entity);
   }
+}
+
+Entity* EntityManager::find_entity(Entity::id_t id)
+{
+  ECS_OUTPUT_SPAM("Trying to find entity with id " << id);
+  // Search in new entities first, its more likely to find the entity there
+  for (Entity* entity : _new_entities)
+    if (entity->get_id() == id)
+      return entity;
+  for (Entity* entity : _all_entities)
+    if (entity->get_id() == id)
+      return entity;
+  ECS_OUTPUT_DEBUG("Failed to find entity with id " << id);
+  return nullptr;
 }

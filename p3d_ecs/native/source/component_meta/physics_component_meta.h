@@ -14,6 +14,7 @@
 
 class Entity;
 class EntityManager;
+class YAMLSerializer;
 class PhysicsComponent;
 
 class PhysicsComponentMeta : public Component {
@@ -29,9 +30,13 @@ class PhysicsComponentMeta : public Component {
     inline float get_mass() const { return _mass; }
     inline void set_mass(float val) { _mass = val; }
 
+
+    // AUTOGEN:: serialization
+    void serialize(YAMLSerializer* serializer) const;
+
   protected:
     // AUTOGEN:: constructor
-    PhysicsComponentMeta(Entity* entity) : Component(entity)
+    inline PhysicsComponentMeta(Entity* entity) : Component(entity)
       , _mass(10.0)
       {};
 

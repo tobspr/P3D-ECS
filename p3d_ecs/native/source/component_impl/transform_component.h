@@ -31,7 +31,6 @@ public:
                       _custom_mat */
   }
 
-  inline Entity* get_parent() { return _parent; }
   void set_parent(Entity *entity);
 
 private:

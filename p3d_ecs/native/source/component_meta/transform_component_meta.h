@@ -13,10 +13,12 @@
 #include "luse.h"
 
 // AUTOGEN:: aditional includes
+#include "entity_ref.h"
 #include <vector>
 
 class Entity;
 class EntityManager;
+class YAMLSerializer;
 class TransformComponent;
 
 class TransformComponentMeta : public Component {
@@ -34,16 +36,21 @@ class TransformComponentMeta : public Component {
 
     inline const LMatrix4f& get_mat() const { return _mat; }
 
+    inline const EntityRef& get_parent() const { return _parent; }
+
     inline const LVecBase3f& get_pos() const { return _pos; }
 
     inline const LVecBase3f& get_scale() const { return _scale; }
 
+
+    // AUTOGEN:: serialization
+    void serialize(YAMLSerializer* serializer) const;
+
   protected:
     // AUTOGEN:: constructor
-    TransformComponentMeta(Entity* entity) : Component(entity)
+    inline TransformComponentMeta(Entity* entity) : Component(entity)
       , _is_dirty(false)
       , _mat(LMatrix4f::ident_mat())
-      , _parent(nullptr)
       , _scale(1, 1, 1)
       {};
 
@@ -52,7 +59,7 @@ class TransformComponentMeta : public Component {
     LVecBase3f _hpr;
     bool _is_dirty;
     LMatrix4f _mat;
-    Entity* _parent;
+    EntityRef _parent;
     LVecBase3f _pos;
     LVecBase3f _scale;
 };

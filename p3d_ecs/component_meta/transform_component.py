@@ -28,13 +28,11 @@ class TransformComponent(object):
 
     mat = Mat4Property(
         init_with="LMatrix4f::ident_mat()",
-        editor_visible=False
+        editor_visible=False,
+        serialize=False
     )
 
-    parent = InternalProperty(
-        data_type="Entity*",
-        init_with="nullptr",
-        generate_getter=False
+    parent = EntityRefProperty(
     )
      
     children = InternalProperty(

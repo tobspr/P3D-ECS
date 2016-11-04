@@ -49,10 +49,21 @@ void Entity::on_registered_to_collector(EntityCollector *collector) {
 }
 
 bool Entity::is_registered_to_collector(EntityCollector *collector) {
-  return std::find(_registered_collectors.begin(), _registered_collectors.end(),
-                   collector) != _registered_collectors.end();
+  return vector_contains(_registered_collectors, collector);
 }
 
 void Entity::on_deregistered_from_collector(EntityCollector *collector) {
   vector_erase_fast(_registered_collectors, collector);
 }
+
+void Entity::on_ref_created(EntityRef* ref) {
+  assert(!vector_contains(_referencing_refs, ref)); // How can this even happen?
+  _referencing_refs.push_back(ref);
+}
+
+void Entity::on_ref_deleted(EntityRef* ref) {
+  assert(vector_contains(_referencing_refs, ref)); // How can this even happen?
+  vector_erase_fast(_referencing_refs, ref);
+}
+
+

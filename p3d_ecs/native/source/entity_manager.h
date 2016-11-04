@@ -65,6 +65,8 @@ public:
            _entities_to_delete.size();
   };
 
+  Entity* find_entity(Entity::id_t id);
+
 private:
   void register_entity(Entity *entity);
   void delete_entity(Entity *entity);

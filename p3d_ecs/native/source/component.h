@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 
+class YAMLSerializer;
 class Entity;
 class EntityManager;
 
