@@ -5,6 +5,7 @@
 #include "config_module.h"
 #include "component.h"
 #include "memory_pool.h"
+#include "entity_ref.h"
 
 #include <stdint.h>
 #include <cassert>
@@ -31,25 +32,20 @@ public:
   // Required for unittests
   static inline void reset_id_pool() { next_id = 1000u; };
 
-  ~Entity();
+  ECS_FORCEINLINE ~Entity();
   Entity(const Entity &other) = delete;            // nope
   Entity(Entity &&other) = delete;                 // nope
   Entity &operator=(const Entity &other) = delete; // nope
   Entity &operator=(Entity &&other) = delete;      // nope
 
-  inline id_t get_id() const { return _id; };
-  inline size_t get_num_components() const { return _components.size(); };
-  inline Component::bitmask_t get_component_mask() const {
-    return _component_mask;
-  }
-  inline bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
+  ECS_FORCEINLINE id_t get_id() const { return _id; };
+  ECS_FORCEINLINE size_t get_num_components() const { return _components.size(); };
+  ECS_FORCEINLINE Component::bitmask_t get_component_mask() const { return _component_mask; }
+  ECS_FORCEINLINE bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
 
-  template <typename T> inline T &get_component();
-
-  template <typename T> inline const T &get_component() const;
-
-  template <typename T> inline bool has_component() const;
-
+  template <typename T> ECS_FORCEINLINE T &get_component();
+  template <typename T> ECS_FORCEINLINE const T &get_component() const;
+  template <typename T> ECS_FORCEINLINE bool has_component() const;
   template <typename T> inline void remove_component();
 
   template <typename T, typename... Args>
@@ -58,7 +54,7 @@ public:
   void remove();
 
 private: // Internal Interface
-  inline explicit Entity(EntityManager *manager);
+  ECS_FORCEINLINE explicit Entity(EntityManager *manager);
 
   void on_registered_by_manager();
   void on_component_added(Component::id_t id, Component *ptr);
@@ -71,7 +67,7 @@ private: // Internal Interface
   void on_ref_created(EntityRef *ref);
   void on_ref_deleted(EntityRef *ref);
 
-  inline const std::vector<EntityCollector *> &get_collectors() const {
+  ECS_FORCEINLINE const std::vector<EntityCollector *> &get_collectors() const {
     return _registered_collectors;
   };
 

@@ -16,6 +16,6 @@ testcase_uuid()
 # testcase_collectors()
 # testcase_serialization()
 
-perftest_entities()
+# perftest_entities()
  
 print("Done!")

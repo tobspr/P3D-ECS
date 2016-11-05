@@ -13,7 +13,7 @@ void write_tc_log(const string &msg) {
 void measure_time(const string &desc, function<void()> method,
                   size_t num_iterations) {
   string iteration_desc = std::to_string(num_iterations);
-  if (num_iterations > 1000000) {
+  if (num_iterations >= 1000000) {
     iteration_desc =
         std::to_string((size_t)((float)num_iterations / 1000000.0)) + " mio.";
   }

@@ -1,12 +1,22 @@
 
 #include "all_components.h"
 
-inline Entity::Entity(EntityManager *manager)
+ECS_FORCEINLINE Entity::Entity(EntityManager *manager)
     : _manager(manager), _component_mask(0u), _registered(false),
       _flagged_for_deletion(false) {
   ECS_ON_CREATE("Entity");
   // TODO: Add check if out of capacity
   _id = ++next_id;
+}
+
+Entity::~Entity() {
+  // TODO: Add check if we were manually deleted and print an error in that case
+  ECS_ON_DELETE("Entity");
+  for (auto it : _components) {
+    it.second->deleter();
+  }
+  for (EntityRef* entity_ref : _referencing_refs)
+    entity_ref->on_entity_removed();
 }
 
 template <typename T> T &Entity::get_component() {

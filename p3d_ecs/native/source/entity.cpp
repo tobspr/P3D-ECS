@@ -8,15 +8,6 @@
 
 Entity::id_t Entity::next_id = 1000u;
 
-Entity::~Entity() {
-  // TODO: Add check if we were manually deleted and print an error in that case
-  ECS_ON_DELETE("Entity");
-  for (auto it : _components) {
-    it.second->deleter();
-  }
-  for (EntityRef* entity_ref : _referencing_refs)
-    entity_ref->on_entity_removed();
-}
 
 void Entity::on_component_added(Component::id_t id, Component *ptr) {
   if (_registered) {

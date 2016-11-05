@@ -42,6 +42,12 @@ private:
   size_t _hash;
 };
 
+namespace std {
+template <> struct hash<UUID> {
+  size_t operator()(const UUID &uuid) const { return uuid.hash(); }
+};
+}
+
 class UUIDGenerator {
 
 public:
@@ -49,7 +55,7 @@ public:
   static const size_t uuid_length = UUID_LENGTH;
 
   // Generates a new uuid
-  // Duration: ~0.7 nanoseconds - use with care!
+  // Duration: up to 0.05 nanoseconds - use with care!
   static UUID generate();
 
   static void init();

@@ -63,6 +63,7 @@ private:
       // Alloc new block
       char *mem = static_cast<char *>(malloc(block_size * obj_size));
       _blocks.push_back(mem);
+      _free_objects.reserve(_blocks.size() * block_size);
       return reinterpret_cast<T *>(mem);
     } else {
       return reinterpret_cast<T *>(_blocks[block_id] + obj_size * block_offs);
