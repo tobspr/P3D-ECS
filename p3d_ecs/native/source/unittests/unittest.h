@@ -16,23 +16,25 @@
 
 using namespace std; // Fine for the unittests
 
-//#define PROFILING 
+//#define PROFILING
 
 #ifndef PROFILING
 
 #define TC_STATUS(content) cout << "TC> " << content << endl;
-#define TC_EXPECT(value, expected)                                             \
+#define TC_REQUIRE_EQ(value, expected)                                         \
   testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__,  \
                    __LINE__);
 
 #else
 #define TC_STATUS(content) ;
-#define TC_EXPECT(value, expected) ;
+#define TC_REQUIRE_EQ(value, expected) ;
 #endif
 
+#define TC_REQUIRE_TRUE(value) TC_REQUIRE_EQ(value, true)
+
 void write_tc_log(const string &msg);
-void measure_time(const string &desc, function<void()> method,
-                  size_t num_iterations = 1);
+void measure_time(const string &desc, size_t num_iterations,
+                  function<void()> method);
 
 template <typename T>
 void testsuite_expect(T value, T expected, const string &comparison,
@@ -53,9 +55,6 @@ void testsuite_expect(T value, T expected, const string &comparison,
     s << "\n\n\n\n\n";
     write_tc_log(s.str());
     cerr << s.str();
-  } else {
-    // cout << "Expression succeeded: " << comparison << " (value: " << value <<
-    // ")" << endl;
   }
 }
 
@@ -68,7 +67,14 @@ void testsuite_expect(A value, B expected, const string &comparison,
 }
 
 class EntityManager;
-void general_testsuite(const string &name,
-                       function<void(EntityManager *)> inner);
+void run_testcase(const string &name, function<void(EntityManager *)> inner);
+
+#define BEGIN_TESTCASE(name) run_testcase(name, [&](EntityManager *mgr) {
+#define END_TESTCASE                                                           \
+  });
+
+#define BEGIN_MEASURE(name, iterations) measure_time(name, iterations, [&]() {
+#define END_MEASURE                                                            \
+  });
 
 #endif

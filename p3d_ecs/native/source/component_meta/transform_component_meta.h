@@ -60,5 +60,15 @@ class TransformComponentMeta : public Component {
     Entity* _parent;
     LVecBase3f _pos;
     LVecBase3f _scale;
+
+    // AUTOGEN:: member names for plain text serialization
+    static const char* children_CSTR;
+    static const char* hpr_CSTR;
+    static const char* is_dirty_CSTR;
+    static const char* mat_CSTR;
+    static const char* parent_CSTR;
+    static const char* pos_CSTR;
+    static const char* scale_CSTR;
+
 };
 #endif

@@ -2,20 +2,18 @@
 import panda3d
 import panda3d.core
 
-from p3d_ecs.native.p3d_ecs import *
+import p3d_ecs.native.p3d_ecs as p3d_ecs
 
-with open("test-output.txt", "w") as handle:
-    pass
+open("test-output.txt", "w").close()
 
 # input("Press enter to start: ")
 
-# testcase_uuid()
-# testcase_entityref()
-# testcase_generic()
-# testcase_parent_child()
-# testcase_collectors()
-testcase_serialization()
+# TODO: Make this configurable with command line args
+suites_to_run = ["uuid", "entityref", "generic", "parent_child", "collectors", "perftest"]
 
-# perftest_entities()
- 
-print("Done!")
+for suite in suites_to_run:
+    print("Running test suite", suite)
+    getattr(p3d_ecs, "testsuite_" + suite)()
+
+
+print("Tests finished.")

@@ -1,5 +1,5 @@
 
-#include "testcase_entityref.h"
+#include "testsuite_entityref.h"
 
 #include "unittest.h"
 #include "entity_ref.h"
@@ -12,55 +12,57 @@
 #include <initializer_list>
 using namespace std;
 
-void testcase_entityref() {
+void testsuite_entityref() {
+
   auto validate_empty_ref = [&](EntityManager *mgr, EntityRef &ref) {
-    TC_EXPECT(ref.get_id(), Entity::EMPTY_ID);
-    TC_EXPECT(ref.get_ptr(mgr), nullptr);
-    TC_EXPECT(ref.is_empty(), true);
-    TC_EXPECT(ref.has_access(), false);
-    TC_EXPECT(ref.fill_ptr(mgr), true);
-    TC_EXPECT(ref.operator->(), nullptr);
-    TC_EXPECT((Entity *)ref, nullptr);
+    TC_REQUIRE_EQ(ref.get_id(), Entity::EMPTY_ID);
+    TC_REQUIRE_EQ(ref.get_ptr(mgr), nullptr);
+    TC_REQUIRE_TRUE(ref.is_empty());
+    TC_REQUIRE_EQ(ref.has_access(), false);
+    TC_REQUIRE_TRUE(ref.fill_ptr(mgr));
+    TC_REQUIRE_EQ(ref.operator->(), nullptr);
+    TC_REQUIRE_EQ((Entity *)ref, nullptr);
   };
 
   auto validate_ref = [&](EntityManager *mgr, EntityRef &ref,
                           Entity *expected) {
-    TC_EXPECT(ref.get_id(), expected->get_id());
-    TC_EXPECT(ref.get_ptr(mgr), expected);
-    TC_EXPECT(ref.is_empty(), false);
-    TC_EXPECT(ref.has_access(), true);
-    TC_EXPECT(ref.fill_ptr(mgr), true);
-    TC_EXPECT(ref.operator->(), expected);
-    TC_EXPECT((Entity *)ref, expected);
+    TC_REQUIRE_EQ(ref.get_id(), expected->get_id());
+    TC_REQUIRE_EQ(ref.get_ptr(mgr), expected);
+    TC_REQUIRE_EQ(ref.is_empty(), false);
+    TC_REQUIRE_TRUE(ref.has_access());
+    TC_REQUIRE_TRUE(ref.fill_ptr(mgr));
+    TC_REQUIRE_EQ(ref.operator->(), expected);
+    TC_REQUIRE_EQ((Entity *)ref, expected);
   };
 
   auto validate_ref_id_only = [&](EntityManager *mgr, EntityRef &ref,
                                   Entity *expected) {
-    TC_EXPECT(ref.get_id(), expected->get_id());
-    TC_EXPECT(ref.is_empty(), false);
-    TC_EXPECT(ref.has_access(), false);
-    TC_EXPECT(ref.operator->(), nullptr);
-    TC_EXPECT((Entity *)ref, nullptr);
+    TC_REQUIRE_EQ(ref.get_id(), expected->get_id());
+    TC_REQUIRE_EQ(ref.is_empty(), false);
+    TC_REQUIRE_EQ(ref.has_access(), false);
+    TC_REQUIRE_EQ(ref.operator->(), nullptr);
+    TC_REQUIRE_EQ((Entity *)ref, nullptr);
   };
 
-  general_testsuite("Empty ref test: EntityRef()", [&](EntityManager *mgr) {
+  BEGIN_TESTCASE("Empty ref test: EntityRef()") {
     EntityRef ref;
     validate_empty_ref(mgr, ref);
-  });
+  }
+  END_TESTCASE;
 
-  general_testsuite("Empty ref test: EntityRef(Entity::id_t)",
-                    [&](EntityManager *mgr) {
-                      EntityRef ref(Entity::EMPTY_ID);
-                      validate_empty_ref(mgr, ref);
-                    });
+  BEGIN_TESTCASE("Empty ref test: EntityRef(Entity::id_t)") {
+    EntityRef ref(Entity::EMPTY_ID);
+    validate_empty_ref(mgr, ref);
+  }
+  END_TESTCASE;
 
-  general_testsuite("Empty ref test: EntityRef(Entity*)",
-                    [&](EntityManager *mgr) {
-                      EntityRef ref(nullptr);
-                      validate_empty_ref(mgr, ref);
-                    });
+  BEGIN_TESTCASE("Empty ref test: EntityRef(Entity*)") {
+    EntityRef ref(nullptr);
+    validate_empty_ref(mgr, ref);
+  }
+  END_TESTCASE;
 
-  general_testsuite("Simple ref test w/o register", [&](EntityManager *mgr) {
+  BEGIN_TESTCASE("Simple ref test w/o register") {
     Entity *entity = mgr->new_entity();
     EntityRef ref(entity);
     validate_ref(mgr, ref, entity);
@@ -69,9 +71,10 @@ void testcase_entityref() {
     // remove is processed directly, because the entity has not been registered
     // yet
     validate_empty_ref(mgr, ref);
-  });
+  }
+  END_TESTCASE;
 
-  general_testsuite("Simple ref test w/ register", [&](EntityManager *mgr) {
+  BEGIN_TESTCASE("Simple ref test w/ register") {
     Entity *entity = mgr->new_entity();
     EntityRef ref(entity);
     validate_ref(mgr, ref, entity);
@@ -87,41 +90,42 @@ void testcase_entityref() {
     mgr->process_changes();
 
     validate_empty_ref(mgr, ref);
-  });
+  }
+  END_TESTCASE;
 
-  general_testsuite("Test delayed pointer expansion - New Entity",
-                    [&](EntityManager *mgr) {
-                      Entity *entity = mgr->new_entity();
-                      EntityRef ref;
+  BEGIN_TESTCASE("Test delayed pointer expansion - New Entity") {
+    Entity *entity = mgr->new_entity();
+    EntityRef ref;
 
-                      ref.reset(entity->get_id());
-                      validate_ref_id_only(mgr, ref, entity);
-                      ref.fill_ptr(mgr);
-                      validate_ref(mgr, ref, entity);
+    ref.reset(entity->get_id());
+    validate_ref_id_only(mgr, ref, entity);
+    ref.fill_ptr(mgr);
+    validate_ref(mgr, ref, entity);
 
-                      entity->remove();
-                      validate_empty_ref(mgr, ref);
-                    });
+    entity->remove();
+    validate_empty_ref(mgr, ref);
+  }
+  END_TESTCASE;
 
-  general_testsuite("Test delayed pointer expansion - Registered Entity",
-                    [&](EntityManager *mgr) {
-                      Entity *entity = mgr->new_entity();
-                      EntityRef ref;
+  BEGIN_TESTCASE("Test delayed pointer expansion - Registered Entity") {
+    Entity *entity = mgr->new_entity();
+    EntityRef ref;
 
-                      mgr->process_changes();
+    mgr->process_changes();
 
-                      ref.reset(entity->get_id());
-                      validate_ref_id_only(mgr, ref, entity);
+    ref.reset(entity->get_id());
+    validate_ref_id_only(mgr, ref, entity);
 
-                      ref.fill_ptr(mgr);
-                      validate_ref(mgr, ref, entity);
+    ref.fill_ptr(mgr);
+    validate_ref(mgr, ref, entity);
 
-                      entity->remove();
-                      validate_ref(mgr, ref, entity);
+    entity->remove();
+    validate_ref(mgr, ref, entity);
 
-                      mgr->process_changes();
-                      validate_empty_ref(mgr, ref);
-                    });
+    mgr->process_changes();
+    validate_empty_ref(mgr, ref);
+  }
+  END_TESTCASE;
 
   enum class Operation {
     CreateEntity1,
@@ -1134,96 +1138,95 @@ void testcase_entityref() {
   size_t i = 0;
   for (const auto &order : testcases) {
     ++i;
-    general_testsuite("Entity ref test - CASE " + to_string(i),
-                      [&](EntityManager *mgr) {
-                        Entity *entity1 = nullptr;
-                        Entity *entity2 = nullptr;
-                        EntityRef *entity_ref = nullptr;
+    BEGIN_TESTCASE("Entity ref test - CASE " + to_string(i)) {
+      Entity *entity1 = nullptr;
+      Entity *entity2 = nullptr;
+      EntityRef *entity_ref = nullptr;
 
-                        TC_STATUS("Start to execute "
-                                  << order.size() << " operations in order.");
-                        for (Operation op : order) {
-                          switch (op) {
-                          case Operation::CreateEntity1:
-                            entity1 = mgr->new_entity();
-                            break;
-                          case Operation::MgrProcessChanges:
-                            mgr->process_changes();
-                            break;
-                          case Operation::CreateRefFromEmpty:
-                            entity_ref = new EntityRef();
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::CreateRefFromNullptr:
-                            entity_ref = new EntityRef(nullptr);
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::CreateRefFromEmptyId:
-                            entity_ref = new EntityRef(Entity::EMPTY_ID);
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::CreateRefFromId:
-                            entity_ref = new EntityRef(entity1->get_id());
-                            validate_ref_id_only(mgr, *entity_ref, entity1);
-                            break;
-                          case Operation::CreateRefFromEntityPtr:
-                            entity_ref = new EntityRef(entity1);
-                            validate_ref(mgr, *entity_ref, entity1);
-                            break;
-                          case Operation::CreateEntity2:
-                            entity2 = mgr->new_entity();
-                            break;
+      TC_STATUS("Start to execute " << order.size() << " operations in order.");
+      for (Operation op : order) {
+        switch (op) {
+        case Operation::CreateEntity1:
+          entity1 = mgr->new_entity();
+          break;
+        case Operation::MgrProcessChanges:
+          mgr->process_changes();
+          break;
+        case Operation::CreateRefFromEmpty:
+          entity_ref = new EntityRef();
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::CreateRefFromNullptr:
+          entity_ref = new EntityRef(nullptr);
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::CreateRefFromEmptyId:
+          entity_ref = new EntityRef(Entity::EMPTY_ID);
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::CreateRefFromId:
+          entity_ref = new EntityRef(entity1->get_id());
+          validate_ref_id_only(mgr, *entity_ref, entity1);
+          break;
+        case Operation::CreateRefFromEntityPtr:
+          entity_ref = new EntityRef(entity1);
+          validate_ref(mgr, *entity_ref, entity1);
+          break;
+        case Operation::CreateEntity2:
+          entity2 = mgr->new_entity();
+          break;
 
-                          case Operation::ResetRefFromEmpty:
-                            entity_ref->reset();
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::ResetRefFromNullptr:
-                            entity_ref->reset(nullptr);
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::ResetRefFromEmptyId:
-                            entity_ref->reset(Entity::EMPTY_ID);
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::ResetRefFromId:
-                            entity_ref->reset(entity2->get_id());
-                            validate_ref_id_only(mgr, *entity_ref, entity2);
-                            break;
-                          case Operation::ResetRefFromEntityPtr:
-                            entity_ref->reset(entity2);
-                            validate_ref(mgr, *entity_ref, entity2);
-                            break;
+        case Operation::ResetRefFromEmpty:
+          entity_ref->reset();
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::ResetRefFromNullptr:
+          entity_ref->reset(nullptr);
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::ResetRefFromEmptyId:
+          entity_ref->reset(Entity::EMPTY_ID);
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::ResetRefFromId:
+          entity_ref->reset(entity2->get_id());
+          validate_ref_id_only(mgr, *entity_ref, entity2);
+          break;
+        case Operation::ResetRefFromEntityPtr:
+          entity_ref->reset(entity2);
+          validate_ref(mgr, *entity_ref, entity2);
+          break;
 
-                          case Operation::RefGetPtr: {
-                            Entity *ptr = entity_ref->get_ptr(mgr);
-                            TC_EXPECT(ptr, entity2);
-                            validate_ref(mgr, *entity_ref, entity2);
-                            break;
-                          }
+        case Operation::RefGetPtr: {
+          Entity *ptr = entity_ref->get_ptr(mgr);
+          TC_REQUIRE_EQ(ptr, entity2);
+          validate_ref(mgr, *entity_ref, entity2);
+          break;
+        }
 
-                          case Operation::RefFillPtr:
-                            entity_ref->fill_ptr(mgr);
-                            validate_ref(mgr, *entity_ref, entity2);
-                            break;
+        case Operation::RefFillPtr:
+          entity_ref->fill_ptr(mgr);
+          validate_ref(mgr, *entity_ref, entity2);
+          break;
 
-                          case Operation::RemoveEntity1:
-                            entity1->remove();
-                            break;
-                          case Operation::RemoveEntity2:
-                            entity2->remove();
-                            break;
-                          case Operation::ValidateRefEmpty:
-                            validate_empty_ref(mgr, *entity_ref);
-                            break;
-                          case Operation::ValidateRefToEntity2:
-                            validate_ref(mgr, *entity_ref, entity2);
-                            break;
-                          case Operation::ValidateRefToEntity2IdOnly:
-                            validate_ref_id_only(mgr, *entity_ref, entity2);
-                            break;
-                          }
-                        }
-                      });
+        case Operation::RemoveEntity1:
+          entity1->remove();
+          break;
+        case Operation::RemoveEntity2:
+          entity2->remove();
+          break;
+        case Operation::ValidateRefEmpty:
+          validate_empty_ref(mgr, *entity_ref);
+          break;
+        case Operation::ValidateRefToEntity2:
+          validate_ref(mgr, *entity_ref, entity2);
+          break;
+        case Operation::ValidateRefToEntity2IdOnly:
+          validate_ref_id_only(mgr, *entity_ref, entity2);
+          break;
+        }
+      }
+    }
+    END_TESTCASE;
   }
 }

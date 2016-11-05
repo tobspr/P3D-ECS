@@ -27,14 +27,14 @@ public:
   inline void end_component() { _current_indent = "    "; }
 
   template <typename T>
-  inline void serialize_prop(const std::string &name, const T &prop) {
+  inline void serialize_prop(const char *name, const T &prop) {
     _out << _current_indent << name << " ";
     write_value(prop);
     _out << "\n";
   }
 
   template <typename T>
-  inline void serialize_prop_vec(const std::string &name,
+  inline void serialize_prop_vec(const char* name,
                                  const std::vector<T> &vec) {
     _out << _current_indent << " " << name << " " << vec.size();
     for (const T &v : vec) {

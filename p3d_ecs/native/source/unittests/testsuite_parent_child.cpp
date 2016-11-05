@@ -1,5 +1,5 @@
 
-#include "testcase_parent_child.h"
+#include "testsuite_parent_child.h"
 
 #include "movement_system.h"
 #include "unittest.h"
@@ -12,71 +12,7 @@
 #include <sstream>
 using namespace std;
 
-/*
-void testcase_1() {
-  general_testsuite("Testcase 1", [](EntityManager *mgr) {
-
-    cout << "\n\nTC> Constructing new entity" << endl;
-    Entity *entity = mgr->new_entity();
-
-    cout << "\n\nTC> Adding transform component" << endl;
-    entity->new_component<TransformComponent>(
-        LVecBase3f(1, 2, 3), LVecBase3f(2, 3, 4), LVecBase3f(5, 6, 7));
-
-    cout << "\n\nTC> Modifying transform component" << endl;
-    entity->get_component<TransformComponent>().set_pos(LVecBase3f(5, 5, 6));
-
-    cout << "\n\nTC> Constructing another entity" << endl;
-    Entity *entity2 = mgr->new_entity();
-    entity2->new_component<TransformComponent>();
-    entity2->new_component<PhysicsComponent>();
-
-    cout << "\n\nTC> Constructing new movement system" << endl;
-    MovementSystem *sys = mgr->new_system<MovementSystem>();
-
-    auto update = [&]() {
-      cout << "\n\nTC> Single step .." << endl;
-      float dt = 0.05;
-      mgr->process_changes();
-
-      cout << "\n\nTC> Update system.. " << endl;
-      sys->process(dt);
-    };
-
-    update();
-
-    cout << "\n\nTC> Modifying first entry so it also has a pyhsics component"
-         << endl;
-    entity->new_component<PhysicsComponent>(0.0, LVecBase2f());
-
-    update();
-
-    cout << "\n\nTC> Constructing new entity just to delete it " << endl;
-    Entity *entity3 = mgr->new_entity();
-    entity3->remove();
-
-    update();
-
-    cout << "\n\nTC> Constructing new entity to delete it afterwards" << endl;
-    Entity *entity4 = mgr->new_entity();
-    entity4->new_component<TransformComponent>();
-    entity4->new_component<PhysicsComponent>();
-
-    update();
-    entity4->remove();
-    update();
-
-    cout << "\n\nTC> Constructing new entity just before shutdown" << endl;
-    Entity *entity5 = mgr->new_entity();
-
-    cout << "\n\nTC> Deleting system" << endl;
-    delete sys;
-
-  });
-};
-*/
-
-void testcase_parent_child() {
+void testsuite_parent_child() {
 
   enum class Operation {
     ConstructRoot,
@@ -299,45 +235,41 @@ void testcase_parent_child() {
   size_t i = 0;
   for (const auto &order : testcases) {
     ++i;
-    general_testsuite(
-        "Parent Child Relations - CASE " + to_string(i),
-        [&](EntityManager *mgr) {
+    BEGIN_TESTCASE("Parent Child Relations - CASE " + to_string(i)) {
 
-          auto make_entity = [&]() {
-            Entity *tmp = mgr->new_entity();
-            tmp->new_component<TransformComponent>();
-            return tmp;
-          };
-          Entity *root = nullptr;
-          Entity *child = nullptr;
+      auto make_entity = [&]() {
+        Entity *tmp = mgr->new_entity();
+        tmp->new_component<TransformComponent>();
+        return tmp;
+      };
+      
+      Entity *root = nullptr;
+      Entity *child = nullptr;
 
-          TC_STATUS("Start to execute " << order.size()
-                                        << " operations in order.");
-          for (Operation op : order) {
-            switch (op) {
-            case Operation::ConstructRoot:
-              root = make_entity();
-              break;
-            case Operation::ConstructChild:
-              child = make_entity();
-              break;
-            case Operation::ReparentChild:
-              child->get_component<TransformComponent>().set_parent(root);
-              break;
-            case Operation::Update:
-              mgr->process_changes();
-              break;
-            case Operation::DeleteRoot:
-              root->remove();
-              break;
-            case Operation::DeleteChild:
-              child->remove();
-              break;
-            }
-          }
-
-        });
+      TC_STATUS("Start to execute " << order.size() << " operations in order.");
+      for (Operation op : order) {
+        switch (op) {
+        case Operation::ConstructRoot:
+          root = make_entity();
+          break;
+        case Operation::ConstructChild:
+          child = make_entity();
+          break;
+        case Operation::ReparentChild:
+          child->get_component<TransformComponent>().set_parent(root);
+          break;
+        case Operation::Update:
+          mgr->process_changes();
+          break;
+        case Operation::DeleteRoot:
+          root->remove();
+          break;
+        case Operation::DeleteChild:
+          child->remove();
+          break;
+        }
+      }
+    }
+    END_TESTCASE;
   }
-
-
 };

@@ -23,11 +23,11 @@ class PhysicsComponentMeta : public Component {
     DEFINE_COMPONENT_BASE();
 
     // AUTOGEN:: accessors
+    inline bool get_is_static() const { return _is_static; }
+    inline void set_is_static(bool val) { _is_static = val; }
+
     inline float get_mass() const { return _mass; }
     inline void set_mass(float val) { _mass = val; }
-
-    inline bool get_static() const { return _static; }
-    inline void set_static(bool val) { _static = val; }
 
 
     // AUTOGEN:: serialization
@@ -36,12 +36,17 @@ class PhysicsComponentMeta : public Component {
   protected:
     // AUTOGEN:: constructor
     inline PhysicsComponentMeta(Entity* entity) : Component(entity)
+      , _is_static(false)
       , _mass(10.0)
-      , _static(false)
       {};
 
     // AUTOGEN:: internal members
+    bool _is_static;
     float _mass;
-    bool _static;
+
+    // AUTOGEN:: member names for plain text serialization
+    static const char* is_static_CSTR;
+    static const char* mass_CSTR;
+
 };
 #endif

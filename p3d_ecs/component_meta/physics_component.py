@@ -10,7 +10,7 @@ class PhysicsComponent(object):
         generate_setter=True
     )
 
-    static = BoolProperty(
+    is_static = BoolProperty(
         name="Static",
         init_with="false",
         generate_setter=True
