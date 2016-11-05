@@ -25,13 +25,13 @@ struct Component {
   }
 
   // Prevent copies / moves
-  Component(const Component& other) = delete;
-  Component(Component&& other) = delete;
-  Component& operator=(const Component& other) = delete;  
-  Component& operator=(Component&& other) = delete;  
+  Component(const Component &other) = delete;
+  Component(Component &&other) = delete;
+  Component &operator=(const Component &other) = delete;
+  Component &operator=(Component &&other) = delete;
 
-  virtual void serialize(PlainTextSerializer* serializer) const = 0;
-
+  virtual void serialize(PlainTextSerializer *serializer) const = 0;
+  virtual const char *get_class_name() const = 0;
 
 protected:
   Component(Entity *entity) : _entity(entity){};
@@ -45,12 +45,15 @@ protected:
   virtual void deleter() override {                                            \
     MemoryPool<ClassName>::delete_object_from_upcast<Component>(this);         \
     this->~ClassName();                                                        \
-  }
+  }                                                                            \
+  virtual const char *get_class_name() const override { return class_name; };
 
-#define DEFINE_COMPONENT_BASE() static const id_t component_id;
+#define DEFINE_COMPONENT_BASE()                                                \
+  static const id_t component_id;                                              \
+  static const char *class_name;
 
-
-#define IMPLEMENT_COMPONENT_BASE(name, id)                                     \
-  const Component::id_t name::component_id = id;
+#define IMPLEMENT_COMPONENT_BASE(component_name, meta_name, id)                \
+  const Component::id_t meta_name::component_id = id;                          \
+  const char *meta_name::class_name = "" #component_name "";
 
 #endif

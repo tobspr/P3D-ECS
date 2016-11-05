@@ -16,10 +16,19 @@
 
 using namespace std; // Fine for the unittests
 
+//#define PROFILING 
+
+#ifndef PROFILING
+
 #define TC_STATUS(content) cout << "TC> " << content << endl;
 #define TC_EXPECT(value, expected)                                             \
   testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__,  \
                    __LINE__);
+
+#else
+#define TC_STATUS(content) ;
+#define TC_EXPECT(value, expected) ;
+#endif
 
 void write_tc_log(const string &msg);
 void measure_time(const string &desc, function<void()> method,

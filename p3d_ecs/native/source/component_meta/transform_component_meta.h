@@ -17,7 +17,6 @@
 
 class Entity;
 class EntityManager;
-class PlainTextSerializer;
 class TransformComponent;
 
 class TransformComponentMeta : public Component {

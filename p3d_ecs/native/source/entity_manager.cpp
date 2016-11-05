@@ -23,7 +23,7 @@ void EntityManager::register_entity(Entity *entity) {
 }
 
 Entity *EntityManager::new_entity() {
-  Entity *entity = MemoryPool<Entity>::new_object(this);
+  Entity *entity = MemoryPool<Entity>::new_object(this, UUIDGenerator::generate());
   _new_entities.push_back(entity);
   ECS_OUTPUT_DEBUG("Constructed new entity: " << *entity);
   return entity;

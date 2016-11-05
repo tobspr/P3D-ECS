@@ -6,6 +6,7 @@
 #include "component.h"
 #include "memory_pool.h"
 #include "entity_ref.h"
+#include "uuid.h"
 
 #include <stdint.h>
 #include <cassert>
@@ -15,6 +16,7 @@
 class EntityManager;
 class EntityCollector;
 class EntityRef;
+class PlainTextSerializer;
 
 class Entity final {
   friend class EntityManager;
@@ -39,6 +41,8 @@ public:
   Entity &operator=(Entity &&other) = delete;      // nope
 
   ECS_FORCEINLINE id_t get_id() const { return _id; };
+  ECS_FORCEINLINE const UUID& get_uuid() const { return _uuid; };
+  
   ECS_FORCEINLINE size_t get_num_components() const { return _components.size(); };
   ECS_FORCEINLINE Component::bitmask_t get_component_mask() const { return _component_mask; }
   ECS_FORCEINLINE bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
@@ -51,10 +55,12 @@ public:
   template <typename T, typename... Args>
   inline T &new_component(Args &&... args);
 
+
+  void serialize(PlainTextSerializer* serializer) const;
   void remove();
 
 private: // Internal Interface
-  ECS_FORCEINLINE explicit Entity(EntityManager *manager);
+  ECS_FORCEINLINE explicit Entity(EntityManager *manager, UUID&& uuid);
 
   void on_registered_by_manager();
   void on_component_added(Component::id_t id, Component *ptr);
@@ -77,6 +83,7 @@ private: // Private stuff
   bool _registered;
   bool _flagged_for_deletion;
   id_t _id;
+  UUID _uuid;
   Component::bitmask_t _component_mask;
 
   std::vector<component_pair_t> _components;

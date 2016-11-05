@@ -1,9 +1,9 @@
 
 #include "all_components.h"
 
-ECS_FORCEINLINE Entity::Entity(EntityManager *manager)
+ECS_FORCEINLINE Entity::Entity(EntityManager *manager, UUID&& uuid)
     : _manager(manager), _component_mask(0u), _registered(false),
-      _flagged_for_deletion(false) {
+      _flagged_for_deletion(false), _uuid(std::move(uuid)) {
   ECS_ON_CREATE("Entity");
   // TODO: Add check if out of capacity
   _id = ++next_id;
@@ -19,7 +19,7 @@ Entity::~Entity() {
     entity_ref->on_entity_removed();
 }
 
-template <typename T> T &Entity::get_component() {
+template <typename T> ECS_FORCEINLINE T &Entity::get_component() {
   assert(has_component<T>());
   // assert(!_flagged_for_deletion); // TODO: Might be problematic, should maybe
   // allow this
@@ -34,11 +34,11 @@ template <typename T> T &Entity::get_component() {
   return *static_cast<T *>(nullptr);
 };
 
-template <typename T> const T &Entity::get_component() const {
+template <typename T>ECS_FORCEINLINE const T &Entity::get_component() const {
   return const_cast<Entity *>(this)->get_component<T>();
 };
 
-template <typename T> bool Entity::has_component() const {
+template <typename T> ECS_FORCEINLINE bool Entity::has_component() const {
   return (_component_mask &
           Component::to_bitmask(Component::extract_id<T>())) != 0u;
 };

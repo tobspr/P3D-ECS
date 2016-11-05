@@ -3,11 +3,11 @@
 #include "entity_manager.h"
 #include "perf_utility.h"
 #include "entity_ref.h"
+#include "plain_text_serializer.h"
 
 #include <algorithm>
 
 Entity::id_t Entity::next_id = 1000u;
-
 
 void Entity::on_component_added(Component::id_t id, Component *ptr) {
   if (_registered) {
@@ -29,7 +29,8 @@ void Entity::on_registered_by_manager() { _registered = true; }
 
 void Entity::remove() {
   if (_flagged_for_deletion) {
-    // TODO: Warning about this entity being deleted twice (instead of printing to cerr)
+    // TODO: Warning about this entity being deleted twice (instead of printing
+    // to cerr)
     std::cerr << "Warning: remove() called twice." << std::endl;
     return;
   }
@@ -50,14 +51,25 @@ void Entity::on_deregistered_from_collector(EntityCollector *collector) {
   vector_erase_fast(_registered_collectors, collector);
 }
 
-void Entity::on_ref_created(EntityRef* ref) {
+void Entity::on_ref_created(EntityRef *ref) {
   assert(!vector_contains(_referencing_refs, ref)); // How can this even happen?
   _referencing_refs.push_back(ref);
 }
 
-void Entity::on_ref_deleted(EntityRef* ref) {
+void Entity::on_ref_deleted(EntityRef *ref) {
   assert(vector_contains(_referencing_refs, ref)); // How can this even happen?
   vector_erase_fast(_referencing_refs, ref);
 }
 
+void Entity::serialize(PlainTextSerializer *serializer) const {
+  serializer->begin_entity(_uuid);
 
+  for (const component_pair_t& component : _components) 
+  {
+    serializer->begin_component(component.second->get_class_name());
+    component.second->serialize(serializer);
+    serializer->end_component();
+  }
+
+  serializer->end_entity();
+}

@@ -14,7 +14,6 @@
 
 class Entity;
 class EntityManager;
-class PlainTextSerializer;
 class PhysicsComponent;
 
 class PhysicsComponentMeta : public Component {
@@ -24,11 +23,11 @@ class PhysicsComponentMeta : public Component {
     DEFINE_COMPONENT_BASE();
 
     // AUTOGEN:: accessors
-    inline const LVecBase2f& get_hpr() const { return _hpr; }
-    inline void set_hpr(const LVecBase2f& val) { _hpr = val; }
-	
     inline float get_mass() const { return _mass; }
     inline void set_mass(float val) { _mass = val; }
+
+    inline bool get_static() const { return _static; }
+    inline void set_static(bool val) { _static = val; }
 
 
     // AUTOGEN:: serialization
@@ -38,10 +37,11 @@ class PhysicsComponentMeta : public Component {
     // AUTOGEN:: constructor
     inline PhysicsComponentMeta(Entity* entity) : Component(entity)
       , _mass(10.0)
+      , _static(false)
       {};
 
     // AUTOGEN:: internal members
-    LVecBase2f _hpr;
     float _mass;
+    bool _static;
 };
 #endif

@@ -10,9 +10,13 @@ NotifyCategoryDecl(mymodule, EXPORT_CLASS, EXPORT_TEMPL);
 
 extern void init_libmymodule();
 
-#ifdef MSC_VER
+#ifdef _MSC_VER
+#ifndef INTERROGATE
 #define ECS_FORCEINLINE __forceinline
-#else
+#endif
+#endif
+
+#ifndef ECS_FORCEINLINE
 #define ECS_FORCEINLINE inline
 #endif
 

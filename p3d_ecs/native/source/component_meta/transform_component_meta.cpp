@@ -1,9 +1,9 @@
 
 #include "transform_component_meta.h"
 
-#include "serialization.h"
+#include "plain_text_serializer.h"
 
-IMPLEMENT_COMPONENT_BASE(TransformComponentMeta, 2u);
+IMPLEMENT_COMPONENT_BASE(TransformComponent, TransformComponentMeta, 2u);
 
 void TransformComponentMeta::serialize(PlainTextSerializer* serializer) const {
   // Serialize children

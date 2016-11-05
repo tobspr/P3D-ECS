@@ -5,10 +5,11 @@
 #include <chrono>
 
 void write_tc_log(const string &msg) {
+#ifndef PROFILING
   ofstream outfile("test-output.txt", ios_base::app);
   outfile << msg;
+#endif
 };
-
 
 void measure_time(const string &desc, function<void()> method,
                   size_t num_iterations) {
@@ -47,7 +48,9 @@ void general_testsuite(const string &name,
 
   write_tc_log("Testcase: " + name + "\n");
   ECS_RESET_LEAKS();
-  cout << "\n\n\n=========== Test " << name << " ===========" << endl;
+  #ifndef PROFILING
+    cout << "\n\n\n=========== Test " << name << " ===========" << endl;
+  #endif
 
   EntityManager *mgr = new EntityManager();
 

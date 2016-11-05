@@ -10,8 +10,8 @@ class PhysicsComponent(object):
         generate_setter=True
     )
 
-    hpr = VectorProperty(
-        name="Rotation",
-        dimensions=2,
+    static = BoolProperty(
+        name="Static",
+        init_with="false",
         generate_setter=True
     )

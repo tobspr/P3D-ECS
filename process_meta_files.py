@@ -114,9 +114,9 @@ def generate_cpp_file_component_definition(header, name, members, index):
     cls_name = name + "Meta"
     out = "\n"
     out += '#include "' + header + '"\n\n'
-    out += '#include "serialization.h"\n\n'
+    out += '#include "plain_text_serializer.h"\n\n'
     
-    out += "IMPLEMENT_COMPONENT_BASE(" + cls_name + ", " + str(index) + "u);\n"
+    out += "IMPLEMENT_COMPONENT_BASE(" + name + ", " + cls_name + ", " + str(index) + "u);\n"
     out += "\n"
 
     out += "void " + cls_name + "::serialize(PlainTextSerializer* serializer) const {\n"

@@ -57,7 +57,7 @@ UUID UUIDGenerator::generate() {
   nanoseconds ms =
       duration_cast<nanoseconds>(system_clock::now().time_since_epoch());
 
-  // Last 6 bytes are usually garbarge
+  // Last 6 bits are usually garbarge
   uint64_t count = (ms.count() >> 6) & 0xFFFFFF;
   size_t hash = count;
 
@@ -76,7 +76,7 @@ UUID UUIDGenerator::generate() {
     char c1 = chrs[c & 0x3F], c2 = chrs[(c >> 6) & 0x3F];
     uuid_ref[i] = c1;
     uuid_ref[i + 1] = c2;
-    hash = (hash * 31 + c1) * 31 + c2; // simple hash, just like java does it
+    hash = hash * 961 + c1 * 31 + c2;
   }
 
   uuid_ref[uuid_length] = '\0'; // Only required so that c_str() works and we can use strcmp
