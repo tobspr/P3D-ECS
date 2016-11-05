@@ -9,6 +9,7 @@ Include all your dynamically typed classes here, e.g.
 */
 
 #include "dconfig.h"
+#include "uuid.h"
 
 Configure(config_mymodule);
 NotifyCategoryDef(mymodule, "");
@@ -24,6 +25,7 @@ void init_libmymodule() {
 
   // Init your dynamic types here, e.g.:
   // MyDynamicClass::init_type();
+  UUIDGenerator::init();
 
   return;
 }

@@ -10,7 +10,7 @@
 template <typename T> class MemoryPool {
 public:
   static const size_t obj_size = sizeof(T);
-  static const size_t block_size = 51200;
+  static const size_t block_size = 524288; // 512 KB
 
   template <typename... Args> inline static T *new_object(Args... args) {
     T *mem = alloc_memory();
@@ -18,13 +18,25 @@ public:
     return mem;
   }
 
+  inline static T *new_pod_object() { return alloc_memory(); }
+
   inline static void delete_object(T *ptr) {
-    _free_objects.push_back(ptr);
-    ptr->~T();
+    if (ptr) {
+      _free_objects.push_back(ptr);
+      ptr->~T();
+    }
+  }
+
+  inline static void delete_pod_object(T *ptr) {
+    if (ptr) {
+      _free_objects.push_back(ptr);
+    }
   }
 
   template <typename Up> inline static void delete_object_from_upcast(Up *ptr) {
-    _free_objects.push_back(reinterpret_cast<T *>(ptr));
+    if (ptr) {
+      _free_objects.push_back(reinterpret_cast<T *>(ptr));
+    }
   }
 
   inline static void reset() {
@@ -37,10 +49,6 @@ public:
   }
 
 private:
-  inline static std::string debug_prefix() {
-    return "Allocator<" + std::string(typeid(T).name()) + ">: ";
-  };
-
   inline static T *alloc_memory() {
     if (!_free_objects.empty()) {
       T *mem = reinterpret_cast<T *>(_free_objects.back());
