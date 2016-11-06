@@ -15,40 +15,44 @@ class UUIDGenerator;
 using uuid_sequence_t = char[UUID_LENGTH + 1];
 
 // Class to represent uuids
-class UUID {
+class UUID
+{
   friend class UUIDGenerator;
 
-  UUID(uuid_sequence_t *value, size_t hash);
+  UUID(uuid_sequence_t* value, size_t hash);
 
 public:
-  UUID(UUID &&other);
-  UUID &operator=(UUID &&other);
+  UUID(UUID&& other);
+  UUID& operator=(UUID&& other);
   ~UUID();
 
-  UUID(const UUID &other) = delete;            // nope
-  UUID &operator=(const UUID &other) = delete; // nope
+  UUID(const UUID& other) = delete;            // nope
+  UUID& operator=(const UUID& other) = delete; // nope
 
   inline size_t size() const { return UUID_LENGTH; }
   inline size_t length() const { return UUID_LENGTH; }
-  inline const char *c_str() const { return *_uuid; }
+  inline const char* c_str() const { return *_uuid; }
   inline size_t hash() const { return _hash; }
 
-  bool operator==(const UUID &other) const;
-  bool operator<(const UUID &other) const;
-  bool operator>(const UUID &other) const;
+  bool operator==(const UUID& other) const;
+  bool operator<(const UUID& other) const;
+  bool operator>(const UUID& other) const;
 
 private:
-  uuid_sequence_t *_uuid;
+  uuid_sequence_t* _uuid;
   size_t _hash;
 };
 
 namespace std {
-template <> struct hash<UUID> {
-  size_t operator()(const UUID &uuid) const { return uuid.hash(); }
+template <>
+struct hash<UUID>
+{
+  size_t operator()(const UUID& uuid) const { return uuid.hash(); }
 };
 }
 
-class UUIDGenerator {
+class UUIDGenerator
+{
 
 public:
   // The length of all generated uuids

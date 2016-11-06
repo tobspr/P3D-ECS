@@ -12,17 +12,19 @@
 #include <sstream>
 using namespace std;
 
-void testsuite_entity() {
+void
+testsuite_entity()
+{
 
-  BEGIN_TESTCASE("Removing entity twice - expecting a warning!") {
+  BEGIN_TESTCASE("Removing entity twice - expecting a warning!")
+  {
 
-    Entity *entity = mgr->new_entity();
+    Entity* entity = mgr->new_entity();
 
     entity->remove(); // fine
     entity->remove(); // bad!
   }
   END_TESTCASE;
-
 
   // bidirectional data equals
   auto data_equals_bd = [](Entity* a, Entity* b) {
@@ -32,22 +34,26 @@ void testsuite_entity() {
     return r_a;
   };
 
-  BEGIN_TESTCASE("Testing Entity::data_equals - identity") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - identity")
+  {
     Entity* entity1 = mgr->new_entity();
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity1));
     entity1->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-
-  BEGIN_TESTCASE("Testing Entity::data_equals - empty components") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - empty components")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing Entity::data_equals - single empty component") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - single empty component")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     entity1->new_component<TransformComponent>();
@@ -56,9 +62,11 @@ void testsuite_entity() {
 
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing Entity::data_equals - different mask") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - different mask")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     entity1->new_component<TransformComponent>();
@@ -66,27 +74,30 @@ void testsuite_entity() {
 
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-
-  BEGIN_TESTCASE("Testing Entity::data_equals - single component") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - single component")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     TransformComponent& tr_1 = entity1->new_component<TransformComponent>();
     TransformComponent& tr_2 = entity2->new_component<TransformComponent>();
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
-    tr_1.set_pos({1, 2, 3});
+    tr_1.set_pos({ 1, 2, 3 });
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
-    tr_2.set_pos({1, 2, 3});
+
+    tr_2.set_pos({ 1, 2, 3 });
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
-    
+
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing Entity::data_equals - remove component") {
+  BEGIN_TESTCASE("Testing Entity::data_equals - remove component")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     TransformComponent& tr_1 = entity1->new_component<TransformComponent>();
@@ -95,17 +106,18 @@ void testsuite_entity() {
 
     entity1->remove_component<TransformComponent>();
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
+
     entity2->remove_component<TransformComponent>();
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
+  }
+  END_TESTCASE;
 
-
-
-  BEGIN_TESTCASE("Testing Entity::data_equals - multi component with different order") {
+  BEGIN_TESTCASE(
+    "Testing Entity::data_equals - multi component with different order")
+  {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
     TransformComponent& tr_1 = entity1->new_component<TransformComponent>();
@@ -113,36 +125,35 @@ void testsuite_entity() {
 
     PhysicsComponent& pc_2 = entity2->new_component<PhysicsComponent>();
     TransformComponent& tr_2 = entity2->new_component<TransformComponent>();
-    
+
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
-    tr_1.set_pos({1, 2, 3});
+    tr_1.set_pos({ 1, 2, 3 });
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
-    tr_2.set_pos({1, 2, 3});
+
+    tr_2.set_pos({ 1, 2, 3 });
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
     pc_1.set_mass(2.0);
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
+
     pc_2.set_mass(2.0);
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
     entity1->remove_component<TransformComponent>();
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
+
     entity1->remove_component<PhysicsComponent>();
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
+
     entity2->remove_component<TransformComponent>();
     TC_REQUIRE_FALSE(data_equals_bd(entity1, entity2));
-    
+
     entity2->remove_component<PhysicsComponent>();
     TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
 
     entity1->remove();
     entity2->remove();
-  } END_TESTCASE;
-
-
+  }
+  END_TESTCASE;
 };

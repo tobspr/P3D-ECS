@@ -3,7 +3,9 @@
 
 #include "entity.h"
 
-void TransformComponent::set_parent(Entity *new_parent) {
+void
+TransformComponent::set_parent(Entity* new_parent)
+{
   ECS_OUTPUT_SPAM("Setting parent to " << *new_parent);
   assert(new_parent == nullptr ||
          new_parent->has_component<TransformComponent>());
@@ -19,7 +21,9 @@ void TransformComponent::set_parent(Entity *new_parent) {
     _parent->get_component<TransformComponent>().register_child(_entity);
 }
 
-void TransformComponent::unregister_from_parent() {
+void
+TransformComponent::unregister_from_parent()
+{
   if (_parent)
     _parent->get_component<TransformComponent>().unregister_child(_entity);
 }

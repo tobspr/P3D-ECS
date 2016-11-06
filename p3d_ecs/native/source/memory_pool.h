@@ -7,40 +7,49 @@
 #include <iostream>
 #include <type_traits>
 
-template <typename T> class MemoryPool {
+template <typename T>
+class MemoryPool
+{
 public:
   static const size_t obj_size = sizeof(T);
   static const size_t block_size = 524288; // 512 KB
 
-  template <typename... Args> inline static T *new_object(Args... args) {
-    T *mem = alloc_memory();
-    ::new ((void *)mem) T(std::forward<Args>(args)...);
+  template <typename... Args>
+  inline static T* new_object(Args... args)
+  {
+    T* mem = alloc_memory();
+    ::new ((void*)mem) T(std::forward<Args>(args)...);
     return mem;
   }
 
-  inline static T *new_pod_object() { return alloc_memory(); }
+  inline static T* new_pod_object() { return alloc_memory(); }
 
-  inline static void delete_object(T *ptr) {
+  inline static void delete_object(T* ptr)
+  {
     if (ptr) {
       _free_objects.push_back(ptr);
       ptr->~T();
     }
   }
 
-  inline static void delete_pod_object(T *ptr) {
+  inline static void delete_pod_object(T* ptr)
+  {
     if (ptr) {
       _free_objects.push_back(ptr);
     }
   }
 
-  template <typename Up> inline static void delete_object_from_upcast(Up *ptr) {
+  template <typename Up>
+  inline static void delete_object_from_upcast(Up* ptr)
+  {
     if (ptr) {
-      _free_objects.push_back(reinterpret_cast<T *>(ptr));
+      _free_objects.push_back(reinterpret_cast<T*>(ptr));
     }
   }
 
-  inline static void reset() {
-    for (char *block : _blocks) {
+  inline static void reset()
+  {
+    for (char* block : _blocks) {
       free(block);
     }
     _blocks.clear();
@@ -49,9 +58,10 @@ public:
   }
 
 private:
-  inline static T *alloc_memory() {
+  inline static T* alloc_memory()
+  {
     if (!_free_objects.empty()) {
-      T *mem = reinterpret_cast<T *>(_free_objects.back());
+      T* mem = reinterpret_cast<T*>(_free_objects.back());
       _free_objects.pop_back();
       return mem;
     }
@@ -61,22 +71,25 @@ private:
     ++_last_index;
     if (block_id >= _blocks.size()) {
       // Alloc new block
-      char *mem = static_cast<char *>(malloc(block_size * obj_size));
+      char* mem = static_cast<char*>(malloc(block_size * obj_size));
       _blocks.push_back(mem);
       _free_objects.reserve(_blocks.size() * block_size);
-      return reinterpret_cast<T *>(mem);
+      return reinterpret_cast<T*>(mem);
     } else {
-      return reinterpret_cast<T *>(_blocks[block_id] + obj_size * block_offs);
+      return reinterpret_cast<T*>(_blocks[block_id] + obj_size * block_offs);
     }
   }
 
   static size_t _last_index;
-  static std::vector<char *> _blocks;
-  static std::vector<T *> _free_objects;
+  static std::vector<char*> _blocks;
+  static std::vector<T*> _free_objects;
 };
 
-template <typename T> size_t MemoryPool<T>::_last_index = 0;
-template <typename T> std::vector<char *> MemoryPool<T>::_blocks;
-template <typename T> std::vector<T *> MemoryPool<T>::_free_objects;
+template <typename T>
+size_t MemoryPool<T>::_last_index = 0;
+template <typename T>
+std::vector<char*> MemoryPool<T>::_blocks;
+template <typename T>
+std::vector<T*> MemoryPool<T>::_free_objects;
 
 #endif

@@ -3,11 +3,21 @@
 #include "entity_manager.h"
 #include "entity.h"
 
-EntityRef::EntityRef() : _ref_id(Entity::EMPTY_ID), _cached_ptr(nullptr) {}
+EntityRef::EntityRef()
+  : _ref_id(Entity::EMPTY_ID)
+  , _cached_ptr(nullptr)
+{
+}
 
-EntityRef::EntityRef(Entity_id_t id) : _ref_id(id), _cached_ptr(nullptr) {}
+EntityRef::EntityRef(Entity_id_t id)
+  : _ref_id(id)
+  , _cached_ptr(nullptr)
+{
+}
 
-EntityRef::EntityRef(Entity *entity) : _cached_ptr(entity) {
+EntityRef::EntityRef(Entity* entity)
+  : _cached_ptr(entity)
+{
   if (entity != nullptr) {
     _ref_id = entity->get_id();
     entity->on_ref_created(this);
@@ -16,18 +26,23 @@ EntityRef::EntityRef(Entity *entity) : _cached_ptr(entity) {
   }
 }
 
-EntityRef::~EntityRef() {
+EntityRef::~EntityRef()
+{
   if (_cached_ptr != nullptr)
     _cached_ptr->on_ref_deleted(this);
 }
 
-Entity *EntityRef::get_ptr(EntityManager *mgr) {
+Entity*
+EntityRef::get_ptr(EntityManager* mgr)
+{
   if (!fill_ptr(mgr))
     return nullptr;
   return _cached_ptr;
 }
 
-bool EntityRef::has_access() const {
+bool
+EntityRef::has_access() const
+{
   if (_cached_ptr == nullptr)
     return false;
 
@@ -39,7 +54,9 @@ bool EntityRef::has_access() const {
   return true;
 }
 
-bool EntityRef::fill_ptr(EntityManager *mgr) {
+bool
+EntityRef::fill_ptr(EntityManager* mgr)
+{
   if (_ref_id == Entity::EMPTY_ID) {
     // This is fine, if the reference is not set, we still were successfull to
     // fill the pointer
@@ -53,29 +70,42 @@ bool EntityRef::fill_ptr(EntityManager *mgr) {
 
     _cached_ptr = mgr->find_entity(_ref_id);
     assert(
-        _cached_ptr !=
-        nullptr); // Entity pointed to is no longer valid - how can this happen?
+      _cached_ptr !=
+      nullptr); // Entity pointed to is no longer valid - how can this happen?
     assert(_cached_ptr->get_id() == _ref_id); // should never happen
     _cached_ptr->on_ref_created(this);
     return true;
   }
 }
 
-EntityRef &EntityRef::operator=(Entity *entity) {
+EntityRef&
+EntityRef::operator=(Entity* entity)
+{
   reset(entity);
   return *this;
 }
 
-bool EntityRef::is_empty() const { return _ref_id == Entity::EMPTY_ID; }
+bool
+EntityRef::is_empty() const
+{
+  return _ref_id == Entity::EMPTY_ID;
+}
 
-void EntityRef::on_entity_removed() {
+void
+EntityRef::on_entity_removed()
+{
   _ref_id = Entity::EMPTY_ID;
   _cached_ptr = nullptr;
 }
 
-EntityRef::operator Entity *() { return _cached_ptr; }
+EntityRef::operator Entity*()
+{
+  return _cached_ptr;
+}
 
-void EntityRef::reset() {
+void
+EntityRef::reset()
+{
   if (_cached_ptr == nullptr) {
     // a_ssert(_ref_id == Entity::EMPTY_ID)
     // ^ This can actually happen, when the ref points to an entity, but has not
@@ -89,7 +119,9 @@ void EntityRef::reset() {
   }
 }
 
-void EntityRef::reset(Entity *new_ptr) {
+void
+EntityRef::reset(Entity* new_ptr)
+{
   if (new_ptr == _cached_ptr) {
     if (new_ptr == nullptr) {
       // We do not have an actual ref to our entity right now.
@@ -107,7 +139,9 @@ void EntityRef::reset(Entity *new_ptr) {
   _ref_id = _cached_ptr->get_id();
 }
 
-void EntityRef::reset(Entity::id_t id) {
+void
+EntityRef::reset(Entity::id_t id)
+{
   if (id == _ref_id)
     return; // Nothing to do
 

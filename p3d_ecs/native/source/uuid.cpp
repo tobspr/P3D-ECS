@@ -7,17 +7,27 @@
 
 using namespace std::chrono;
 
-UUID::UUID(uuid_sequence_t *value, size_t hash) : _uuid(value), _hash(hash) {}
+UUID::UUID(uuid_sequence_t* value, size_t hash)
+  : _uuid(value)
+  , _hash(hash)
+{
+}
 
-UUID::~UUID() { MemoryPool<uuid_sequence_t>::delete_pod_object(_uuid); }
+UUID::~UUID()
+{
+  MemoryPool<uuid_sequence_t>::delete_pod_object(_uuid);
+}
 
-UUID::UUID(UUID &&other) {
+UUID::UUID(UUID&& other)
+{
   _uuid = other._uuid;
   _hash = other._hash;
   other._uuid = nullptr;
 }
 
-bool UUID::operator==(const UUID &other) const {
+bool
+UUID::operator==(const UUID& other) const
+{
   if (_hash != other._hash)
     return false;
   if (this == &other)
@@ -27,11 +37,21 @@ bool UUID::operator==(const UUID &other) const {
   return strcmp(*_uuid, *other._uuid) == 0;
 }
 
-bool UUID::operator<(const UUID &other) const { return _uuid < other._uuid; }
+bool
+UUID::operator<(const UUID& other) const
+{
+  return _uuid < other._uuid;
+}
 
-bool UUID::operator>(const UUID &other) const { return _uuid > other._uuid; }
+bool
+UUID::operator>(const UUID& other) const
+{
+  return _uuid > other._uuid;
+}
 
-UUID &UUID::operator=(UUID &&other) {
+UUID&
+UUID::operator=(UUID&& other)
+{
   if (_uuid)
     MemoryPool<uuid_sequence_t>::delete_pod_object(_uuid);
   _uuid = other._uuid;
@@ -42,20 +62,24 @@ UUID &UUID::operator=(UUID &&other) {
 
 static unsigned int rand_seed;
 
-inline int rand_fast_16bit() {
+inline int
+rand_fast_16bit()
+{
   rand_seed = (214013 * rand_seed + 2531011);
   return (rand_seed >> 16) & 0xFFFF;
 }
 
-UUID UUIDGenerator::generate() {
+UUID
+UUIDGenerator::generate()
+{
   static const char chrs[66] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJK"
                                "LMNOPQRSTUVWXYZabc"; // pad to 64
 
-  uuid_sequence_t *uuid = MemoryPool<uuid_sequence_t>::new_pod_object();
-  uuid_sequence_t &uuid_ref = *uuid;
+  uuid_sequence_t* uuid = MemoryPool<uuid_sequence_t>::new_pod_object();
+  uuid_sequence_t& uuid_ref = *uuid;
 
   nanoseconds ms =
-      duration_cast<nanoseconds>(system_clock::now().time_since_epoch());
+    duration_cast<nanoseconds>(system_clock::now().time_since_epoch());
 
   // Last 6 bits are usually garbarge
   uint64_t count = (ms.count() >> 6) & 0xFFFFFF;
@@ -69,7 +93,8 @@ UUID UUIDGenerator::generate() {
     count >>= 6;
   }
 
-  // Fill rest of number with randoms, because its very likely that we will create
+  // Fill rest of number with randoms, because its very likely that we will
+  // create
   // two UUID's in the same millisecond.
   for (size_t i = 4; i < uuid_length - 1; i += 2) {
     int c = rand_fast_16bit();
@@ -79,11 +104,14 @@ UUID UUIDGenerator::generate() {
     hash = hash * 961 + c1 * 31 + c2;
   }
 
-  uuid_ref[uuid_length] = '\0'; // Only required so that c_str() works and we can use strcmp
+  uuid_ref[uuid_length] =
+    '\0'; // Only required so that c_str() works and we can use strcmp
   return UUID(uuid, hash);
 }
 
-void UUIDGenerator::init() {
+void
+UUIDGenerator::init()
+{
   rand_seed = static_cast<unsigned int>(std::time(nullptr));
   // std::srand(seed);
 }

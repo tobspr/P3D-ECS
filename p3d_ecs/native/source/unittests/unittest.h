@@ -34,13 +34,15 @@ using namespace std; // Fine for the unittests
 #define TC_REQUIRE_FALSE(value) TC_REQUIRE_EQ(value, false)
 #define TC_REQUIRE_PTR(value) TC_REQUIRE_TRUE(value != nullptr)
 
-void write_tc_log(const string &msg);
-void measure_time(const string &desc, size_t num_iterations,
+void write_tc_log(const string& msg);
+void measure_time(const string& desc, size_t num_iterations,
                   function<void()> method);
 
 template <typename T>
-void testsuite_expect(T value, T expected, const string &comparison,
-                      const char *file, size_t line) {
+void
+testsuite_expect(T value, T expected, const string& comparison,
+                 const char* file, size_t line)
+{
   if (value != expected) {
     stringstream s;
     s << "\n\n================================================================="
@@ -61,15 +63,17 @@ void testsuite_expect(T value, T expected, const string &comparison,
 }
 
 template <typename A, typename B>
-void testsuite_expect(A value, B expected, const string &comparison,
-                      const char *file, size_t line) {
+void
+testsuite_expect(A value, B expected, const string& comparison,
+                 const char* file, size_t line)
+{
   // Forced cast from B to A to avoid error when choosing two different types
   // (e.g. int and size_t)
   return testsuite_expect(value, (A)expected, comparison, file, line);
 }
 
 class EntityManager;
-void run_testcase(const string &name, function<void(EntityManager *)> inner);
+void run_testcase(const string& name, function<void(EntityManager*)> inner);
 
 #define BEGIN_TESTCASE(name) run_testcase(name, [&](EntityManager *mgr) {
 #define END_TESTCASE                                                           \

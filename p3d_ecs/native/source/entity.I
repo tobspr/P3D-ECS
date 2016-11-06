@@ -1,62 +1,85 @@
 
 #include "all_components.h"
 
-ECS_FORCEINLINE Entity::Entity(EntityManager *manager, UUID &&uuid)
-    : _manager(manager), _component_mask(0u), _registered(false),
-      _flagged_for_deletion(false), _uuid(std::move(uuid)) {
+ECS_FORCEINLINE
+Entity::Entity(EntityManager* manager, UUID&& uuid)
+  : _manager(manager)
+  , _component_mask(0u)
+  , _registered(false)
+  , _flagged_for_deletion(false)
+  , _uuid(std::move(uuid))
+{
   ECS_ON_CREATE("Entity");
   // TODO: Add check if out of capacity
   _id = ++next_id;
 }
 
-Entity::~Entity() {
+Entity::~Entity()
+{
   // TODO: Add check if we were manually deleted and print an error in that case
   ECS_ON_DELETE("Entity");
   for (auto it : _components) {
     it.second->deleter();
   }
-  for (EntityRef *entity_ref : _referencing_refs)
+  for (EntityRef* entity_ref : _referencing_refs)
     entity_ref->on_entity_removed();
 }
 
-template <typename T> ECS_FORCEINLINE T &Entity::get_component() {
+template <typename T>
+ECS_FORCEINLINE T&
+Entity::get_component()
+{
 
   Component::id_t id = Component::extract_id<T>();
-  return static_cast<T &>(get_component_by_id(id));
+  return static_cast<T&>(get_component_by_id(id));
 };
 
-ECS_FORCEINLINE Component &Entity::get_component_by_id(Component::id_t id) {
+ECS_FORCEINLINE Component&
+Entity::get_component_by_id(Component::id_t id)
+{
   assert(has_component_by_id(id));
   // assert(!_flagged_for_deletion); // TODO: Might be problematic, should maybe
   // allow this
-  for (component_pair_t &id_and_ptr : _components) {
+  for (component_pair_t& id_and_ptr : _components) {
     if (id_and_ptr.first == id)
-      return *static_cast<Component *>(id_and_ptr.second);
+      return *static_cast<Component*>(id_and_ptr.second);
   }
 
   assert(false); // should never happen, the first assert will trigger instead
                  // of this one
-  return *static_cast<Component *>(nullptr);
+  return *static_cast<Component*>(nullptr);
 }
 
-ECS_FORCEINLINE const Component &
-Entity::get_component_by_id(Component::id_t id) const {
-  return const_cast<Entity *>(this)->get_component_by_id(id);
+ECS_FORCEINLINE const Component&
+Entity::get_component_by_id(Component::id_t id) const
+{
+  return const_cast<Entity*>(this)->get_component_by_id(id);
 }
 
-ECS_FORCEINLINE bool Entity::has_component_by_id(Component::id_t id) const {
+ECS_FORCEINLINE bool
+Entity::has_component_by_id(Component::id_t id) const
+{
   return (_component_mask & Component::to_bitmask(id)) != 0u;
 }
 
-template <typename T> ECS_FORCEINLINE const T &Entity::get_component() const {
-  return const_cast<Entity *>(this)->get_component<T>();
+template <typename T>
+ECS_FORCEINLINE const T&
+Entity::get_component() const
+{
+  return const_cast<Entity*>(this)->get_component<T>();
 };
 
-template <typename T> ECS_FORCEINLINE bool Entity::has_component() const {
+template <typename T>
+ECS_FORCEINLINE bool
+Entity::has_component() const
+{
   return has_component_by_id(Component::extract_id<T>());
 };
 
-template <typename T> void Entity::remove_component() {
+template <typename T>
+void
+Entity::remove_component()
+{
   assert(!_flagged_for_deletion); // Might be problematic
   assert(has_component<T>());
   if (std::is_same<T, TransformComponent>::value) {
@@ -80,11 +103,13 @@ template <typename T> void Entity::remove_component() {
 
 #ifndef INTERROGATE
 template <typename T, typename... Args>
-T &Entity::new_component(Args &&... args) {
+T&
+Entity::new_component(Args&&... args)
+{
   assert(!_flagged_for_deletion);
   assert(!has_component<T>());
 
-  T *component = MemoryPool<T>::new_object(this, std::forward<Args>(args)...);
+  T* component = MemoryPool<T>::new_object(this, std::forward<Args>(args)...);
   Component::id_t id = Component::extract_id<T>();
 
   _component_mask |= Component::to_bitmask(id);

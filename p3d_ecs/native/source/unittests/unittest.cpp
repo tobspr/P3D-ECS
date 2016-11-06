@@ -4,19 +4,22 @@
 
 #include <chrono>
 
-void write_tc_log(const string &msg) {
+void
+write_tc_log(const string& msg)
+{
 #ifndef PROFILING
   ofstream outfile("test-output.txt", ios_base::app);
   outfile << msg;
 #endif
 };
 
-void measure_time(const string &desc, size_t num_iterations,
-                  function<void()> method) {
+void
+measure_time(const string& desc, size_t num_iterations, function<void()> method)
+{
   string iteration_desc = std::to_string(num_iterations);
   if (num_iterations >= 1000000) {
     iteration_desc =
-        std::to_string((size_t)((float)num_iterations / 1000000.0)) + " mio.";
+      std::to_string((size_t)((float)num_iterations / 1000000.0)) + " mio.";
   }
 
   TC_STATUS("Start time measure for operation '"
@@ -26,7 +29,7 @@ void measure_time(const string &desc, size_t num_iterations,
   auto end = chrono::high_resolution_clock::now();
 
   size_t ms =
-      chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+    chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
   TC_STATUS("Measurement done in " << ms << " ms");
 
   if (num_iterations > 1) {
@@ -38,7 +41,9 @@ void measure_time(const string &desc, size_t num_iterations,
                ") took " + std::to_string(ms) + " ms.\n");
 }
 
-void run_testcase(const string &name, function<void(EntityManager *)> inner) {
+void
+run_testcase(const string& name, function<void(EntityManager*)> inner)
+{
   // Make sure we don't reach the maximum id
   Entity::reset_id_pool();
 
@@ -53,7 +58,7 @@ void run_testcase(const string &name, function<void(EntityManager *)> inner) {
   cout << "\n\n-- Testcase: " << name << endl;
 #endif
 
-  EntityManager *mgr = new EntityManager();
+  EntityManager* mgr = new EntityManager();
   inner(mgr);
 
   TC_STATUS("Testsuite done, cleaning up.");

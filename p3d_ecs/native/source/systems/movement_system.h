@@ -4,14 +4,15 @@
 
 #include "entity_system.h"
 
-class MovementSystem : public EntitySystem {
+class MovementSystem : public EntitySystem
+{
 public:
-  MovementSystem(EntityManager *manager);
+  MovementSystem(EntityManager* manager);
 
   virtual void process(float dt) override;
 
 private:
-  EntityCollector *_relevant_entities;
+  EntityCollector* _relevant_entities;
 };
 
 #endif

@@ -12,9 +12,12 @@
 #include <sstream>
 using namespace std;
 
-void testsuite_uuid() {
+void
+testsuite_uuid()
+{
 
-  BEGIN_TESTCASE("Generating simple UUID") {
+  BEGIN_TESTCASE("Generating simple UUID")
+  {
 
     UUID uuid = UUIDGenerator::generate();
 
@@ -24,10 +27,12 @@ void testsuite_uuid() {
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing UUID performance") {
+  BEGIN_TESTCASE("Testing UUID performance")
+  {
 
     size_t num_iterations = 30000000;
-    BEGIN_MEASURE("Generating and testing uuids", num_iterations) {
+    BEGIN_MEASURE("Generating and testing uuids", num_iterations)
+    {
       for (size_t i = 0; i < num_iterations; ++i) {
         UUID uuid = UUIDGenerator::generate();
       }
@@ -36,7 +41,8 @@ void testsuite_uuid() {
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing uuid move constructor") {
+  BEGIN_TESTCASE("Testing uuid move constructor")
+  {
 
     UUID uuid = UUIDGenerator::generate();
     UUID uuid2(std::move(uuid));
@@ -46,7 +52,8 @@ void testsuite_uuid() {
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing uuid operator =") {
+  BEGIN_TESTCASE("Testing uuid operator =")
+  {
 
     UUID uuid = UUIDGenerator::generate();
     UUID uuid2 = UUIDGenerator::generate();
@@ -56,12 +63,14 @@ void testsuite_uuid() {
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Testing UUID for collisions") {
+  BEGIN_TESTCASE("Testing UUID for collisions")
+  {
 
-    //size_t num_iterations = 5000000;
+    // size_t num_iterations = 5000000;
     size_t num_iterations = 50000;
-    
-    BEGIN_MEASURE("Testing uuids", num_iterations) {
+
+    BEGIN_MEASURE("Testing uuids", num_iterations)
+    {
       std::unordered_set<UUID> uuids;
       uuids.reserve(num_iterations);
       bool result = false;
@@ -75,11 +84,11 @@ void testsuite_uuid() {
         if (!result.second) {
           TC_STATUS("COLLISION!");
           TC_STATUS(
-              "After "
-              << i << " iterations, the first collision occured. Stopping loop."
-              << endl
-              << endl
-              << endl);
+            "After "
+            << i << " iterations, the first collision occured. Stopping loop."
+            << endl
+            << endl
+            << endl);
           TC_STATUS("Collided element was: " << result.first->c_str());
           break; // Avoid spam
         }
