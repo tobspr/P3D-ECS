@@ -58,7 +58,7 @@ void testsuite_uuid() {
 
   BEGIN_TESTCASE("Testing UUID for collisions") {
 
-    size_t num_iterations = 5000000;
+    //size_t num_iterations = 5000000;
     size_t num_iterations = 50000;
     
     BEGIN_MEASURE("Testing uuids", num_iterations) {

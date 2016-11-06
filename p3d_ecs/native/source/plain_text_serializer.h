@@ -2,11 +2,10 @@
 #ifndef P3D_ECS_PLAINTEXTSERIALIZER_H
 #define P3D_ECS_PLAINTEXTSERIALIZER_H
 
-#include "serialization.h"
 #include "luse.h"
 #include "uuid.h"
 
-class PlainTextSerializer : public BaseSerializer {
+class PlainTextSerializer {
 public:
   PlainTextSerializer() : BaseSerializer() {}
 

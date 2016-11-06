@@ -50,7 +50,7 @@ void run_testcase(const string &name, function<void(EntityManager *)> inner) {
   write_tc_log("Testcase: " + name + "\n");
   ECS_RESET_LEAKS();
 #ifndef PROFILING
-  cout << "\n\n\n=========== Testcase: " << name << " ===========" << endl;
+  cout << "\n\n-- Testcase: " << name << endl;
 #endif
 
   EntityManager *mgr = new EntityManager();

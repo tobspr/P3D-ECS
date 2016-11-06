@@ -103,7 +103,7 @@ class EntityPtrProperty(BaseProperty):
 
 class ContainerProperty(BaseProperty):
     PASS_AS_REF = True
-    TYPE_DEFAULT = "{}"
+    TYPE_DEFAULT = ""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

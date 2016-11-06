@@ -48,7 +48,7 @@ class TransformComponentMeta : public Component {
   protected:
     // AUTOGEN:: constructor
     inline TransformComponentMeta(Entity* entity) : Component(entity)
-      , _children({})
+      , _children()
       , _hpr()
       , _is_dirty(false)
       , _mat(LMatrix4f::ident_mat())
