@@ -47,6 +47,10 @@ public:
   ECS_FORCEINLINE Component::bitmask_t get_component_mask() const { return _component_mask; }
   ECS_FORCEINLINE bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
 
+  ECS_FORCEINLINE Component& get_component_by_id(Component::id_t id);
+  ECS_FORCEINLINE const Component& get_component_by_id(Component::id_t id) const;
+  ECS_FORCEINLINE bool has_component_by_id(Component::id_t id) const;
+
   template <typename T> ECS_FORCEINLINE T &get_component();
   template <typename T> ECS_FORCEINLINE const T &get_component() const;
   template <typename T> ECS_FORCEINLINE bool has_component() const;
@@ -58,6 +62,8 @@ public:
 
   void serialize(PlainTextSerializer* serializer) const;
   void remove();
+
+  bool data_equals(const Entity* other) const;
 
 private: // Internal Interface
   ECS_FORCEINLINE explicit Entity(EntityManager *manager, UUID&& uuid);
@@ -91,11 +97,13 @@ private: // Private stuff
   std::vector<EntityRef *> _referencing_refs;
 };
 
+
 #include "entity.I"
 
 inline ostream &operator<<(ostream &stream, const Entity &entity) {
   return stream << "[Entity @" << &entity << ", id=" << entity.get_id()
                 << ", components=" << entity.get_num_components() << "]";
 };
+
 
 #endif

@@ -18,7 +18,7 @@ void testsuite_entityref() {
     TC_REQUIRE_EQ(ref.get_id(), Entity::EMPTY_ID);
     TC_REQUIRE_EQ(ref.get_ptr(mgr), nullptr);
     TC_REQUIRE_TRUE(ref.is_empty());
-    TC_REQUIRE_EQ(ref.has_access(), false);
+    TC_REQUIRE_FALSE(ref.has_access());
     TC_REQUIRE_TRUE(ref.fill_ptr(mgr));
     TC_REQUIRE_EQ(ref.operator->(), nullptr);
     TC_REQUIRE_EQ((Entity *)ref, nullptr);
@@ -28,7 +28,7 @@ void testsuite_entityref() {
                           Entity *expected) {
     TC_REQUIRE_EQ(ref.get_id(), expected->get_id());
     TC_REQUIRE_EQ(ref.get_ptr(mgr), expected);
-    TC_REQUIRE_EQ(ref.is_empty(), false);
+    TC_REQUIRE_FALSE(ref.is_empty());
     TC_REQUIRE_TRUE(ref.has_access());
     TC_REQUIRE_TRUE(ref.fill_ptr(mgr));
     TC_REQUIRE_EQ(ref.operator->(), expected);
@@ -38,8 +38,8 @@ void testsuite_entityref() {
   auto validate_ref_id_only = [&](EntityManager *mgr, EntityRef &ref,
                                   Entity *expected) {
     TC_REQUIRE_EQ(ref.get_id(), expected->get_id());
-    TC_REQUIRE_EQ(ref.is_empty(), false);
-    TC_REQUIRE_EQ(ref.has_access(), false);
+    TC_REQUIRE_FALSE(ref.is_empty());
+    TC_REQUIRE_FALSE(ref.has_access());
     TC_REQUIRE_EQ(ref.operator->(), nullptr);
     TC_REQUIRE_EQ((Entity *)ref, nullptr);
   };

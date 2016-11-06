@@ -9,6 +9,7 @@
 
 Entity::id_t Entity::next_id = 1000u;
 
+
 void Entity::on_component_added(Component::id_t id, Component *ptr) {
   if (_registered) {
     // In case the entity is already registered, reregister it to make
@@ -72,4 +73,19 @@ void Entity::serialize(PlainTextSerializer *serializer) const {
   }
 
   serializer->end_entity();
+}
+
+
+bool Entity::data_equals(const Entity* other) const {
+  if (other->_component_mask != _component_mask)
+    return false;
+  if (this == other)
+    return true;
+  for (const component_pair_t& component : _components) {
+      const Component& other_component = other->get_component_by_id(component.first);
+      if (!component.second->data_equals(other_component))
+        return false;
+  }
+
+  return true;
 }

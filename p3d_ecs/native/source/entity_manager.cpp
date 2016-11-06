@@ -23,7 +23,8 @@ void EntityManager::register_entity(Entity *entity) {
 }
 
 Entity *EntityManager::new_entity() {
-  Entity *entity = MemoryPool<Entity>::new_object(this, UUIDGenerator::generate());
+  Entity *entity =
+      MemoryPool<Entity>::new_object(this, UUIDGenerator::generate());
   _new_entities.push_back(entity);
   ECS_OUTPUT_DEBUG("Constructed new entity: " << *entity);
   return entity;
@@ -184,16 +185,20 @@ void EntityManager::on_component_removed(Entity *entity) {
   }
 }
 
-Entity* EntityManager::find_entity(Entity::id_t id)
-{
+Entity *EntityManager::find_entity(Entity::id_t id) {
   ECS_OUTPUT_SPAM("Trying to find entity with id " << id);
   // Search in new entities first, its more likely to find the entity there
-  for (Entity* entity : _new_entities)
+  for (Entity *entity : _new_entities)
     if (entity->get_id() == id)
       return entity;
-  for (Entity* entity : _all_entities)
+  for (Entity *entity : _all_entities)
     if (entity->get_id() == id)
       return entity;
   ECS_OUTPUT_DEBUG("Failed to find entity with id " << id);
+  return nullptr;
+}
+
+Entity *
+EntityManager::deserialize_entity_from_plaintext(const std::istream &plain_text) {
   return nullptr;
 }

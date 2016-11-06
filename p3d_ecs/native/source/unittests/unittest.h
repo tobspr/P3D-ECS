@@ -31,6 +31,8 @@ using namespace std; // Fine for the unittests
 #endif
 
 #define TC_REQUIRE_TRUE(value) TC_REQUIRE_EQ(value, true)
+#define TC_REQUIRE_FALSE(value) TC_REQUIRE_EQ(value, false)
+#define TC_REQUIRE_PTR(value) TC_REQUIRE_TRUE(value != nullptr)
 
 void write_tc_log(const string &msg);
 void measure_time(const string &desc, size_t num_iterations,

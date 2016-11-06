@@ -1,7 +1,7 @@
 
 #include "all_components.h"
 
-ECS_FORCEINLINE Entity::Entity(EntityManager *manager, UUID&& uuid)
+ECS_FORCEINLINE Entity::Entity(EntityManager *manager, UUID &&uuid)
     : _manager(manager), _component_mask(0u), _registered(false),
       _flagged_for_deletion(false), _uuid(std::move(uuid)) {
   ECS_ON_CREATE("Entity");
@@ -15,32 +15,45 @@ Entity::~Entity() {
   for (auto it : _components) {
     it.second->deleter();
   }
-  for (EntityRef* entity_ref : _referencing_refs)
+  for (EntityRef *entity_ref : _referencing_refs)
     entity_ref->on_entity_removed();
 }
 
 template <typename T> ECS_FORCEINLINE T &Entity::get_component() {
-  assert(has_component<T>());
+
+  Component::id_t id = Component::extract_id<T>();
+  return static_cast<T &>(get_component_by_id(id));
+};
+
+ECS_FORCEINLINE Component &Entity::get_component_by_id(Component::id_t id) {
+  assert(has_component_by_id(id));
   // assert(!_flagged_for_deletion); // TODO: Might be problematic, should maybe
   // allow this
-  Component::id_t id = Component::extract_id<T>();
   for (component_pair_t &id_and_ptr : _components) {
     if (id_and_ptr.first == id)
-      return *static_cast<T *>(id_and_ptr.second);
+      return *static_cast<Component *>(id_and_ptr.second);
   }
 
   assert(false); // should never happen, the first assert will trigger instead
                  // of this one
-  return *static_cast<T *>(nullptr);
-};
+  return *static_cast<Component *>(nullptr);
+}
 
-template <typename T>ECS_FORCEINLINE const T &Entity::get_component() const {
+ECS_FORCEINLINE const Component &
+Entity::get_component_by_id(Component::id_t id) const {
+  return const_cast<Entity *>(this)->get_component_by_id(id);
+}
+
+ECS_FORCEINLINE bool Entity::has_component_by_id(Component::id_t id) const {
+  return (_component_mask & Component::to_bitmask(id)) != 0u;
+}
+
+template <typename T> ECS_FORCEINLINE const T &Entity::get_component() const {
   return const_cast<Entity *>(this)->get_component<T>();
 };
 
 template <typename T> ECS_FORCEINLINE bool Entity::has_component() const {
-  return (_component_mask &
-          Component::to_bitmask(Component::extract_id<T>())) != 0u;
+  return has_component_by_id(Component::extract_id<T>());
 };
 
 template <typename T> void Entity::remove_component() {

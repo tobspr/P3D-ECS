@@ -11,8 +11,11 @@ open("test-output.txt", "w").close()
 # TODO: Make this configurable with command line args
 suites_to_run = ["uuid", "entityref", "generic", "parent_child", "collectors", "perftest"]
 
+#suites_to_run = ["generic", "serialization"]
+suites_to_run.remove("perftest")
+
 for suite in suites_to_run:
-    print("Running test suite", suite)
+    print("\n\n-- Running test suite", suite, "\n")
     getattr(p3d_ecs, "testsuite_" + suite)()
 
 

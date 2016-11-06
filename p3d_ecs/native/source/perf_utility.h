@@ -58,5 +58,21 @@ void vector_erase_fast(std::vector<T> &vec,
   }
 }
 
+template < typename T > 
+bool vector_set_intersection(const std::vector<T>& a, const std::vector<T>& b) 
+{
+  if (a.size() != b.size())
+    return false;
+  
+  // TODO!
+
+  return true;
+}
+
+
+ECS_FORCEINLINE bool compare_float(float a, float b)
+{
+  return std::abs(a - b) < 1e-10;
+}
 
 #endif

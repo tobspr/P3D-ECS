@@ -67,6 +67,8 @@ public:
 
   Entity* find_entity(Entity::id_t id);
 
+  Entity* deserialize_entity_from_plaintext(const std::istream& plain_text);
+
 private:
   void register_entity(Entity *entity);
   void delete_entity(Entity *entity);

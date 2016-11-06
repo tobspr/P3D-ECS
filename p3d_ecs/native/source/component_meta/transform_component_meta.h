@@ -44,11 +44,16 @@ class TransformComponentMeta : public Component {
     // AUTOGEN:: serialization
     virtual void serialize(PlainTextSerializer* serializer) const override;
 
+    virtual bool data_equals(const Component &other) const override;
   protected:
     // AUTOGEN:: constructor
     inline TransformComponentMeta(Entity* entity) : Component(entity)
+      , _children({})
+      , _hpr()
       , _is_dirty(false)
       , _mat(LMatrix4f::ident_mat())
+      , _parent(nullptr)
+      , _pos()
       , _scale(1, 1, 1)
       {};
 

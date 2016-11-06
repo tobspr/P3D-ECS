@@ -117,5 +117,8 @@ void testsuite_serialization() {
 
   BEGIN_TESTCASE("Simple [de]serializing") {
 
+    Entity* entity = mgr->new_entity();
+
+
   } END_TESTCASE;
 }

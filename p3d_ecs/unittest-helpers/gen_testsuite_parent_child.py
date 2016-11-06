@@ -1,3 +1,8 @@
+"""
+
+Generates the various testcases for the parent-child testsuite
+
+"""
 
 operations = {
     "CR": "ConstructRoot",
