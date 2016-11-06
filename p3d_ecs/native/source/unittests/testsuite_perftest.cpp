@@ -8,12 +8,10 @@
 #define MULTIPLIER 1
 
 // Simple system which modifies transform components
-struct TestSystem_1 : public SimpleEntitySystem<TransformComponent>
-{
+struct TestSystem_1 : public SimpleEntitySystem<TransformComponent> {
   TestSystem_1(EntityManager* mgr)
     : SimpleEntitySystem<TransformComponent>(mgr){};
-  virtual void process(float dt) override
-  {
+  virtual void process(float dt) override {
     for (auto entity : get_entities()) {
       entity->get_component<TransformComponent>().set_pos({ 1, 2, 3 });
     };
@@ -21,15 +19,12 @@ struct TestSystem_1 : public SimpleEntitySystem<TransformComponent>
 };
 
 void
-testsuite_perftest()
-{
+testsuite_perftest() {
 
-  BEGIN_TESTCASE("Simple entity creation")
-  {
+  BEGIN_TESTCASE("Simple entity creation") {
 
     size_t iterations = 10000000 * MULTIPLIER;
-    BEGIN_MEASURE("Create entities", iterations)
-    {
+    BEGIN_MEASURE("Create entities", iterations) {
       for (size_t i = 0; i < iterations; ++i) {
         Entity* entity = mgr->new_entity();
       }
@@ -44,16 +39,13 @@ testsuite_perftest()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Entity creation with component")
-  {
+  BEGIN_TESTCASE("Entity creation with component") {
 
     size_t iterations = 5000000 * MULTIPLIER;
-    BEGIN_MEASURE("Create entities", iterations)
-    {
+    BEGIN_MEASURE("Create entities", iterations) {
       for (size_t i = 0; i < iterations; ++i) {
         Entity* entity = mgr->new_entity();
-        TransformComponent& transform =
-          entity->new_component<TransformComponent>();
+        TransformComponent& transform = entity->new_component<TransformComponent>();
       }
     }
     END_MEASURE;
@@ -65,14 +57,12 @@ testsuite_perftest()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Entity::get_component benchmark")
-  {
+  BEGIN_TESTCASE("Entity::get_component benchmark") {
     Entity* entity = mgr->new_entity();
     entity->new_component<TransformComponent>();
 
     size_t iterations = 200000000 * MULTIPLIER;
-    BEGIN_MEASURE("get_component<TransformComponent>", iterations)
-    {
+    BEGIN_MEASURE("get_component<TransformComponent>", iterations) {
       for (size_t i = 0; i < iterations; ++i) {
         entity->get_component<TransformComponent>().set_pos({ 1, 2, 3 });
       }
@@ -83,22 +73,17 @@ testsuite_perftest()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Simple entity system benchmark")
-  {
+  BEGIN_TESTCASE("Simple entity system benchmark") {
 
     TestSystem_1* sys = mgr->new_system<TestSystem_1>();
 
     size_t iterations = 10000000 * MULTIPLIER;
     for (size_t i = 0; i < iterations; ++i) {
       Entity* entity = mgr->new_entity();
-      TransformComponent& transform =
-        entity->new_component<TransformComponent>();
+      TransformComponent& transform = entity->new_component<TransformComponent>();
     }
 
-    BEGIN_MEASURE("mgr->process_changes()", iterations)
-    {
-      mgr->process_changes();
-    }
+    BEGIN_MEASURE("mgr->process_changes()", iterations) { mgr->process_changes(); }
     END_MEASURE;
 
     BEGIN_MEASURE("system->process(dt)", iterations) { sys->process(1.0); }

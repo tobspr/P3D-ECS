@@ -4,8 +4,7 @@
 #include "entity.h"
 
 void
-PlainTextSerializer::write_entity(const entity_ptr_t entity)
-{
+PlainTextSerializer::write_entity(const entity_ptr_t entity) {
   if (entity == nullptr)
     _out << "-";
   else

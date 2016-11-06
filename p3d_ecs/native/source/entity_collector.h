@@ -13,8 +13,7 @@
 
 class Entity;
 
-class EntityCollector final
-{
+class EntityCollector final {
   /**
  * The entity collector is a class which collects all entities which
  * have certain components. For example:
@@ -29,8 +28,7 @@ class EntityCollector final
   EntityCollector(const component_list_t& components);
 
 public:
-  struct EntityIterator
-  {
+  struct EntityIterator {
 
     // Iterator to iterate over an entity vector, and check for entity
     // validty while iterating
@@ -46,22 +44,10 @@ public:
 
     EntityIterator& operator++();
     inline Entity* operator*() { return *_pos; };
-    inline bool operator==(const EntityIterator& other) const
-    {
-      return _pos == other._pos;
-    }
-    inline bool operator!=(const EntityIterator& other) const
-    {
-      return _pos != other._pos;
-    }
-    inline bool operator<(const EntityIterator& other) const
-    {
-      return _pos < other._pos;
-    }
-    inline bool operator>(const EntityIterator& other) const
-    {
-      return _pos > other._pos;
-    }
+    inline bool operator==(const EntityIterator& other) const { return _pos == other._pos; }
+    inline bool operator!=(const EntityIterator& other) const { return _pos != other._pos; }
+    inline bool operator<(const EntityIterator& other) const { return _pos < other._pos; }
+    inline bool operator>(const EntityIterator& other) const { return _pos > other._pos; }
 
   private:
     bool is_valid_entity(Entity* entity) const;
@@ -72,8 +58,7 @@ public:
   };
 
   template <typename... Components>
-  static EntityCollector* create()
-  {
+  static EntityCollector* create() {
     component_list_t components = { Component::extract_id<Components>()... };
     return new EntityCollector(components);
   };
@@ -88,21 +73,14 @@ public:
   void remove_entity(Entity* entity);
 
   inline const component_list_t& get_components() const { return _components; };
-  inline Component::bitmask_t get_component_mask() const
-  {
-    return _component_mask;
+  inline Component::bitmask_t get_component_mask() const { return _component_mask; };
+
+  inline EntityIterator begin() {
+    return EntityIterator{ _matching_entities.begin(), _matching_entities.end(), _component_mask };
   };
 
-  inline EntityIterator begin()
-  {
-    return EntityIterator{ _matching_entities.begin(), _matching_entities.end(),
-                           _component_mask };
-  };
-
-  inline EntityIterator end()
-  {
-    return EntityIterator{ _matching_entities.end(), _matching_entities.end(),
-                           _component_mask };
+  inline EntityIterator end() {
+    return EntityIterator{ _matching_entities.end(), _matching_entities.end(), _component_mask };
   };
 
   inline size_t size() const { return _matching_entities.size(); };

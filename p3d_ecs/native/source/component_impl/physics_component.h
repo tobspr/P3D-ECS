@@ -11,6 +11,7 @@ public:
   DEFINE_COMPONENT(PhysicsComponent);
 
 private:
-  inline PhysicsComponent(Entity *entity) : superclass(entity){};
+  inline PhysicsComponent(Entity* entity)
+    : superclass(entity){};
 };
 #endif

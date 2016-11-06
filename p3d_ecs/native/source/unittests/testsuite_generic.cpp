@@ -13,20 +13,16 @@
 using namespace std;
 
 void
-testsuite_generic()
-{
+testsuite_generic() {
 
-  BEGIN_TESTCASE("Re-Parenting entity with existing parent")
-  {
+  BEGIN_TESTCASE("Re-Parenting entity with existing parent") {
 
     Entity* root_1 = mgr->new_entity();
     Entity* root_2 = mgr->new_entity();
     Entity* child = mgr->new_entity();
 
-    TransformComponent& root_1_transform =
-      root_1->new_component<TransformComponent>();
-    TransformComponent& root_2_transform =
-      root_2->new_component<TransformComponent>();
+    TransformComponent& root_1_transform = root_1->new_component<TransformComponent>();
+    TransformComponent& root_2_transform = root_2->new_component<TransformComponent>();
 
     TransformComponent& transform = child->new_component<TransformComponent>();
     transform.set_parent(root_1);
@@ -44,8 +40,7 @@ testsuite_generic()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Creating two managers")
-  {
+  BEGIN_TESTCASE("Creating two managers") {
 
     Entity* created_1 = mgr->new_entity();
     created_1->new_component<TransformComponent>();

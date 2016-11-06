@@ -8,8 +8,7 @@
 class EntityManager;
 class EntityCollector;
 
-class EntitySystem
-{
+class EntitySystem {
   friend class EntityManager;
 
 public:
@@ -23,12 +22,10 @@ protected:
 };
 
 template <typename... Args>
-class SimpleEntitySystem : public EntitySystem
-{
+class SimpleEntitySystem : public EntitySystem {
 public:
   SimpleEntitySystem(EntityManager* manager)
-    : EntitySystem(manager)
-  {
+    : EntitySystem(manager) {
     _collector = manager->new_collector<Args...>();
   };
 

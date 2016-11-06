@@ -12,11 +12,9 @@
 using namespace std;
 
 void
-testsuite_serialization()
-{
+testsuite_serialization() {
 
-  BEGIN_TESTCASE("Serializing a component")
-  {
+  BEGIN_TESTCASE("Serializing a component") {
 
     Entity* entity = mgr->new_entity();
 
@@ -33,8 +31,7 @@ testsuite_serialization()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Serializing a mod. component")
-  {
+  BEGIN_TESTCASE("Serializing a mod. component") {
 
     Entity* entity = mgr->new_entity();
 
@@ -54,16 +51,14 @@ testsuite_serialization()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Serializing a comp w/ parent")
-  {
+  BEGIN_TESTCASE("Serializing a comp w/ parent") {
 
     Entity* entity = mgr->new_entity();
 
     TransformComponent& transform = entity->new_component<TransformComponent>();
 
     Entity* root = mgr->new_entity();
-    TransformComponent& root_transform =
-      root->new_component<TransformComponent>();
+    TransformComponent& root_transform = root->new_component<TransformComponent>();
 
     transform.set_parent(root);
 
@@ -84,8 +79,7 @@ testsuite_serialization()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Serializing a simple entity")
-  {
+  BEGIN_TESTCASE("Serializing a simple entity") {
 
     Entity* entity = mgr->new_entity();
 
@@ -99,8 +93,7 @@ testsuite_serialization()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Serializing a multi-comp entity")
-  {
+  BEGIN_TESTCASE("Serializing a multi-comp entity") {
 
     Entity* entity = mgr->new_entity();
     TransformComponent& transform = entity->new_component<TransformComponent>();
@@ -122,10 +115,6 @@ testsuite_serialization()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Simple [de]serializing")
-  {
-
-    Entity* entity = mgr->new_entity();
-  }
+  BEGIN_TESTCASE("Simple [de]serializing") { Entity* entity = mgr->new_entity(); }
   END_TESTCASE;
 }

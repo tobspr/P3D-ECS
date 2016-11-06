@@ -19,8 +19,7 @@ using Entity_id_t = uint_fast64_t;
 //   if (my_ref.has_access())
 //       my_ref->do_something();
 //
-class EntityRef final
-{
+class EntityRef final {
   friend class Entity;
 
 public:

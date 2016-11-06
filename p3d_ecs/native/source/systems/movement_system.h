@@ -4,8 +4,7 @@
 
 #include "entity_system.h"
 
-class MovementSystem : public EntitySystem
-{
+class MovementSystem : public EntitySystem {
 public:
   MovementSystem(EntityManager* manager);
 

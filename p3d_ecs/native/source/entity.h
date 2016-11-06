@@ -103,8 +103,7 @@ private: // Private stuff
 
 #include "entity.I"
 
-inline ostream&
-operator<<(ostream& stream, const Entity& entity) {
+inline ostream& operator<<(ostream& stream, const Entity& entity) {
   return stream << "[Entity @" << &entity << ", id=" << entity.get_id()
                 << ", components=" << entity.get_num_components() << "]";
 };

@@ -21,9 +21,8 @@ using namespace std; // Fine for the unittests
 #ifndef PROFILING
 
 #define TC_STATUS(content) cout << "TC> " << content << endl;
-#define TC_REQUIRE_EQ(value, expected)                                         \
-  testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__,  \
-                   __LINE__);
+#define TC_REQUIRE_EQ(value, expected)                                                                                 \
+  testsuite_expect(value, expected, " " #value " == " #expected "", __FILE__, __LINE__);
 
 #else
 #define TC_STATUS(content) ;
@@ -35,14 +34,11 @@ using namespace std; // Fine for the unittests
 #define TC_REQUIRE_PTR(value) TC_REQUIRE_TRUE(value != nullptr)
 
 void write_tc_log(const string& msg);
-void measure_time(const string& desc, size_t num_iterations,
-                  function<void()> method);
+void measure_time(const string& desc, size_t num_iterations, function<void()> method);
 
 template <typename T>
 void
-testsuite_expect(T value, T expected, const string& comparison,
-                 const char* file, size_t line)
-{
+testsuite_expect(T value, T expected, const string& comparison, const char* file, size_t line) {
   if (value != expected) {
     stringstream s;
     s << "\n\n================================================================="
@@ -64,9 +60,7 @@ testsuite_expect(T value, T expected, const string& comparison,
 
 template <typename A, typename B>
 void
-testsuite_expect(A value, B expected, const string& comparison,
-                 const char* file, size_t line)
-{
+testsuite_expect(A value, B expected, const string& comparison, const char* file, size_t line) {
   // Forced cast from B to A to avoid error when choosing two different types
   // (e.g. int and size_t)
   return testsuite_expect(value, (A)expected, comparison, file, line);
@@ -76,11 +70,11 @@ class EntityManager;
 void run_testcase(const string& name, function<void(EntityManager*)> inner);
 
 #define BEGIN_TESTCASE(name) run_testcase(name, [&](EntityManager *mgr) {
-#define END_TESTCASE                                                           \
+#define END_TESTCASE                                                                                                   \
   });
 
 #define BEGIN_MEASURE(name, iterations) measure_time(name, iterations, [&]() {
-#define END_MEASURE                                                            \
+#define END_MEASURE                                                                                                    \
   });
 
 #endif

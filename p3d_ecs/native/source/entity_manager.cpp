@@ -6,21 +6,18 @@
 
 #include <algorithm>
 
-EntityManager::EntityManager()
-{
+EntityManager::EntityManager() {
   _all_entities.reserve(10000);
   _entities_to_delete.reserve(100);
   _new_entities.reserve(1000);
 }
 
-EntityManager::~EntityManager()
-{
+EntityManager::~EntityManager() {
   reset();
 }
 
 void
-EntityManager::register_entity(Entity* entity)
-{
+EntityManager::register_entity(Entity* entity) {
   ECS_OUTPUT_DEBUG("Registering new entity to manager: " << *entity);
   entity->on_registered_by_manager();
   for (EntityCollector* collector : _collectors) {
@@ -29,22 +26,18 @@ EntityManager::register_entity(Entity* entity)
 }
 
 Entity*
-EntityManager::new_entity()
-{
-  Entity* entity =
-    MemoryPool<Entity>::new_object(this, UUIDGenerator::generate());
+EntityManager::new_entity() {
+  Entity* entity = MemoryPool<Entity>::new_object(this, UUIDGenerator::generate());
   _new_entities.push_back(entity);
   ECS_OUTPUT_DEBUG("Constructed new entity: " << *entity);
   return entity;
 }
 
 void
-EntityManager::process_changes()
-{
+EntityManager::process_changes() {
 
   // Delete queued entities
-  ECS_OUTPUT_DEBUG("Deleting " << _entities_to_delete.size()
-                               << " entities from last frame ..");
+  ECS_OUTPUT_DEBUG("Deleting " << _entities_to_delete.size() << " entities from last frame ..");
   while (!_entities_to_delete.empty()) {
     Entity* entity = _entities_to_delete.back();
     _entities_to_delete.pop_back();
@@ -52,8 +45,7 @@ EntityManager::process_changes()
   }
 
   // Add new entities
-  ECS_OUTPUT_DEBUG("Adding " << _new_entities.size()
-                             << " new entities from last frame ..");
+  ECS_OUTPUT_DEBUG("Adding " << _new_entities.size() << " new entities from last frame ..");
   for (Entity* entity : _new_entities) {
     ECS_OUTPUT_DEBUG("  -> Adding: " << *entity);
     register_entity(entity);
@@ -83,8 +75,7 @@ EntityManager::process_changes()
 }
 
 void
-EntityManager::reset()
-{
+EntityManager::reset() {
   ECS_OUTPUT_DEBUG("Shutting down entity manager");
 
   ECS_OUTPUT_DEBUG("Deleting entities");
@@ -109,8 +100,7 @@ EntityManager::reset()
 }
 
 void
-EntityManager::delete_entity(Entity* entity)
-{
+EntityManager::delete_entity(Entity* entity) {
   ECS_OUTPUT_DEBUG("Deletion of " << *entity << " was requested");
   auto it = vector_find(_new_entities, entity);
   if (it != _new_entities.end()) {
@@ -118,16 +108,14 @@ EntityManager::delete_entity(Entity* entity)
     _new_entities.erase(it);
     do_delete_entity(entity, EntityDeletionContext::NeverAdded);
   } else {
-    ECS_OUTPUT_DEBUG(
-      "Entity was already registered, queuing to delete it next frame");
+    ECS_OUTPUT_DEBUG("Entity was already registered, queuing to delete it next frame");
     _entities_to_delete.push_back(entity);
     vector_erase_fast(_all_entities, entity);
   }
 }
 
 void
-EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext context)
-{
+EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext context) {
   ECS_OUTPUT_DEBUG("Deleting " << *entity << " in context " << context);
   switch (context) {
     case EntityDeletionContext::NeverAdded:
@@ -141,8 +129,7 @@ EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext context)
       break;
   }
 
-  vector_erase_fast_if_present(_entities_with_new_or_deleted_components,
-                               entity);
+  vector_erase_fast_if_present(_entities_with_new_or_deleted_components, entity);
 
   for (EntityCollector* collector : _collectors)
     collector->consider_remove_entity(entity);
@@ -153,8 +140,7 @@ EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext context)
     transform.unregister_from_parent();
 
     // Also delete all children
-    ECS_OUTPUT_DEBUG("  -> Entity to delete has "
-                     << transform.get_children().size() << " children");
+    ECS_OUTPUT_DEBUG("  -> Entity to delete has " << transform.get_children().size() << " children");
     for (Entity* child : transform.get_children()) {
       ECS_OUTPUT_DEBUG(" -> Deleting children " << *child);
       do_delete_entity(child, EntityDeletionContext::OnDeleteCascade);
@@ -165,8 +151,7 @@ EntityManager::do_delete_entity(Entity* entity, EntityDeletionContext context)
 }
 
 void
-EntityManager::print_status()
-{
+EntityManager::print_status() {
   ECS_OUTPUT_DEBUG("\n\n---- Entity manager status ----");
 
   auto print_vec = [](const char* name, std::vector<Entity*> v) {
@@ -191,24 +176,21 @@ EntityManager::print_status()
 }
 
 void
-EntityManager::on_component_added(Entity* entity)
-{
+EntityManager::on_component_added(Entity* entity) {
   if (!vector_contains(_entities_with_new_or_deleted_components, entity)) {
     _entities_with_new_or_deleted_components.push_back(entity);
   }
 }
 
 void
-EntityManager::on_component_removed(Entity* entity)
-{
+EntityManager::on_component_removed(Entity* entity) {
   if (!vector_contains(_entities_with_new_or_deleted_components, entity)) {
     _entities_with_new_or_deleted_components.push_back(entity);
   }
 }
 
 Entity*
-EntityManager::find_entity(Entity::id_t id)
-{
+EntityManager::find_entity(Entity::id_t id) {
   ECS_OUTPUT_SPAM("Trying to find entity with id " << id);
   // Search in new entities first, its more likely to find the entity there
   for (Entity* entity : _new_entities)
@@ -222,7 +204,6 @@ EntityManager::find_entity(Entity::id_t id)
 }
 
 Entity*
-EntityManager::deserialize_entity_from_plaintext(const std::istream& plain_text)
-{
+EntityManager::deserialize_entity_from_plaintext(const std::istream& plain_text) {
   return nullptr;
 }

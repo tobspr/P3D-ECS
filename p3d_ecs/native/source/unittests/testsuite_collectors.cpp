@@ -13,15 +13,12 @@
 using namespace std;
 
 void
-testsuite_collectors()
-{
+testsuite_collectors() {
 
-  struct TestSystem : public SimpleEntitySystem<PhysicsComponent>
-  {
+  struct TestSystem : public SimpleEntitySystem<PhysicsComponent> {
     TestSystem(EntityManager* mgr)
       : SimpleEntitySystem<PhysicsComponent>(mgr){};
-    virtual void process(float dt) override
-    {
+    virtual void process(float dt) override {
 
       processed_entities = 0;
       for (auto entity : get_entities()) {
@@ -33,8 +30,7 @@ testsuite_collectors()
     size_t processed_entities = 0;
   };
 
-  BEGIN_TESTCASE("Collectors - Initial test")
-  {
+  BEGIN_TESTCASE("Collectors - Initial test") {
 
     TestSystem* sys = mgr->new_system<TestSystem>();
 
@@ -57,8 +53,7 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Add component after creation")
-  {
+  BEGIN_TESTCASE("Collectors - Add component after creation") {
 
     TestSystem* sys = mgr->new_system<TestSystem>();
 
@@ -87,8 +82,7 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Add component and remove entity")
-  {
+  BEGIN_TESTCASE("Collectors - Add component and remove entity") {
 
     TestSystem* sys = mgr->new_system<TestSystem>();
 
@@ -121,8 +115,7 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Add and then remove component")
-  {
+  BEGIN_TESTCASE("Collectors - Add and then remove component") {
 
     TestSystem* sys = mgr->new_system<TestSystem>();
 
@@ -162,15 +155,12 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Remove entity while iterating")
-  {
+  BEGIN_TESTCASE("Collectors - Remove entity while iterating") {
 
-    struct FaultySystem : public SimpleEntitySystem<PhysicsComponent>
-    {
+    struct FaultySystem : public SimpleEntitySystem<PhysicsComponent> {
       FaultySystem(EntityManager* mgr)
         : SimpleEntitySystem<PhysicsComponent>(mgr){};
-      virtual void process(float dt) override
-      {
+      virtual void process(float dt) override {
         processed_entities = 0;
         for (auto entity : get_entities()) {
           TC_REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
@@ -223,15 +213,12 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Remove same component while iterating")
-  {
+  BEGIN_TESTCASE("Collectors - Remove same component while iterating") {
 
-    struct FaultySystem : public SimpleEntitySystem<PhysicsComponent>
-    {
+    struct FaultySystem : public SimpleEntitySystem<PhysicsComponent> {
       FaultySystem(EntityManager* mgr)
         : SimpleEntitySystem<PhysicsComponent>(mgr){};
-      virtual void process(float dt) override
-      {
+      virtual void process(float dt) override {
         processed_entities = 0;
         for (auto entity : get_entities()) {
           TC_REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
@@ -283,8 +270,7 @@ testsuite_collectors()
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Collectors - Add and Remove multiple times")
-  {
+  BEGIN_TESTCASE("Collectors - Add and Remove multiple times") {
 
     TestSystem* sys = mgr->new_system<TestSystem>();
 

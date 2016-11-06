@@ -7,15 +7,13 @@ Entity::Entity(EntityManager* manager, UUID&& uuid)
   , _component_mask(0u)
   , _registered(false)
   , _flagged_for_deletion(false)
-  , _uuid(std::move(uuid))
-{
+  , _uuid(std::move(uuid)) {
   ECS_ON_CREATE("Entity");
   // TODO: Add check if out of capacity
   _id = ++next_id;
 }
 
-Entity::~Entity()
-{
+Entity::~Entity() {
   // TODO: Add check if we were manually deleted and print an error in that case
   ECS_ON_DELETE("Entity");
   for (auto it : _components) {
@@ -27,16 +25,14 @@ Entity::~Entity()
 
 template <typename T>
 ECS_FORCEINLINE T&
-Entity::get_component()
-{
+Entity::get_component() {
 
   Component::id_t id = Component::extract_id<T>();
   return static_cast<T&>(get_component_by_id(id));
 };
 
 ECS_FORCEINLINE Component&
-Entity::get_component_by_id(Component::id_t id)
-{
+Entity::get_component_by_id(Component::id_t id) {
   assert(has_component_by_id(id));
   // assert(!_flagged_for_deletion); // TODO: Might be problematic, should maybe
   // allow this
@@ -51,35 +47,30 @@ Entity::get_component_by_id(Component::id_t id)
 }
 
 ECS_FORCEINLINE const Component&
-Entity::get_component_by_id(Component::id_t id) const
-{
+Entity::get_component_by_id(Component::id_t id) const {
   return const_cast<Entity*>(this)->get_component_by_id(id);
 }
 
 ECS_FORCEINLINE bool
-Entity::has_component_by_id(Component::id_t id) const
-{
+Entity::has_component_by_id(Component::id_t id) const {
   return (_component_mask & Component::to_bitmask(id)) != 0u;
 }
 
 template <typename T>
 ECS_FORCEINLINE const T&
-Entity::get_component() const
-{
+Entity::get_component() const {
   return const_cast<Entity*>(this)->get_component<T>();
 };
 
 template <typename T>
 ECS_FORCEINLINE bool
-Entity::has_component() const
-{
+Entity::has_component() const {
   return has_component_by_id(Component::extract_id<T>());
 };
 
 template <typename T>
 void
-Entity::remove_component()
-{
+Entity::remove_component() {
   assert(!_flagged_for_deletion); // Might be problematic
   assert(has_component<T>());
   if (std::is_same<T, TransformComponent>::value) {
@@ -104,8 +95,7 @@ Entity::remove_component()
 #ifndef INTERROGATE
 template <typename T, typename... Args>
 T&
-Entity::new_component(Args&&... args)
-{
+Entity::new_component(Args&&... args) {
   assert(!_flagged_for_deletion);
   assert(!has_component<T>());
 

@@ -6,18 +6,14 @@
 #include "entity_collector.h"
 
 MovementSystem::MovementSystem(EntityManager* manager)
-  : EntitySystem(manager)
-{
-  _relevant_entities =
-    manager->new_collector<TransformComponent, PhysicsComponent>();
+  : EntitySystem(manager) {
+  _relevant_entities = manager->new_collector<TransformComponent, PhysicsComponent>();
 };
 
 void
-MovementSystem::process(float dt)
-{
+MovementSystem::process(float dt) {
   ECS_OUTPUT_SPAM("MovementSystem::process(dt = " << dt << ")");
-  ECS_OUTPUT_SPAM("Our relevant collector has " << _relevant_entities->size()
-                                                << " entries.");
+  ECS_OUTPUT_SPAM("Our relevant collector has " << _relevant_entities->size() << " entries.");
 
   for (Entity* entity : *_relevant_entities) {
     ECS_OUTPUT_SPAM("  -> Updating transform component of " << *entity);

@@ -25,5 +25,6 @@ for f in files:
         if txt in f or f in txt:
             break
     else:
+        print(f)
         os.system("clang-format -i -style=file \"" + f + "\"")
 

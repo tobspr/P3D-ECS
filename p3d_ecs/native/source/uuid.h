@@ -15,8 +15,7 @@ class UUIDGenerator;
 using uuid_sequence_t = char[UUID_LENGTH + 1];
 
 // Class to represent uuids
-class UUID
-{
+class UUID {
   friend class UUIDGenerator;
 
   UUID(uuid_sequence_t* value, size_t hash);
@@ -45,14 +44,12 @@ private:
 
 namespace std {
 template <>
-struct hash<UUID>
-{
+struct hash<UUID> {
   size_t operator()(const UUID& uuid) const { return uuid.hash(); }
 };
 }
 
-class UUIDGenerator
-{
+class UUIDGenerator {
 
 public:
   // The length of all generated uuids

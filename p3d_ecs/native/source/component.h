@@ -10,8 +10,7 @@ class PlainTextSerializer;
 class Entity;
 class EntityManager;
 
-struct Component
-{
+struct Component {
   friend class EntityManager;
   friend class Entity;
 
@@ -23,8 +22,7 @@ struct Component
   virtual void deleter() = 0;
 
   template <typename T>
-  static inline id_t extract_id()
-  {
+  static inline id_t extract_id() {
     return T::component_id;
   }
 
@@ -46,24 +44,23 @@ protected:
   Entity* _entity;
 };
 
-#define DEFINE_COMPONENT(ClassName)                                            \
-  friend class MemoryPool<ClassName>;                                          \
-  friend class EntityManager;                                                  \
-  friend class Entity;                                                         \
-  virtual void deleter() override                                              \
-  {                                                                            \
-    MemoryPool<ClassName>::delete_object_from_upcast<Component>(this);         \
-    this->~ClassName();                                                        \
-  }                                                                            \
+#define DEFINE_COMPONENT(ClassName)                                                                                    \
+  friend class MemoryPool<ClassName>;                                                                                  \
+  friend class EntityManager;                                                                                          \
+  friend class Entity;                                                                                                 \
+  virtual void deleter() override {                                                                                    \
+    MemoryPool<ClassName>::delete_object_from_upcast<Component>(this);                                                 \
+    this->~ClassName();                                                                                                \
+  }                                                                                                                    \
   virtual const char* get_class_name() const override { return class_name; };
 
-#define DEFINE_COMPONENT_BASE()                                                \
-  friend class Entity;                                                         \
-  static const id_t component_id;                                              \
+#define DEFINE_COMPONENT_BASE()                                                                                        \
+  friend class Entity;                                                                                                 \
+  static const id_t component_id;                                                                                      \
   static const char* class_name;
 
-#define IMPLEMENT_COMPONENT_BASE(component_name, meta_name, id)                \
-  const Component::id_t meta_name::component_id = id;                          \
+#define IMPLEMENT_COMPONENT_BASE(component_name, meta_name, id)                                                        \
+  const Component::id_t meta_name::component_id = id;                                                                  \
   const char* meta_name::class_name = "" #component_name "";
 
 #endif
