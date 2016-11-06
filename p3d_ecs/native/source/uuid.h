@@ -60,6 +60,9 @@ public:
   static UUID generate();
 
   static void init();
+
+
+  static UUID generate_faulty_for_testcases(const std::string& content);
 };
 
 #undef UUID_LENGTH

@@ -13,6 +13,15 @@ write_tc_log(const string& msg) {
 };
 
 void
+write_tc_err(const string& msg) {
+#ifndef PROFILING
+  ofstream outfile("test-errors.txt", ios_base::app);
+  outfile << msg;
+#endif
+};
+
+
+void
 measure_time(const string& desc, size_t num_iterations, function<void()> method) {
   string iteration_desc = std::to_string(num_iterations);
   if (num_iterations >= 1000000) {

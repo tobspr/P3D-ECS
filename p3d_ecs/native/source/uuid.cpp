@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <chrono>
+#include <cassert>
 #include <ctime>
 
 using namespace std::chrono;
@@ -19,6 +20,7 @@ UUID::UUID(UUID&& other) {
   _uuid = other._uuid;
   _hash = other._hash;
   other._uuid = nullptr;
+  other._hash = 0u;
 }
 
 bool UUID::operator==(const UUID& other) const {
@@ -32,11 +34,11 @@ bool UUID::operator==(const UUID& other) const {
 }
 
 bool UUID::operator<(const UUID& other) const {
-  return _uuid < other._uuid;
+  return _hash < other._hash;
 }
 
 bool UUID::operator>(const UUID& other) const {
-  return _uuid > other._uuid;
+  return _hash > other._hash;
 }
 
 UUID& UUID::operator=(UUID&& other) {
@@ -45,6 +47,7 @@ UUID& UUID::operator=(UUID&& other) {
   _uuid = other._uuid;
   _hash = other._hash;
   other._uuid = nullptr;
+  other._hash = 0u;
   return *this;
 }
 
@@ -97,4 +100,19 @@ void
 UUIDGenerator::init() {
   rand_seed = static_cast<unsigned int>(std::time(nullptr));
   // std::srand(seed);
+}
+
+
+UUID UUIDGenerator::generate_faulty_for_testcases(const std::string& content) {
+  uuid_sequence_t* uuid = MemoryPool<uuid_sequence_t>::new_pod_object();
+  uuid_sequence_t& uuid_ref = *uuid;
+  assert(content.size() == uuid_length);
+
+  // todo: could use std::copy as well
+  for(size_t i = 0; i < uuid_length; ++i) {
+    uuid_ref[i] = content[i];
+  }
+  uuid_ref[uuid_length] = '\0';
+  size_t hash = std::hash<std::string>()(content);
+  return UUID(uuid, hash);
 }

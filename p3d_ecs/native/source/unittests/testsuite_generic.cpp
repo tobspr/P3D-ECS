@@ -40,7 +40,7 @@ testsuite_generic() {
   }
   END_TESTCASE;
 
-  BEGIN_TESTCASE("Creating two managers") {
+  BEGIN_TESTCASE("Creating two parallel entity managers") {
 
     Entity* created_1 = mgr->new_entity();
     created_1->new_component<TransformComponent>();
@@ -54,4 +54,23 @@ testsuite_generic() {
     mgr2->reset();
   }
   END_TESTCASE;
+
+
+  BEGIN_TESTCASE("Testing EntityManager::reset") {
+
+    EntityManager* mgr2 = new EntityManager();
+    Entity* entity_reg = mgr2->new_entity();
+    Entity* entity_reg_del = mgr2->new_entity();
+    mgr2->process_changes();
+
+    Entity* entity_unreg = mgr2->new_entity();
+    Entity* entity_del = mgr2->new_entity();
+    entity_del->remove();
+    entity_reg_del->remove();
+
+    mgr2->reset();
+    // No leaks should occur now
+
+  } END_TESTCASE;
+
 };

@@ -17,42 +17,38 @@ const char* TransformComponentMeta::parent_CSTR = "parent";
 const char* TransformComponentMeta::pos_CSTR = "pos";
 const char* TransformComponentMeta::scale_CSTR = "scale";
 
-void
-TransformComponentMeta::serialize(PlainTextSerializer* serializer) const {
+void TransformComponentMeta::serialize(PlainTextSerializer* serializer) const {
   if (!_children.empty()) {
-    serializer->serialize_prop_vec(children_CSTR, _children);
+      serializer->serialize_prop_vec(children_CSTR, _children);
   }
   if (!(_hpr.almost_equal(LVecBase3f()))) {
-    serializer->serialize_prop(hpr_CSTR, _hpr);
+      serializer->serialize_prop(hpr_CSTR, _hpr);
   }
   if (!(_is_dirty == bool(false))) {
-    serializer->serialize_prop(is_dirty_CSTR, _is_dirty);
+      serializer->serialize_prop(is_dirty_CSTR, _is_dirty);
   }
   if (!(_mat == LMatrix4f(LMatrix4f::ident_mat()))) {
-    serializer->serialize_prop(mat_CSTR, _mat);
+      serializer->serialize_prop(mat_CSTR, _mat);
   }
   if (!(_parent == nullptr)) {
-    serializer->serialize_prop(parent_CSTR, _parent);
+      serializer->serialize_prop(parent_CSTR, _parent);
   }
   if (!(_pos.almost_equal(LVecBase3f()))) {
-    serializer->serialize_prop(pos_CSTR, _pos);
+      serializer->serialize_prop(pos_CSTR, _pos);
   }
   if (!(_scale.almost_equal(LVecBase3f(1, 1, 1)))) {
-    serializer->serialize_prop(scale_CSTR, _scale);
+      serializer->serialize_prop(scale_CSTR, _scale);
   }
+
 }
 
-bool
-TransformComponentMeta::data_equals(const Component& other) const {
-  if (&other == this)
-    return true; // same instance
+bool TransformComponentMeta::data_equals(const Component &other) const {
+  // Notice: Its not required to check if we are comparing against ourself.
+  // This is because data_equals can only be called from an entity, and
+  // the entity already checks for pointer equalness.
+  const TransformComponentMeta& other_ref = static_cast<const TransformComponentMeta&>(other);
 
-  const TransformComponentMeta* downcasted_ptr =
-    static_cast<const TransformComponentMeta*>(&other); // There must be a better way than this
-  assert(downcasted_ptr != nullptr); // Should never happen! Since our component table would be corrupted then.
-  const TransformComponentMeta& other_ref = *downcasted_ptr;
-
-  if (!(vector_set_intersection(_children, other_ref._children)))
+  if (!(compare_flat_sets(_children, other_ref._children)))
     return false;
   if (!(_hpr.almost_equal(other_ref._hpr)))
     return false;
@@ -68,3 +64,4 @@ TransformComponentMeta::data_equals(const Component& other) const {
     return false;
   return true;
 }
+

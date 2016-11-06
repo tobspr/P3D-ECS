@@ -28,8 +28,7 @@ EntityRef::~EntityRef() {
 
 Entity*
 EntityRef::get_ptr(EntityManager* mgr) {
-  if (!fill_ptr(mgr))
-    return nullptr;
+  fill_ptr(mgr);  
   return _cached_ptr;
 }
 
@@ -46,24 +45,24 @@ EntityRef::has_access() const {
   return true;
 }
 
-bool
+void
 EntityRef::fill_ptr(EntityManager* mgr) {
   if (_ref_id == Entity::EMPTY_ID) {
     // This is fine, if the reference is not set, we still were successfull to
     // fill the pointer
     assert(_cached_ptr == nullptr);
-    return true;
+    return;
   }
   if (_cached_ptr != nullptr) {
     assert(_cached_ptr->get_id() == _ref_id);
-    return true;
+    return;
   } else {
 
     _cached_ptr = mgr->find_entity(_ref_id);
     assert(_cached_ptr != nullptr);           // Entity pointed to is no longer valid - how can this happen?
     assert(_cached_ptr->get_id() == _ref_id); // should never happen
     _cached_ptr->on_ref_created(this);
-    return true;
+    return;
   }
 }
 

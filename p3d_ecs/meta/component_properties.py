@@ -31,7 +31,7 @@ class FloatProperty(BaseProperty):
         self.init_with = kwargs.get("init_with", 0.0)
 
     def compare_to(self, a, b, convert_type=False):
-        return "compare_float({}, {})".format(a, b)
+        return "float_equals({}, {})".format(a, b)
 
 class BoolProperty(BaseProperty):
     DATA_TYPE = "bool"
@@ -119,7 +119,7 @@ class ContainerProperty(BaseProperty):
 
     def compare_to(self, a, b, convert_type=False):
         # convert type is ignored
-        return "vector_set_intersection({}, {})".format(a, b)
+        return "compare_flat_sets({}, {})".format(a, b)
     
 class InternalProperty(BaseProperty):
     PASS_AS_REF = True

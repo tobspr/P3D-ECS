@@ -85,4 +85,99 @@ testsuite_uuid() {
     END_MEASURE;
   }
   END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator== Identity") {
+    for (size_t i = 0; i < 30; ++i) {
+      UUID a = UUIDGenerator::generate();
+      TC_REQUIRE_TRUE(a == a);
+    }
+  }
+  END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator== Different Hash") {
+    for (size_t i = 0; i < 30; ++i) {
+      UUID a = UUIDGenerator::generate();
+      UUID b = UUIDGenerator::generate();
+      TC_REQUIRE_FALSE(a == b);
+    }
+  }
+  END_TESTCASE;
+
+  auto make_empty_uuid = []() {
+    UUID result = UUIDGenerator::generate();
+    UUID tmp = std::move(result);
+    return std::move(result);
+  };
+
+  BEGIN_TESTCASE("Test UUID::operator== Nullptr [lhs]") {
+
+    for (size_t i = 0; i < 30; ++i) {
+      UUID lhs = make_empty_uuid();
+      UUID rhs = UUIDGenerator::generate();
+      TC_REQUIRE_FALSE(lhs == rhs);
+    }
+  }
+  END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator== Nullptr [rhs]") {
+
+    for (size_t i = 0; i < 30; ++i) {
+      UUID lhs = UUIDGenerator::generate();
+      UUID rhs = make_empty_uuid();
+      TC_REQUIRE_FALSE(lhs == rhs);
+    }
+  }
+  END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator== Nullptr [lhs+rhs]") {
+
+    for (size_t i = 0; i < 30; ++i) {
+      UUID lhs = make_empty_uuid();
+      UUID rhs = make_empty_uuid();
+      TC_REQUIRE_TRUE(lhs == rhs);
+    }
+  }
+  END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator== same string, different ptr") {
+
+    UUID a = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
+    UUID a2 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
+    UUID a3 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAB");
+    UUID a4 = UUIDGenerator::generate_faulty_for_testcases("BAAAAAAAAAAAAAAA");
+    UUID a5 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAABAAAAAAA");
+
+    TC_REQUIRE_TRUE(a == a2);
+    TC_REQUIRE_TRUE(a2 == a);
+
+    TC_REQUIRE_FALSE(a == a3);
+    TC_REQUIRE_FALSE(a == a4);
+    TC_REQUIRE_FALSE(a == a5);
+    TC_REQUIRE_FALSE(a3 == a);
+    TC_REQUIRE_FALSE(a4 == a);
+    TC_REQUIRE_FALSE(a5 == a);
+  }
+  END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator< / operator>") {
+
+    for (size_t i = 0; i < 30; ++i) {
+      UUID a = UUIDGenerator::generate();
+      UUID b = UUIDGenerator::generate();
+      UUID c = UUIDGenerator::generate();
+
+      if (a < b)
+        TC_REQUIRE_TRUE(b > a);
+
+      if (a > b)
+        TC_REQUIRE_TRUE(b < a);
+
+      if (a < b && b < c)
+        TC_REQUIRE_TRUE(a < c);
+
+      if (a > b && b > c)
+        TC_REQUIRE_TRUE(a > c);
+    }
+  }
+  END_TESTCASE;
 }

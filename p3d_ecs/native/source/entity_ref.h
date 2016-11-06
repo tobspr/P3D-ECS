@@ -34,7 +34,7 @@ public:
   bool is_empty() const;
 
   bool has_access() const;
-  bool fill_ptr(EntityManager* mgr);
+  void fill_ptr(EntityManager* mgr);
 
   inline Entity* operator->() { return _cached_ptr; }
   inline const Entity* operator->() const { return _cached_ptr; }

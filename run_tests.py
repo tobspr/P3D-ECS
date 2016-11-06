@@ -1,24 +1,31 @@
 
+import inspect
 import panda3d
+import os
 import panda3d.core
 
 import p3d_ecs.native.p3d_ecs as p3d_ecs
 
 open("test-output.txt", "w").close()
+try:
+    os.remove("test-errors.txt")
+except:
+    pass
 
 # input("Press enter to start: ")
 
-ALL_TESTSUITES = ["uuid", "entityref", "generic", "parent_child", "collectors", "perftest", "entity"]
-
+ALL_TESTSUITES = [i for i, _ in inspect.getmembers(p3d_ecs) if i.startswith("testsuite_")]
+print("Suites:", "\n" + '\n'.join(ALL_TESTSUITES))
 
 # TODO: Make this configurable with command line args
 suites_to_run = ALL_TESTSUITES[:]
-#suites_to_run = ["generic", "serialization"]
-suites_to_run.remove("perftest")
+
+
+suites_to_run.remove("testsuite_perftest")
 
 for suite in suites_to_run:
     print("\n\n" + "=" * 10, "Running test suite", suite, "=" * 10, "\n")
-    getattr(p3d_ecs, "testsuite_" + suite)()
+    getattr(p3d_ecs, suite)()
 
 
 print("Tests finished.")

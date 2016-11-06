@@ -60,6 +60,21 @@ testsuite_entity() {
   }
   END_TESTCASE;
 
+  BEGIN_TESTCASE("Testing Component::data_equals - same component") {
+    Entity* entity1 = mgr->new_entity();
+    Entity* entity2 = mgr->new_entity();
+    TransformComponent& a = entity1->new_component<TransformComponent>();
+    TransformComponent& b = entity2->new_component<TransformComponent>();
+    TC_REQUIRE_TRUE(data_equals_bd(entity1, entity2));
+    TC_REQUIRE_TRUE(a.data_equals(b));
+    TC_REQUIRE_TRUE(b.data_equals(a));
+    TC_REQUIRE_TRUE(a.data_equals(a));
+
+    entity1->remove();
+    entity2->remove();
+  }
+  END_TESTCASE;
+
   BEGIN_TESTCASE("Testing Entity::data_equals - different mask") {
     Entity* entity1 = mgr->new_entity();
     Entity* entity2 = mgr->new_entity();
