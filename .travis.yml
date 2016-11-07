@@ -12,3 +12,4 @@ script:
     - ls -a /opt/python
     - ls -a /opt/pyenv
     - pyenv versions   
+    - pyenv whence panda3d
