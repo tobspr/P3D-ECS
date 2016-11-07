@@ -22,6 +22,7 @@ addons:
     - python3-dev
     - zlib1g-dev
 script: 
-    - wget http://buildbot.panda3d.org/downloads/e9a43a21fa63f535fe48c6a92078ad752fc3b34f/panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb
-    - sudo apt-get install panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb
+    - wget http://buildbot.panda3d.org/downloads/e9a43a21fa63f535fe48c6a92078ad752fc3b34f/panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb --output-file=panda3d.deb
+    - ls -a
+    - sudo apt-get install panda3d.deb
     - python2.7 setup.py
