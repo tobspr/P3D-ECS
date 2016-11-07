@@ -6,15 +6,7 @@ script:
     - wget http://buildbot.panda3d.org/downloads/e9a43a21fa63f535fe48c6a92078ad752fc3b34f/panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb
     - sudo dpkg -i *.deb
     - sudo apt-get -f install
-    - sudo dpkg -i *.deb
-    - which python
-    - python2.7 -c "import panda3d.core; print(panda3d.core.__file__)"
-    - python2.7 -m panda3d.core
-    - echo ${PYTHONPATH}
-    - python2.7 setup.py
     - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
-    - ls -a /usr/lib/python2.7/dist-packages
-    - ls -a /usr/lib/python2.7/dist-packages/panda3d
-    - python2.7 -m panda3d.core
+    - echo "generate_pdb=1\nmodule_name=p3d_ecs\nuse_lib_eigen=1\nuse_lib_freetype=0\nvc_version=Visual Studio 14 2015" > p3d_ecs/native/config.ini
     - python2.7 setup.py
-  
+    - python2.7 run_tests.py
