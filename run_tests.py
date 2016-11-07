@@ -1,3 +1,10 @@
+"""
+
+Main Testrunner
+
+"""
+
+from __future__ import print_function
 
 import inspect
 import panda3d
@@ -29,5 +36,15 @@ for suite in suites_to_run:
     print("\n\n" + "=" * 10, "Running test suite", suite, "=" * 10, "\n")
     getattr(p3d_ecs, suite)()
 
+if not os.path.isfile("test-errors.txt"):
+    print("Tests successfully finished!")
+    sys.exit(0)
 
-print("Tests finished.")
+else:
+    print("Errors during test!")
+    with open("test-errors.txt", "r") as handle:
+        for line in handle.readlines():
+            print(line)
+print("\nTests finished with errors!")
+sys.exit(1)
+
