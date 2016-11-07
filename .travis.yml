@@ -13,9 +13,12 @@ script:
     - sudo apt-get -f install
     - sudo dpkg -i *.deb
     - which python
-    - ls -a /usr/bin
-    - ls -a /usr/include
+    - ls -a /usr/bin/panda3d/
+    - ls -a /usr/include | grep panda3d
+    - ls -a /opt
     - python3 setup.py
     - python3 run_tests.py
-    
+    - python run_tests.py
+    - python2.7 run_tests.py
+    - python3 run_tests.py
    
