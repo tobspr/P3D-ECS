@@ -7,6 +7,54 @@
 
 #include <entity_ref.h>
 
+namespace serialization_helpers {
+  using stream_t = std::stringstream&;
+  template <typename T>
+  inline void write_value(stream_t stream, const T& value) {
+    stream << "<Unkown prop: " << typeid(T).name() << ">";
+  }
+
+  template <>
+  inline void write_value<float>(stream_t stream, const float& value) {
+    stream << value;
+  }
+
+  template <>
+  inline void write_value<bool>(stream_t stream, const bool& value) {
+    stream << (value ? "true" : "false");
+  }
+
+  template <>
+  inline void write_value<LVecBase3f>(stream_t stream, const LVecBase3f& value) {
+    stream << value.get_x() << " " << value.get_y() << " " << value.get_z();
+  }
+
+  template <>
+  inline void write_value<LVecBase2f>(stream_t stream, const LVecBase2f& value) {
+    stream << value.get_x() << " " << value.get_y();
+  }
+
+  template <>
+  inline void write_value<LMatrix4f>(stream_t stream, const LMatrix4f& value) {
+    stream << value;
+  }
+
+  template <>
+  inline void write_value<EntityRef>(stream_t stream, const EntityRef& value) {
+    stream << value.get_id();
+  }
+
+  using entity_ptr_t = Entity*; // Compiler bug, does not detect this as specialization otherwise
+
+  void write_entity(stream_t stream, const entity_ptr_t entity);
+
+  template <>
+  inline void write_value<entity_ptr_t>(stream_t stream, const entity_ptr_t& value) {
+    write_entity(stream, value);
+  }
+
+};
+
 class PlainTextSerializer {
 public:
   PlainTextSerializer() {}
@@ -30,7 +78,7 @@ public:
   template <typename T>
   inline void serialize_prop(const char* name, const T& prop) {
     _out << _current_indent << name << " ";
-    write_value(prop);
+    serialization_helpers::write_value(_out, prop);
     _out << "\n";
   }
 
@@ -38,7 +86,7 @@ public:
   inline void serialize_prop_vec(const char* name, const std::vector<T>& vec) {
     _out << _current_indent << " " << name << " " << vec.size();
     for (const T& v : vec) {
-      write_value(v);
+      serialization_helpers::write_value(_out, v);
       _out << " ";
     }
     _out << "\n";
@@ -47,49 +95,6 @@ public:
   std::string get_output() const { return _out.str(); };
 
 private:
-  template <typename T>
-  inline void write_value(const T& value) {
-    _out << "<Unkown prop: " << typeid(T).name() << ">";
-  }
-
-  template <>
-  inline void write_value<float>(const float& value) {
-    _out << value;
-  }
-
-  template <>
-  inline void write_value<bool>(const bool& value) {
-    _out << (value ? "true" : "false");
-  }
-
-  template <>
-  inline void write_value<LVecBase3f>(const LVecBase3f& value) {
-    _out << value.get_x() << " " << value.get_y() << " " << value.get_z();
-  }
-
-  template <>
-  inline void write_value<LVecBase2f>(const LVecBase2f& value) {
-    _out << value.get_x() << " " << value.get_y();
-  }
-
-  template <>
-  inline void write_value<LMatrix4f>(const LMatrix4f& value) {
-    _out << value;
-  }
-
-  template <>
-  inline void write_value<EntityRef>(const EntityRef& value) {
-    _out << value.get_id();
-  }
-
-  using entity_ptr_t = Entity*; // Compiler bug, does not detect this as specialization otherwise
-  template <>
-  inline void write_value<entity_ptr_t>(const entity_ptr_t& value) {
-    write_entity(value);
-  }
-
-  void write_entity(const entity_ptr_t entity);
-
 private:
   std::stringstream _out;
   std::string _current_indent;
