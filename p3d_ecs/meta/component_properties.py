@@ -26,7 +26,7 @@ class FloatProperty(BaseProperty):
     TYPE_DEFAULT = "0.0"
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         # prevent unitialized members
         self.init_with = kwargs.get("init_with", 0.0)
 
@@ -39,7 +39,7 @@ class BoolProperty(BaseProperty):
     TYPE_DEFAULT = "false"
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         # prevent unitialized members
         self.init_with = kwargs.get("init_with", "false")
 
@@ -48,7 +48,7 @@ class VectorProperty(BaseProperty):
     TYPE_DEFAULT = ""
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         self.dimensions = kwargs["dimensions"]
         self.component_type = kwargs.get("component_type", "float")
 
@@ -71,7 +71,7 @@ class Mat4Property(BaseProperty): # todo: generic matrix type (should be straigh
     TYPE_DEFAULT = ""
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
 
 
 class EntityRefProperty(BaseProperty):
@@ -80,7 +80,7 @@ class EntityRefProperty(BaseProperty):
     TYPE_DEFAULT = "Entity::EMPTY_ID"
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         self.includes = ['"entity_ref.h"']
 
     def check_for_default(self, identifier):
@@ -96,7 +96,7 @@ class EntityPtrProperty(BaseProperty):
     TYPE_DEFAULT = "nullptr"
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
 
     def compare_to(self, a, b, convert_type=False):
         return "{} == {}".format(a, b)
@@ -106,7 +106,7 @@ class ContainerProperty(BaseProperty):
     TYPE_DEFAULT = ""
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         self.value_type = kwargs.get("value_type")
         self.includes = kwargs.get("includes", []) + ["<vector>"]
 
@@ -126,7 +126,7 @@ class InternalProperty(BaseProperty):
     TYPE_DEFAULT = "/* ??? */"
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BaseProperty.__init__(self, **kwargs)
         self.data_type = kwargs["data_type"]
         self.includes = kwargs.get("includes", [])
         self.serializer = kwargs.get("serializer", None)
