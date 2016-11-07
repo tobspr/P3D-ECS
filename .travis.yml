@@ -13,6 +13,8 @@ script:
     - echo ${PYTHONPATH}
     - python2.7 setup.py
     - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
+    - ls -a /usr/lib/python2.7/dist-packages
+    - ls -a /usr/lib/python2.7/dist-packages/panda3d
     - python2.7 -m panda3d.core
     - python2.7 setup.py
   
