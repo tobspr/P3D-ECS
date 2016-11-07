@@ -11,3 +11,5 @@ script:
     - python -c "import site; print(site.getsitepackages())"
     - python setup.py
     - ls -a /usr/local/lib/
+    - ls -a /opt/python/2.7.10/lib/site-python
+    - ls -a /opt/python/2.7.10/lib/python2.7/site-packages
