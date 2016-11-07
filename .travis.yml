@@ -10,3 +10,4 @@ script:
     - which python
     - python -c "import site; print(site.getsitepackages())"
     - python setup.py
+    - ls -a /usr/local/lib/
