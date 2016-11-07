@@ -10,13 +10,6 @@ script:
     - which python
     - python3.4 -c "import site; print(site.getsitepackages())"
     - python3.4 setup.py
-    - ls -a /usr/local/lib/
-    - ls -a /opt/python/2.7.10/lib/site-python
-    - ls -a /opt/python/2.7.10/lib/python2.7/site-packages
-    - ls -a /opt/python/3.4/lib/python3.4/site-packages
-    - ls -a /usr/local/lib/python2.7
-    - ls -a /usr/local/lib/python2.7/site-packages
-    - ls -a /usr/local/lib/python2.7/dist-packages
-    - ls -a /usr/local/lib/python3.4
-    - ls -a /usr/local/lib/python3.4/dist-packages
-    
+    - find / -name 'panda3d.so'
+    - find / -name 'core.so'
+  
