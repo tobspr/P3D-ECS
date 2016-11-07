@@ -8,5 +8,5 @@ script:
     - sudo apt-get -f install
     - sudo dpkg -i *.deb
     - which python
-    - python -c "import site; site.getsitepackages()"
+    - python -c "import site; print(site.getsitepackages())"
     - python setup.py
