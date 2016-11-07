@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tobspr/P3D-ECS.svg?branch=travis-test)](https://travis-ci.org/tobspr/P3D-ECS)
+[![Build Status](https://travis-ci.org/tobspr/P3D-ECS.svg?branch=master)](https://travis-ci.org/tobspr/P3D-ECS)
 
 # P3D-ECS
 Panda3D Entity Component System
