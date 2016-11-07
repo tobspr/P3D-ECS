@@ -26,6 +26,6 @@ script:
     - sudo dpkg -i *.deb
     - sudo apt-get -f install
     - sudo dpkg -i *.deb
-    - python setup.py
-    - python run_tests.py
+    - python3 setup.py
+    - python3 run_tests.py
    
