@@ -1,0 +1,27 @@
+language: cpp
+sudo: required
+dist: trusty
+compiler: gcc
+addons:
+  apt:
+    packages:
+    - flex
+    - libfreetype6-dev
+    - libgl1-mesa-dev
+    - libjpeg-dev
+    - libode-dev
+    - libopenal-dev
+    - libpng-dev
+    - libssl-dev
+    - libvorbis-dev
+    - libx11-dev
+    - libxcursor-dev
+    - libxrandr-dev
+    - nvidia-cg-toolkit
+    - python-dev
+    - python3-dev
+    - zlib1g-dev
+script: 
+    - wget http://buildbot.panda3d.org/downloads/e9a43a21fa63f535fe48c6a92078ad752fc3b34f/panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb
+    - sudo apt-get install panda3d1.10_1.10.0~20161103-ge9a43a2~trusty_amd64.deb
+    - python2.7 setup.py
