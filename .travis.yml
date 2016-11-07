@@ -11,9 +11,4 @@ script:
     - ls -a /usr/include | grep panda3d
     - ls -a /opt/python
     - ls -a /opt/pyenv
-    - python3 setup.py
-    - python3 run_tests.py
-    - python run_tests.py
-    - python2.7 run_tests.py
-    - python3 run_tests.py
-   
+    - pyenv versions   
