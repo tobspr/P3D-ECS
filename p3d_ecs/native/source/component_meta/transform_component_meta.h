@@ -20,7 +20,8 @@ class EntityManager;
 class TransformComponent;
 
 class TransformComponentMeta : public Component {
-  using superclass = TransformComponentMeta;
+  protected:
+    using superclass = TransformComponentMeta;
 
   public:
     DEFINE_COMPONENT_BASE();

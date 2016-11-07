@@ -17,7 +17,8 @@ class EntityManager;
 class PhysicsComponent;
 
 class PhysicsComponentMeta : public Component {
-  using superclass = PhysicsComponentMeta;
+  protected:
+    using superclass = PhysicsComponentMeta;
 
   public:
     DEFINE_COMPONENT_BASE();
