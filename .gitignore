@@ -13,7 +13,7 @@ linux_*/
 source/interrogate*
 
 # Source and script files
-scripts/
+/scripts/
 CMakeLists.txt
 build.py
 LICENSE
