@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <chrono>
 #include <cassert>
+#include <cstring>
 #include <ctime>
 
 using namespace std::chrono;
