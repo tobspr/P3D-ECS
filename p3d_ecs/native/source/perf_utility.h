@@ -26,31 +26,6 @@ vector_contains(const std::vector<T>& vec, const T& elem) {
 }
 
 template <typename T>
-bool
-vector_erase_fast_if_present(std::vector<T>& vec, T elem) {
-  // Fast removal by swapping with the last element and resizing by -1
-  if (vec.empty())
-    return false;
-  auto it = vector_find(vec, elem);
-  if (it != vec.end()) {
-    vector_erase_fast(vec, it);
-    return true;
-  }
-  return false;
-}
-
-template <typename T>
-void
-vector_erase_fast(std::vector<T>& vec, T elem) {
-  // Fast removal by swapping with the last element and resizing by -1
-  // Requires: vec contains elem
-  assert(!vec.empty());
-  auto it = vector_find(vec, elem);
-  assert(it != vec.end());
-  vector_erase_fast(vec, it);
-}
-
-template <typename T>
 void
 vector_erase_fast(std::vector<T>& vec, typename std::vector<T>::iterator it) {
   assert(!vec.empty());
@@ -64,6 +39,31 @@ vector_erase_fast(std::vector<T>& vec, typename std::vector<T>::iterator it) {
     std::swap(*it, *last_element_iter);
     vec.pop_back();
   }
+}
+
+template <typename T>
+bool
+vector_erase_fast_if_present(std::vector<T>& vec, const T& elem) {
+  // Fast removal by swapping with the last element and resizing by -1
+  if (vec.empty())
+    return false;
+  auto it = vector_find(vec, elem);
+  if (it != vec.end()) {
+    vector_erase_fast(vec, it);
+    return true;
+  }
+  return false;
+}
+
+template <typename T>
+void
+vector_erase_fast(std::vector<T>& vec, const T& elem) {
+  // Fast removal by swapping with the last element and resizing by -1
+  // Requires: vec contains elem
+  assert(!vec.empty());
+  auto it = vector_find(vec, elem);
+  assert(it != vec.end());
+  vector_erase_fast(vec, it);
 }
 
 template <typename T>
