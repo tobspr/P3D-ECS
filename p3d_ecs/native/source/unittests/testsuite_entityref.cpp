@@ -3,6 +3,7 @@
 
 #include "unittest.h"
 #include "entity_ref.h"
+#include "entity.h"
 
 #include <iostream>
 #include <functional>

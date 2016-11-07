@@ -8,6 +8,7 @@
 #include <algorithm>
 
 Entity::id_t Entity::next_id = 1000u;
+Entity::id_t Entity::EMPTY_ID = 0u;
 
 void
 Entity::on_component_added(Component::id_t id, Component* ptr) {

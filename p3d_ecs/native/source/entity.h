@@ -29,7 +29,7 @@ class Entity final {
   static id_t next_id;
 
 public:
-  static const id_t EMPTY_ID = 0u;
+  static const id_t EMPTY_ID;
 
   // Required for unittests
   static inline void reset_id_pool() { next_id = 1000u; };

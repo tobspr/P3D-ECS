@@ -3,6 +3,7 @@
 
 #include "movement_system.h"
 #include "unittest.h"
+#include "entity.h"
 
 #include <iostream>
 #include <unordered_set>
