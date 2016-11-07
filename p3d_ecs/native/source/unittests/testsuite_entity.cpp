@@ -161,4 +161,39 @@ testsuite_entity() {
     entity2->remove();
   }
   END_TESTCASE;
+
+  BEGIN_TESTCASE("Testing Entity::data_equals - Transform component with children") {
+
+    Entity* child_1 = mgr->new_entity();
+    TransformComponent& ct_1 = child_1->new_component<TransformComponent>();
+    Entity* child_2 = mgr->new_entity();
+	TransformComponent& ct_2 = child_2->new_component<TransformComponent>();
+
+    Entity* root_1 = mgr->new_entity();
+	TransformComponent& tr_1 = root_1->new_component<TransformComponent>();
+    Entity* root_2 = mgr->new_entity();
+	TransformComponent& tr_2 = root_2->new_component<TransformComponent>();
+
+    TC_REQUIRE_TRUE(data_equals_bd(root_1, root_2));
+
+    ct_1.set_parent(root_1);
+
+    TC_REQUIRE_FALSE(data_equals_bd(root_1, root_2));
+
+    ct_2.set_parent(root_2);
+ 
+    TC_REQUIRE_FALSE(data_equals_bd(root_1, root_2));
+    
+    ct_1.set_parent(nullptr);
+    ct_2.set_parent(nullptr);
+
+    TC_REQUIRE_TRUE(data_equals_bd(root_1, root_2));
+    
+    child_1->remove();
+    child_2->remove();
+    root_1->remove();
+    root_2->remove();
+
+  } END_TESTCASE;
+
 };

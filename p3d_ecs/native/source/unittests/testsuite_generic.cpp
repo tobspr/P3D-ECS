@@ -72,5 +72,26 @@ testsuite_generic() {
     // No leaks should occur now
 
   } END_TESTCASE;
+  
+  BEGIN_TESTCASE("Testing EntityManager::find_entity with empty id - Expecting a warning!") {
+    
+    TC_REQUIRE_EQ(mgr->find_entity(Entity::EMPTY_ID), nullptr);
+
+  } END_TESTCASE;
+
+
+  BEGIN_TESTCASE("Testing EntityManager::find_entity with new entity") {
+    Entity* entity = mgr->new_entity();
+    TC_REQUIRE_EQ(mgr->find_entity(entity->get_id()), entity);
+    entity->remove();
+  } END_TESTCASE;
+
+
+  BEGIN_TESTCASE("Testing EntityManager::find_entity with registered entity") {
+    Entity* entity = mgr->new_entity();
+    mgr->process_changes();
+    TC_REQUIRE_EQ(mgr->find_entity(entity->get_id()), entity);
+    entity->remove();
+  } END_TESTCASE;
 
 };

@@ -32,9 +32,11 @@ vector_erase_fast_if_present(std::vector<T>& vec, T elem) {
   if (vec.empty())
     return false;
   auto it = vector_find(vec, elem);
-  if (it != vec.end())
+  if (it != vec.end()) {
     vector_erase_fast(vec, it);
-  return true;
+    return true;
+  }
+  return false;
 }
 
 template <typename T>
