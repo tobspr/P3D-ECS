@@ -9,9 +9,9 @@ script:
     - sudo dpkg -i *.deb
     - which python
     - python2.7 -c "import panda3d.core; print(panda3d.core.__file__)"
-    - echo $PYTHONPATH
+    - echo ${PYTHONPATH}
     - python2.7 setup.py
-    - export PYTHONPATH=${PYTHONPATH};/usr/lib/python2.7/dist-packages
+    - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
     - python2.7 setup.py
     - find / -name 'core.so'
   
