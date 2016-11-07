@@ -6,11 +6,11 @@ addons:
     apt:
         sources:
         - sourceline: "deb http://archive.panda3d.org/ubuntu/ trusty-dev"
-    packages:
-        - cmake
-        - libeigen3-dev
-        - libfreetype6-dev
-        - panda3d1.10
+        packages:
+            - cmake
+            - libeigen3-dev
+            - libfreetype6-dev
+            - panda3d1.10
 
 script:
     # - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
