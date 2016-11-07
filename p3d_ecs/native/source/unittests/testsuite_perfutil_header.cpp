@@ -139,7 +139,7 @@ testsuite_perfutil_header() {
 
     // Case 3: Vector contains element
     vec_t case_3 = { 1, 3, 5 };
-    TC_REQUIRE_TRUE(vector_erase_fast_if_present(case_2, 3));
+    TC_REQUIRE_TRUE(vector_erase_fast_if_present(case_3, 3));
 	vec_t case_3_exp = { 1, 5 };
     TC_REQUIRE_EQ(case_3, case_3_exp);
   }
@@ -165,7 +165,7 @@ testsuite_perfutil_header() {
     // Case 4: Vectors with 1 element (not-matching)
     vec_t case_4_v1 = { 2 };
     vec_t case_4_v2 = { 3 };
-    TC_REQUIRE_TRUE(compare_flat_sets(case_4_v1, case_4_v2));
+    TC_REQUIRE_FALSE(compare_flat_sets(case_4_v1, case_4_v2));
     
     // Case 5: Vectors with multiple elements (matching, in order)
     vec_t case_5_v1 = { 1, 2, 3 };
@@ -180,7 +180,7 @@ testsuite_perfutil_header() {
     // Case 7: Vectors with multiple elements (not matching)
     vec_t case_7_v1 = { 1, 7, 2, 3 };
     vec_t case_7_v2 = { 3, 8, 2, 7 };
-    TC_REQUIRE_TRUE(compare_flat_sets(case_7_v1, case_7_v2));
+    TC_REQUIRE_FALSE(compare_flat_sets(case_7_v1, case_7_v2));
   
   }
   END_TESTCASE;

@@ -180,4 +180,19 @@ testsuite_uuid() {
     }
   }
   END_TESTCASE;
+
+  BEGIN_TESTCASE("Test UUID::operator=") {
+
+    UUID a = UUIDGenerator::generate();
+    UUID b = std::move(a);
+
+    UUID c = UUIDGenerator::generate();
+    UUID d = UUIDGenerator::generate();
+    UUID e = UUIDGenerator::generate();
+    
+    d = std::move(e);
+    c = std::move(d);
+
+  } END_TESTCASE;
+
 }
