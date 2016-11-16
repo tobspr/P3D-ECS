@@ -4,7 +4,6 @@
 #define P3D_ECS_PHYSICS_COMPONENT_H
 
 #include "physics_component_meta.h"
-#include "perf_utility.h"
 
 class PhysicsComponent final : public PhysicsComponentMeta {
 public:

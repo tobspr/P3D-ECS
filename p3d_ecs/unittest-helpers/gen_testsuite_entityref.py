@@ -21,7 +21,7 @@ for input_type in ttypes:
     for reset_param in ttypes:
 
         for i in num_params(2):
-            
+
             use_get_ptr_instead_of_fill_ptr = param(i, 0)
             fill_or_get_after_reset = param(i, 1)
 
@@ -84,7 +84,7 @@ for input_type in ttypes:
 
             has_full_pointer = reset_param in ["entity", "reg_entity"]
 
-            if fill_or_get_after_reset:                    
+            if fill_or_get_after_reset:
                 if reset_param in ["id", "reg_id"]:
                     if use_get_ptr_instead_of_fill_ptr:
                         sequence += ["RefGetPtr"]
@@ -117,7 +117,9 @@ for input_type in ttypes:
                         sequence += ["MgrProcessChanges"]
                         sequence += ["ValidateRefEmpty"]
                 else:
-                    sequence += ["ValidateRefToEntity2IdOnly"]
+                    # Entity ptr already deleted, can not compare
+                    # sequence += ["ValidateRefToEntity2IdOnly"]
+                    pass
 
             elif reset_param == "reg_id":
 
@@ -129,7 +131,9 @@ for input_type in ttypes:
                         sequence += ["MgrProcessChanges"]
                         sequence += ["ValidateRefEmpty"]
                 else:
-                    sequence += ["ValidateRefToEntity2IdOnly"]
+                    # Entity ptr already deleted, can not compare
+                    # sequence += ["ValidateRefToEntity2IdOnly"]
+                    pass
 
             elif reset_param == "entity":
                 # unregistered entities are deleted instantly
@@ -150,7 +154,7 @@ for input_type in ttypes:
             k += 1
 
             parsed_seq = ["Operation::" + _k for _k in sequence]
-            
+
             out += "// Testcase " + str(k) + ", i=" + input_type + ", r=" + reset_param + ", i=" + str(i) + "\n"
             out += "{"
             out += ", ".join(parsed_seq)
@@ -159,4 +163,4 @@ for input_type in ttypes:
 out = out.rstrip(",\n ")
 
 with open("output.txt", "w") as handle:
-    handle.write(out) 
+    handle.write(out)

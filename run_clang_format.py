@@ -11,13 +11,12 @@ ignore = [
     ".templ.h",
     "CMakeFiles",
     "interrogate_"
-
 ]
 extensions = "cpp h I i".split()
 files = []
 
 for ext in extensions:
-    for f in glob.glob("**/*." + ext, recursive=True):
+    for f in glob.glob("p3d_ecs/**/*." + ext, recursive=True):
         files.append(f)
 
 for f in files:
@@ -27,4 +26,3 @@ for f in files:
     else:
         print(f)
         os.system("clang-format -i -style=file \"" + f + "\"")
-

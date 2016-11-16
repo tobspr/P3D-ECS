@@ -3,64 +3,81 @@
 // Instead modify the component meta file.
 
 #include "transform_component_meta.h"
+#include "entity.h"
+#include "serialization_helpers.h"
+#include "entity_manager.h"
 
-#include "plain_text_serializer.h"
+#include <functional>
+IMPLEMENT_COMPONENT_BASE(TransformComponent, TransformComponentMeta, 1u);
 
-IMPLEMENT_COMPONENT_BASE(TransformComponent, TransformComponentMeta, 2u);
+const LMatrix4f TransformComponentMeta::_absolute_matrix_DEFAULT = LMatrix4f(LMatrix4f::ident_mat());
+const LVecBase3f TransformComponentMeta::_hpr_DEFAULT = LVecBase3f(0);
+const LVecBase3f TransformComponentMeta::_pos_DEFAULT = LVecBase3f(0);
+const LVecBase3f TransformComponentMeta::_scale_DEFAULT = LVecBase3f(1, 1, 1);
+const LMatrix4f TransformComponentMeta::_matrix_DEFAULT = LMatrix4f(LMatrix4f::ident_mat());
 
-// AUTOGEN: member names for plain text serialization
-const char* TransformComponentMeta::children_CSTR = "children";
-const char* TransformComponentMeta::hpr_CSTR = "hpr";
-const char* TransformComponentMeta::is_dirty_CSTR = "is_dirty";
-const char* TransformComponentMeta::mat_CSTR = "mat";
-const char* TransformComponentMeta::parent_CSTR = "parent";
-const char* TransformComponentMeta::pos_CSTR = "pos";
-const char* TransformComponentMeta::scale_CSTR = "scale";
+void
+TransformComponentMeta::serialize(p3d_ecs::proto::Components* dest) const {
+  auto* proto_obj = dest->mutable_transform_component();
 
-void TransformComponentMeta::serialize(PlainTextSerializer* serializer) const {
-  if (!_children.empty()) {
-      serializer->serialize_prop_vec(children_CSTR, _children);
-  }
-  if (!(_hpr.almost_equal(LVecBase3f()))) {
-      serializer->serialize_prop(hpr_CSTR, _hpr);
-  }
-  if (!(_is_dirty == bool(false))) {
-      serializer->serialize_prop(is_dirty_CSTR, _is_dirty);
-  }
-  if (!(_mat == LMatrix4f(LMatrix4f::ident_mat()))) {
-      serializer->serialize_prop(mat_CSTR, _mat);
+  if (!_matrix.almost_equal(_matrix_DEFAULT)) {
+    serialize_LMatrix4f(_matrix, proto_obj->mutable_matrix());
   }
   if (!(_parent == nullptr)) {
-      serializer->serialize_prop(parent_CSTR, _parent);
+    proto_obj->set_parent(_parent->get_uuid().c_str(), UUID::uuid_length);
   }
-  if (!(_pos.almost_equal(LVecBase3f()))) {
-      serializer->serialize_prop(pos_CSTR, _pos);
+  for (auto& elem : _children) {
+     proto_obj->add_children(elem->get_uuid().c_str(), UUID::uuid_length);
   }
-  if (!(_scale.almost_equal(LVecBase3f(1, 1, 1)))) {
-      serializer->serialize_prop(scale_CSTR, _scale);
+}
+
+void
+TransformComponentMeta::deserialize(const p3d_ecs::proto::TransformComponent& message) {
+  _abs_matrix_is_dirty = false;
+  _absolute_matrix = _absolute_matrix_DEFAULT;
+  _hpr = _hpr_DEFAULT;
+  _pos = _pos_DEFAULT;
+  _scale = _scale_DEFAULT;
+
+  if (!message.has_matrix()) {
+    _matrix = _matrix_DEFAULT;
+  } else {
+    deserialize_LMatrix4f(_matrix, message.matrix());
   }
+  deserialize_Entity(_parent, _parent_FILLIN_CACHE, message.parent());
+  deserialize_VectorOfEntity(_children, _children_FILLIN_CACHE, message.children());
 
 }
 
-bool TransformComponentMeta::data_equals(const Component &other) const {
+void
+TransformComponentMeta::fillin_ptrs() {
+  EntityManager* mgr = _entity->get_manager();
+  fillin_Entity(mgr, _parent_FILLIN_CACHE, _parent);
+  fillin_VectorOfEntity(mgr, _children_FILLIN_CACHE, _children);
+}
+
+bool
+TransformComponentMeta::data_equals(const Component &other) const {
   // Notice: Its not required to check if we are comparing against ourself.
   // This is because data_equals can only be called from an entity, and
   // the entity already checks for pointer equalness.
   const TransformComponentMeta& other_ref = static_cast<const TransformComponentMeta&>(other);
 
-  if (!(compare_flat_sets(_children, other_ref._children)))
+  if (!(_abs_matrix_is_dirty == other_ref._abs_matrix_is_dirty))
+    return false;
+  if (!(_absolute_matrix.almost_equal(other_ref._absolute_matrix)))
     return false;
   if (!(_hpr.almost_equal(other_ref._hpr)))
-    return false;
-  if (!(_is_dirty == other_ref._is_dirty))
-    return false;
-  if (!(_mat == other_ref._mat))
-    return false;
-  if (!(_parent == other_ref._parent))
     return false;
   if (!(_pos.almost_equal(other_ref._pos)))
     return false;
   if (!(_scale.almost_equal(other_ref._scale)))
+    return false;
+  if (!(_matrix.almost_equal(other_ref._matrix)))
+    return false;
+  if (!(_parent == other_ref._parent))
+    return false;
+  if (!(::p3d_ecs::performance::compare_flat_sets(_children, other_ref._children)))
     return false;
   return true;
 }

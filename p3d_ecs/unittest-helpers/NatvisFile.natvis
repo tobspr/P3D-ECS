@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="UUID">
+    <DisplayString Condition="_uuid != nullptr">[UUID {*_uuid,sb}]</DisplayString>
+    <DisplayString Condition="_uuid == nullptr">[UUID empty]</DisplayString>
+  </Type>
+  
+  <Type Name="Entity">
+    <DisplayString>[Entity #{_id}] {_uuid} - Components {_components}</DisplayString>
+
+  </Type>
+
+  <Type Name="LVecBase3f">
+    <DisplayString>LVecBase3f ( {_v.m_storage.m_data.array[0]}, {_v.m_storage.m_data.array[1]}, {_v.m_storage.m_data.array[2]})</DisplayString>
+  </Type>
+
+  <Type Name="LMatrix4f">
+    <DisplayString>LMatrix4f {_m.m_storage.m_data.array}</DisplayString>
+  </Type>
+
+  <Type Name="TransformComponent">
+    <DisplayString>[TransformComponent] parent = {_parent}, Children {_children}</DisplayString>
+  </Type>
+
+  
+</AutoVisualizer>

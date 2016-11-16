@@ -4,107 +4,61 @@
 #include "unittest.h"
 #include "uuid.h"
 
-#include <iostream>
-#include <unordered_set>
-#include <functional>
-#include <string>
-#include <fstream>
-#include <sstream>
-using namespace std;
-
 void
 testsuite_uuid() {
 
   BEGIN_TESTCASE("Generating simple UUID") {
 
-    UUID uuid = UUIDGenerator::generate();
+    UUID uuid = UUID::generate();
 
     TC_STATUS("Generated uuid: " << uuid.c_str() << " with hash " << uuid.hash());
-    TC_REQUIRE_EQ(uuid.size(), UUIDGenerator::uuid_length);
-  }
-  END_TESTCASE;
-
-  BEGIN_TESTCASE("Testing UUID performance") {
-
-    size_t num_iterations = 30000000;
-    BEGIN_MEASURE("Generating and testing uuids", num_iterations) {
-      for (size_t i = 0; i < num_iterations; ++i) {
-        UUID uuid = UUIDGenerator::generate();
-      }
-    }
-    END_MEASURE;
+    REQUIRE_EQ(uuid.size(), UUID::uuid_length);
+    REQUIRE_TRUE(UUID::is_valid_uuid(uuid.c_str()));
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Testing uuid move constructor") {
 
-    UUID uuid = UUIDGenerator::generate();
+    UUID uuid = UUID::generate();
     UUID uuid2(std::move(uuid));
 
     TC_STATUS("Generated uuid: " << uuid2.c_str());
-    TC_REQUIRE_EQ(uuid2.size(), UUIDGenerator::uuid_length);
+    REQUIRE_EQ(uuid2.size(), UUID::uuid_length);
+    REQUIRE_TRUE(UUID::is_valid_uuid(uuid2.c_str()));
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Testing uuid operator =") {
 
-    UUID uuid = UUIDGenerator::generate();
-    UUID uuid2 = UUIDGenerator::generate();
+    UUID uuid = UUID::generate();
+    UUID uuid2 = UUID::generate();
 
     TC_STATUS("Generated uuid: " << uuid2.c_str());
-    TC_REQUIRE_TRUE(uuid.hash() != uuid2.hash());
-  }
-  END_TESTCASE;
-
-  BEGIN_TESTCASE("Testing UUID for collisions") {
-
-    // size_t num_iterations = 5000000;
-    size_t num_iterations = 50000;
-
-    BEGIN_MEASURE("Testing uuids", num_iterations) {
-      std::unordered_set<UUID> uuids;
-      uuids.reserve(num_iterations);
-      bool result = false;
-      for (size_t i = 0; i < num_iterations; ++i) {
-
-        UUID uuid = UUIDGenerator::generate();
-
-        auto result = uuids.emplace(std::move(uuid));
-        TC_REQUIRE_TRUE(result.second);
-
-        if (!result.second) {
-          TC_STATUS("COLLISION!");
-          TC_STATUS("After " << i << " iterations, the first collision occured. Stopping loop." << endl
-                             << endl
-                             << endl);
-          TC_STATUS("Collided element was: " << result.first->c_str());
-          break; // Avoid spam
-        }
-      }
-    }
-    END_MEASURE;
+    REQUIRE_TRUE(uuid.hash() != uuid2.hash());
+    REQUIRE_TRUE(UUID::is_valid_uuid(uuid.c_str()));
+    REQUIRE_TRUE(UUID::is_valid_uuid(uuid2.c_str()));
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Test UUID::operator== Identity") {
     for (size_t i = 0; i < 30; ++i) {
-      UUID a = UUIDGenerator::generate();
-      TC_REQUIRE_TRUE(a == a);
+      UUID a = UUID::generate();
+      REQUIRE_TRUE(a == a);
     }
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Test UUID::operator== Different Hash") {
     for (size_t i = 0; i < 30; ++i) {
-      UUID a = UUIDGenerator::generate();
-      UUID b = UUIDGenerator::generate();
-      TC_REQUIRE_FALSE(a == b);
+      UUID a = UUID::generate();
+      UUID b = UUID::generate();
+      REQUIRE_FALSE(a == b);
     }
   }
   END_TESTCASE;
 
   auto make_empty_uuid = []() {
-    UUID result = UUIDGenerator::generate();
+    UUID result = UUID::generate();
     UUID tmp = std::move(result);
     return std::move(result);
   };
@@ -113,8 +67,8 @@ testsuite_uuid() {
 
     for (size_t i = 0; i < 30; ++i) {
       UUID lhs = make_empty_uuid();
-      UUID rhs = UUIDGenerator::generate();
-      TC_REQUIRE_FALSE(lhs == rhs);
+      UUID rhs = UUID::generate();
+      REQUIRE_FALSE(lhs == rhs);
     }
   }
   END_TESTCASE;
@@ -122,9 +76,9 @@ testsuite_uuid() {
   BEGIN_TESTCASE("Test UUID::operator== Nullptr [rhs]") {
 
     for (size_t i = 0; i < 30; ++i) {
-      UUID lhs = UUIDGenerator::generate();
+      UUID lhs = UUID::generate();
       UUID rhs = make_empty_uuid();
-      TC_REQUIRE_FALSE(lhs == rhs);
+      REQUIRE_FALSE(lhs == rhs);
     }
   }
   END_TESTCASE;
@@ -134,65 +88,88 @@ testsuite_uuid() {
     for (size_t i = 0; i < 30; ++i) {
       UUID lhs = make_empty_uuid();
       UUID rhs = make_empty_uuid();
-      TC_REQUIRE_TRUE(lhs == rhs);
+      REQUIRE_TRUE(lhs == rhs);
     }
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Test UUID::operator== same string, different ptr") {
 
-    UUID a = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
-    UUID a2 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
-    UUID a3 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAAAAAAAAAB");
-    UUID a4 = UUIDGenerator::generate_faulty_for_testcases("BAAAAAAAAAAAAAAA");
-    UUID a5 = UUIDGenerator::generate_faulty_for_testcases("AAAAAAAABAAAAAAA");
+    UUID a = UUID::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
+    UUID a2 = UUID::generate_faulty_for_testcases("AAAAAAAAAAAAAAAA");
+    UUID a3 = UUID::generate_faulty_for_testcases("AAAAAAAAAAAAAAAB");
+    UUID a4 = UUID::generate_faulty_for_testcases("BAAAAAAAAAAAAAAA");
+    UUID a5 = UUID::generate_faulty_for_testcases("AAAAAAAABAAAAAAA");
 
-    TC_REQUIRE_TRUE(a == a2);
-    TC_REQUIRE_TRUE(a2 == a);
+    REQUIRE_TRUE(a == a2);
+    REQUIRE_TRUE(a2 == a);
 
-    TC_REQUIRE_FALSE(a == a3);
-    TC_REQUIRE_FALSE(a == a4);
-    TC_REQUIRE_FALSE(a == a5);
-    TC_REQUIRE_FALSE(a3 == a);
-    TC_REQUIRE_FALSE(a4 == a);
-    TC_REQUIRE_FALSE(a5 == a);
+    REQUIRE_FALSE(a == a3);
+    REQUIRE_FALSE(a == a4);
+    REQUIRE_FALSE(a == a5);
+    REQUIRE_FALSE(a3 == a);
+    REQUIRE_FALSE(a4 == a);
+    REQUIRE_FALSE(a5 == a);
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Test UUID::operator< / operator>") {
 
     for (size_t i = 0; i < 30; ++i) {
-      UUID a = UUIDGenerator::generate();
-      UUID b = UUIDGenerator::generate();
-      UUID c = UUIDGenerator::generate();
+      UUID a = UUID::generate();
+      UUID b = UUID::generate();
+      UUID c = UUID::generate();
 
       if (a < b)
-        TC_REQUIRE_TRUE(b > a);
+        REQUIRE_TRUE(b > a);
 
       if (a > b)
-        TC_REQUIRE_TRUE(b < a);
+        REQUIRE_TRUE(b < a);
 
       if (a < b && b < c)
-        TC_REQUIRE_TRUE(a < c);
+        REQUIRE_TRUE(a < c);
 
       if (a > b && b > c)
-        TC_REQUIRE_TRUE(a > c);
+        REQUIRE_TRUE(a > c);
     }
   }
   END_TESTCASE;
 
   BEGIN_TESTCASE("Test UUID::operator=") {
 
-    UUID a = UUIDGenerator::generate();
+    UUID a = UUID::generate();
     UUID b = std::move(a);
 
-    UUID c = UUIDGenerator::generate();
-    UUID d = UUIDGenerator::generate();
-    UUID e = UUIDGenerator::generate();
-    
+    UUID c = UUID::generate();
+    UUID d = UUID::generate();
+    UUID e = UUID::generate();
+
     d = std::move(e);
     c = std::move(d);
+  }
+  END_TESTCASE;
 
-  } END_TESTCASE;
+  BEGIN_TESTCASE("Test UUID::is_valid_uuid") {
 
+    // Case 1: empty string
+    REQUIRE_FALSE(UUID::is_valid_uuid(UUID::generate_faulty_for_testcases("").c_str()));
+
+    // Case 2: string with differing length
+    REQUIRE_FALSE(UUID::is_valid_uuid(UUID::generate_faulty_for_testcases("absaef").c_str()));
+
+    // Case 3: string with same length but invalid characters
+    REQUIRE_FALSE(UUID::is_valid_uuid(UUID::generate_faulty_for_testcases("^BCABCABCABC").c_str()));
+
+    // Case 4: string with valid characters, checking bounds
+    REQUIRE_TRUE(
+      UUID::is_valid_uuid(UUID::generate_faulty_for_testcases("azAZ09aaaaaaaaaa").c_str()));
+
+    // Case 5: string with non-printable characters
+    REQUIRE_FALSE(
+      UUID::is_valid_uuid(UUID::generate_faulty_for_testcases("a\1aaaaaaaaaaaaaa").c_str()));
+
+    // Case 6: valid uuid
+    REQUIRE_TRUE(UUID::is_valid_uuid(UUID::generate().c_str()));
+  }
+  END_TESTCASE;
 }

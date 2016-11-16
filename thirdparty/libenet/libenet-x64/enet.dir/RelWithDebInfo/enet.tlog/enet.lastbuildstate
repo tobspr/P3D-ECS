@@ -1,0 +1,2 @@
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+RelWithDebInfo|x64|C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\|

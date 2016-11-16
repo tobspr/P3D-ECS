@@ -1,7 +1,9 @@
 
 #include "movement_system.h"
 
-#include "all_components.h"
+#include "transform_component.h"
+#include "physics_component.h"
+
 #include "entity_manager.h"
 #include "entity_collector.h"
 
@@ -12,11 +14,7 @@ MovementSystem::MovementSystem(EntityManager* manager)
 
 void
 MovementSystem::process(float dt) {
-  ECS_OUTPUT_SPAM("MovementSystem::process(dt = " << dt << ")");
-  ECS_OUTPUT_SPAM("Our relevant collector has " << _relevant_entities->size() << " entries.");
-
   for (Entity* entity : *_relevant_entities) {
-    ECS_OUTPUT_SPAM("  -> Updating transform component of " << *entity);
     entity->get_component<TransformComponent>().set_pos({ 1.0, 2.0, 5.0 });
   }
 };

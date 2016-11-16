@@ -3,9 +3,16 @@
 #ifndef P3D_ECS_MEMORYPOOL_H
 #define P3D_ECS_MEMORYPOOL_H
 
+#include "config_module.h"
 #include <memory>
 #include <iostream>
 #include <type_traits>
+#include <cassert>
+#include <vector>
+
+#ifndef PROFILING
+#define DETECT_BAD_ALLOC
+#endif
 
 template <typename T>
 class MemoryPool {
@@ -15,30 +22,59 @@ public:
 
   template <typename... Args>
   inline static T* new_object(Args... args) {
+#ifdef DETECT_BAD_ALLOC
+    ++_size;
+#endif
     T* mem = alloc_memory();
     ::new ((void*)mem) T(std::forward<Args>(args)...);
     return mem;
   }
 
-  inline static T* new_pod_object() { return alloc_memory(); }
+  inline static T* new_pod_object() {
+#ifdef DETECT_BAD_ALLOC
+    ++_size;
+#endif
+    return alloc_memory();
+  }
 
   inline static void delete_object(T* ptr) {
     if (ptr) {
+#ifdef DETECT_BAD_ALLOC
+      ECS_ASSERT(_size > 0);
+      --_size;
+#endif
       _free_objects.push_back(ptr);
       ptr->~T();
+#ifdef DETECT_BAD_ALLOC
+      memset(ptr, 0x00, sizeof(T));
+#endif
     }
   }
 
   inline static void delete_pod_object(T* ptr) {
     if (ptr) {
+#ifdef DETECT_BAD_ALLOC
+      ECS_ASSERT(_size > 0);
+      --_size;
+#endif
       _free_objects.push_back(ptr);
+#ifdef DETECT_BAD_ALLOC
+      memset(ptr, 0x00, sizeof(T));
+#endif
     }
   }
 
   template <typename Up>
   inline static void delete_object_from_upcast(Up* ptr) {
     if (ptr) {
+#ifdef DETECT_BAD_ALLOC
+      assert(_size > 0);
+      --_size;
+#endif
       _free_objects.push_back(reinterpret_cast<T*>(ptr));
+#ifdef DETECT_BAD_ALLOC
+      memset(ptr, 0x00, sizeof(T));
+#endif
     }
   }
 
@@ -49,6 +85,14 @@ public:
     _blocks.clear();
     _free_objects.clear();
     _last_index = 0;
+  }
+
+  inline static size_t get_object_count() {
+#ifdef DETECT_BAD_ALLOC
+    return _size;
+#else
+    return 0;
+#endif
   }
 
 private:
@@ -74,12 +118,23 @@ private:
   }
 
   static size_t _last_index;
+
+#ifdef DETECT_BAD_ALLOC
+  static size_t _size;
+#endif
+
   static std::vector<char*> _blocks;
   static std::vector<T*> _free_objects;
 };
 
 template <typename T>
 size_t MemoryPool<T>::_last_index = 0;
+
+#ifdef DETECT_BAD_ALLOC
+template <typename T>
+size_t MemoryPool<T>::_size = 0;
+#endif
+
 template <typename T>
 std::vector<char*> MemoryPool<T>::_blocks;
 template <typename T>

@@ -1,0 +1,5 @@
+timestamp;server;client
+0 ms;;SENT [connect] {}
+7 ms;RECV [connect] {};
+12 ms;SENT [accept_connection] {};
+67 ms;;RECV [accept_connection] {}

@@ -8,9 +8,11 @@
 
 #include "config_module.h"
 #include "component.h"
-#include "perf_utility.h"
+#include "leak_detector.h"
 #include "memory_pool.h"
 #include "luse.h"
+#include "uuid.h"
+#include <string>
 
 // AUTOGEN:: aditional includes
 #include <vector>
@@ -20,61 +22,73 @@ class EntityManager;
 class TransformComponent;
 
 class TransformComponentMeta : public Component {
-  protected:
-    using superclass = TransformComponentMeta;
+protected:
+  using superclass = TransformComponentMeta;
 
-  public:
-    DEFINE_COMPONENT_BASE();
+public:
+  DEFINE_COMPONENT_BASE();
 
-    // AUTOGEN:: accessors
-    inline const std::vector<Entity*>& get_children() const { return _children; }
+  // AUTOGEN:: accessors
+  inline bool get_abs_matrix_is_dirty() const { return _abs_matrix_is_dirty; }
 
-    inline const LVecBase3f& get_hpr() const { return _hpr; }
+  inline const LVecBase3f& get_hpr() const { return _hpr; }
 
-    inline bool get_is_dirty() const { return _is_dirty; }
+  inline const LVecBase3f& get_pos() const { return _pos; }
 
-    inline const LMatrix4f& get_mat() const { return _mat; }
+  inline const LVecBase3f& get_scale() const { return _scale; }
 
-    inline Entity* get_parent() const { return _parent; }
+  inline const LMatrix4f& get_matrix() const { return _matrix; }
 
-    inline const LVecBase3f& get_pos() const { return _pos; }
+  inline Entity* get_parent() const { return _parent; }
 
-    inline const LVecBase3f& get_scale() const { return _scale; }
+  inline const std::vector<Entity*>& get_children() const { return _children; }
 
+  // AUTOGEN:: serialization
 
-    // AUTOGEN:: serialization
-    virtual void serialize(PlainTextSerializer* serializer) const override;
+#ifndef INTERROGATE
+  virtual void serialize(p3d_ecs::proto::Components* dest) const override;
+  void deserialize(const p3d_ecs::proto::TransformComponent& message);
+  virtual bool data_equals(const Component& other) const override;
+  virtual void fillin_ptrs() override;
+#endif
 
-    virtual bool data_equals(const Component &other) const override;
-  protected:
-    // AUTOGEN:: constructor
-    inline TransformComponentMeta(Entity* entity) : Component(entity)
-      , _children()
-      , _hpr()
-      , _is_dirty(false)
-      , _mat(LMatrix4f::ident_mat())
-      , _parent(nullptr)
-      , _pos()
-      , _scale(1, 1, 1)
-      {};
+protected:
+  // AUTOGEN:: constructor
+  inline TransformComponentMeta(Entity* entity) : Component(entity)
+    , _abs_matrix_is_dirty(false)
+    , _absolute_matrix(_absolute_matrix_DEFAULT)
+    , _hpr(_hpr_DEFAULT)
+    , _pos(_pos_DEFAULT)
+    , _scale(_scale_DEFAULT)
+    , _matrix(_matrix_DEFAULT)
+    , _parent(nullptr)
+    , _children()
+    { ECS_ON_CREATE("TransformComponentMeta"); };
 
-    // AUTOGEN:: internal members
-    std::vector<Entity*> _children;
-    LVecBase3f _hpr;
-    bool _is_dirty;
-    LMatrix4f _mat;
-    Entity* _parent;
-    LVecBase3f _pos;
-    LVecBase3f _scale;
+  ~TransformComponentMeta() { ECS_ON_DELETE("TransformComponentMeta"); };
+  // AUTOGEN:: internal members
+  bool _abs_matrix_is_dirty;
 
-    // AUTOGEN:: member names for plain text serialization
-    static const char* children_CSTR;
-    static const char* hpr_CSTR;
-    static const char* is_dirty_CSTR;
-    static const char* mat_CSTR;
-    static const char* parent_CSTR;
-    static const char* pos_CSTR;
-    static const char* scale_CSTR;
+  LMatrix4f _absolute_matrix;
+  static const LMatrix4f _absolute_matrix_DEFAULT;
+
+  LVecBase3f _hpr;
+  static const LVecBase3f _hpr_DEFAULT;
+
+  LVecBase3f _pos;
+  static const LVecBase3f _pos_DEFAULT;
+
+  LVecBase3f _scale;
+  static const LVecBase3f _scale_DEFAULT;
+
+  LMatrix4f _matrix;
+  static const LMatrix4f _matrix_DEFAULT;
+
+  Entity* _parent;
+  UUID _parent_FILLIN_CACHE;
+
+  std::vector<Entity*> _children;
+  std::vector<UUID> _children_FILLIN_CACHE;
 
 };
 #endif

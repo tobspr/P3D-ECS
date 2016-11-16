@@ -4,15 +4,19 @@
 
 #include "config_module.h"
 #include "component.h"
-#include "memory_pool.h"
-#include "entity_ref.h"
 #include "uuid.h"
+
+#ifndef INTERROGATE
+#include "entity.pb.h"
+#endif
 
 #include <stdint.h>
 #include <cassert>
 #include <utility>
 #include <iostream>
 
+template <typename T>
+class MemoryPool;
 class EntityManager;
 class EntityCollector;
 class EntityRef;
@@ -24,8 +28,11 @@ class Entity final {
   friend class MemoryPool<Entity>;
   friend class EntityRef;
 
+public:
   using id_t = uint_fast64_t;
   using component_pair_t = std::pair<Component::id_t, Component*>;
+
+private:
   static id_t next_id;
 
 public:
@@ -34,7 +41,7 @@ public:
   // Required for unittests
   static inline void reset_id_pool() { next_id = 1000u; };
 
-  ECS_FORCEINLINE ~Entity();
+  ~Entity();
   Entity(const Entity& other) = delete;            // nope
   Entity(Entity&& other) = delete;                 // nope
   Entity& operator=(const Entity& other) = delete; // nope
@@ -42,14 +49,17 @@ public:
 
   ECS_FORCEINLINE id_t get_id() const { return _id; };
   ECS_FORCEINLINE const UUID& get_uuid() const { return _uuid; };
+  ECS_FORCEINLINE EntityManager* get_manager() const { return _manager; };
+  ECS_FORCEINLINE bool get_needs_fillin() const { return _needs_fillin; }
 
   ECS_FORCEINLINE size_t get_num_components() const { return _components.size(); };
   ECS_FORCEINLINE Component::bitmask_t get_component_mask() const { return _component_mask; }
   ECS_FORCEINLINE bool is_flagged_for_deletion() const { return _flagged_for_deletion; }
 
-  ECS_FORCEINLINE Component& get_component_by_id(Component::id_t id);
-  ECS_FORCEINLINE const Component& get_component_by_id(Component::id_t id) const;
+  Component& get_component_by_id(Component::id_t id);
+  const Component& get_component_by_id(Component::id_t id) const;
   ECS_FORCEINLINE bool has_component_by_id(Component::id_t id) const;
+  void remove_component_by_id(Component::id_t id);
 
   template <typename T>
   ECS_FORCEINLINE T& get_component();
@@ -63,20 +73,25 @@ public:
   template <typename T>
   inline void remove_component();
 
-  template <typename T, typename... Args>
-  inline T& new_component(Args&&... args);
+  template <typename T>
+  inline T& new_component();
 
-  void serialize(PlainTextSerializer* serializer) const;
   void remove();
+#ifndef INTERROGATE
+  p3d_ecs::proto::Entity* serialize() const;
+  void deserialize(p3d_ecs::proto::Entity* message);
+#endif
 
   bool data_equals(const Entity* other) const;
+  void fillin_ptrs();
+  void on_deserialization_finished();
 
 private: // Internal Interface
-  ECS_FORCEINLINE explicit Entity(EntityManager* manager, UUID&& uuid);
+  explicit Entity(EntityManager* manager, UUID&& uuid);
 
   void on_registered_by_manager();
-  void on_component_added(Component::id_t id, Component* ptr);
-  void on_component_removed(Component::id_t id);
+
+  void add_component_by_id_and_ptr(Component::id_t id, Component* ptr);
 
   bool is_registered_to_collector(EntityCollector* collector);
   void on_registered_to_collector(EntityCollector* collector);
@@ -85,12 +100,15 @@ private: // Internal Interface
   void on_ref_created(EntityRef* ref);
   void on_ref_deleted(EntityRef* ref);
 
-  ECS_FORCEINLINE const std::vector<EntityCollector*>& get_collectors() const { return _registered_collectors; };
+  ECS_FORCEINLINE const std::vector<EntityCollector*>& get_collectors() const {
+    return _registered_collectors;
+  };
 
 private: // Private stuff
   EntityManager* _manager;
 
   bool _registered;
+  bool _needs_fillin;
   bool _flagged_for_deletion;
   id_t _id;
   UUID _uuid;

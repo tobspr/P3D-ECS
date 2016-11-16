@@ -5,6 +5,7 @@
 
 #include "component.h"
 #include "perf_utility.h"
+#include "leak_detector.h"
 
 #include <vector>
 #include <unordered_set>
@@ -71,6 +72,7 @@ public:
   bool entity_fits(Entity* entity) const;
 
   void remove_entity(Entity* entity);
+  void reset();
 
   inline const component_list_t& get_components() const { return _components; };
   inline Component::bitmask_t get_component_mask() const { return _component_mask; };

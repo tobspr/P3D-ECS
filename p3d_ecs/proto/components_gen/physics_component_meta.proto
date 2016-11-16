@@ -1,0 +1,11 @@
+syntax = "proto3";
+package p3d_ecs.proto;
+
+import "google/protobuf/wrappers.proto";
+
+message PhysicsComponent {
+
+  google.protobuf.FloatValue mass = 1;
+  google.protobuf.BoolValue is_static = 2;
+
+}

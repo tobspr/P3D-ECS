@@ -6,7 +6,9 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "c:/Projekte/Panda3D/built_x64/python/ppython.exe",
-            "args": ["run_tests.py"],
+            "args": [
+                "run_tests.py"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
@@ -17,6 +19,21 @@
             "type": "cppvsdbg",
             "request": "attach",
             "processId": "${command.pickProcess}"
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "pythonPath": "${config.python.pythonPath}",
+            "request": "launch",
+            "stopOnEntry": false,
+            "console": "externalTerminal",
+            "program": "${file}",
+            "cwd": "${workspaceRoot}",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
         }
     ]
 }

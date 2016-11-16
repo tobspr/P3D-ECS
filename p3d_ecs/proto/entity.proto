@@ -1,0 +1,9 @@
+syntax = "proto3";
+package p3d_ecs.proto;
+
+import "components.proto";
+
+message Entity {
+  bytes uuid = 1;
+  p3d_ecs.proto.Components components = 2;
+}

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\3bb5954f539715a840390000ee839724\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{93FFFD1E-0B4A-3F10-A738-1B1F3A673862}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

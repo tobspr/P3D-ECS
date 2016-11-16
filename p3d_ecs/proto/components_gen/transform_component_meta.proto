@@ -1,0 +1,12 @@
+syntax = "proto3";
+package p3d_ecs.proto;
+
+import "component_types/luse.proto";
+
+message TransformComponent {
+
+  p3d_ecs.proto.LMatrix4f matrix = 1;
+  bytes parent = 2;
+  repeated bytes children = 3;
+
+}

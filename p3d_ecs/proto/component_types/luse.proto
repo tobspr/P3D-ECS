@@ -1,0 +1,30 @@
+syntax = "proto3";
+package p3d_ecs.proto;
+
+message LVecBase3f {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+};
+
+message LMatrix4f {
+  float m_0_0 = 1;
+  float m_0_1 = 2;
+  float m_0_2 = 3;
+  float m_0_3 = 4;
+
+  float m_1_0 = 5;
+  float m_1_1 = 6;
+  float m_1_2 = 7;
+  float m_1_3 = 8;
+
+  float m_2_0 = 9;
+  float m_2_1 = 10;
+  float m_2_2 = 11;
+  float m_2_3 = 12;
+
+  float m_3_0 = 13;
+  float m_3_1 = 14;
+  float m_3_2 = 15;
+  float m_3_3 = 16;
+};

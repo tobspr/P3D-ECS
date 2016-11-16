@@ -1,0 +1,23 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/win_amd64_py35": true,
+        "**/__pycache__": true
+    },
+
+    "files.associations": {
+        ".I": "cpp"
+    },
+
+    "files.trimTrailingWhitespace": true,
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/thirdparty": true,
+        "**/win_amd64_py35": true,
+        "**/__pycache__": true
+    },
+
+    "python.linting.enabled": false
+
+}

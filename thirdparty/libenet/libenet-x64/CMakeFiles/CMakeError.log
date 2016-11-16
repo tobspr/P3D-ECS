@@ -1,0 +1,463 @@
+Determining if the function fcntl exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_400cd.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:30.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_400cd.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_400cd.dir\Debug\cmTC_400cd.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_400cd.dir\Debug\cmTC_400cd.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fcntl /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_400cd.dir\Debug\\" /Fd"cmTC_400cd.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fcntl /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_400cd.dir\Debug\\" /Fd"cmTC_400cd.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_400cd.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_400cd.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_400cd.lib" /MACHINE:X64  /machine:x64 cmTC_400cd.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol fcntl referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_400cd.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol fcntl referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_400cd.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_400cd.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.44
+
+
+Determining if the function poll exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_33f1b.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:30.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_33f1b.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_33f1b.dir\Debug\cmTC_33f1b.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_33f1b.dir\Debug\cmTC_33f1b.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=poll /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_33f1b.dir\Debug\\" /Fd"cmTC_33f1b.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=poll /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_33f1b.dir\Debug\\" /Fd"cmTC_33f1b.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_33f1b.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_33f1b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_33f1b.lib" /MACHINE:X64  /machine:x64 cmTC_33f1b.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol poll referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_33f1b.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol poll referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_33f1b.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_33f1b.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.43
+
+
+Determining if the function getaddrinfo exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_e03d4.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:31.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_e03d4.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_e03d4.dir\Debug\cmTC_e03d4.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_e03d4.dir\Debug\cmTC_e03d4.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=getaddrinfo /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e03d4.dir\Debug\\" /Fd"cmTC_e03d4.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=getaddrinfo /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e03d4.dir\Debug\\" /Fd"cmTC_e03d4.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_e03d4.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_e03d4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_e03d4.lib" /MACHINE:X64  /machine:x64 cmTC_e03d4.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol getaddrinfo referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_e03d4.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol getaddrinfo referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_e03d4.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_e03d4.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.42
+
+
+Determining if the function getnameinfo exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_7a304.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:31.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_7a304.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_7a304.dir\Debug\cmTC_7a304.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_7a304.dir\Debug\cmTC_7a304.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=getnameinfo /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7a304.dir\Debug\\" /Fd"cmTC_7a304.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=getnameinfo /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7a304.dir\Debug\\" /Fd"cmTC_7a304.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_7a304.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_7a304.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_7a304.lib" /MACHINE:X64  /machine:x64 cmTC_7a304.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol getnameinfo referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_7a304.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol getnameinfo referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_7a304.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_7a304.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.42
+
+
+Determining if the function gethostbyname_r exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_b7135.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:32.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_b7135.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_b7135.dir\Debug\cmTC_b7135.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_b7135.dir\Debug\cmTC_b7135.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=gethostbyname_r /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_b7135.dir\Debug\\" /Fd"cmTC_b7135.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=gethostbyname_r /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_b7135.dir\Debug\\" /Fd"cmTC_b7135.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_b7135.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_b7135.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_b7135.lib" /MACHINE:X64  /machine:x64 cmTC_b7135.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol gethostbyname_r referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_b7135.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol gethostbyname_r referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_b7135.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_b7135.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.42
+
+
+Determining if the function gethostbyaddr_r exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_cb4a2.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:33.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_cb4a2.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_cb4a2.dir\Debug\cmTC_cb4a2.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_cb4a2.dir\Debug\cmTC_cb4a2.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=gethostbyaddr_r /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cb4a2.dir\Debug\\" /Fd"cmTC_cb4a2.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=gethostbyaddr_r /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cb4a2.dir\Debug\\" /Fd"cmTC_cb4a2.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_cb4a2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_cb4a2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_cb4a2.lib" /MACHINE:X64  /machine:x64 cmTC_cb4a2.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol gethostbyaddr_r referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_cb4a2.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol gethostbyaddr_r referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_cb4a2.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb4a2.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.49
+
+
+Determining if the function inet_pton exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_1b426.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:33.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_1b426.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_1b426.dir\Debug\cmTC_1b426.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_1b426.dir\Debug\cmTC_1b426.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=inet_pton /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1b426.dir\Debug\\" /Fd"cmTC_1b426.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=inet_pton /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1b426.dir\Debug\\" /Fd"cmTC_1b426.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_1b426.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_1b426.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_1b426.lib" /MACHINE:X64  /machine:x64 cmTC_1b426.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol inet_pton referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_1b426.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol inet_pton referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_1b426.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_1b426.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.47
+
+
+Determining if the function inet_ntop exists failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_f3d69.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:34.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_f3d69.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_f3d69.dir\Debug\cmTC_f3d69.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_f3d69.dir\Debug\cmTC_f3d69.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=inet_ntop /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f3d69.dir\Debug\\" /Fd"cmTC_f3d69.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=inet_ntop /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f3d69.dir\Debug\\" /Fd"cmTC_f3d69.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Program Files (x86)\CMake\share\cmake-3.5\Modules\CheckFunctionExists.c"
+  
+  CheckFunctionExists.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_f3d69.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_f3d69.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp/Debug/cmTC_f3d69.lib" /MACHINE:X64  /machine:x64 cmTC_f3d69.dir\Debug\CheckFunctionExists.obj
+CheckFunctionExists.obj : error LNK2019: unresolved external symbol inet_ntop referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj]
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_f3d69.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj" (default target) (1) ->
+(Link target) -> 
+  CheckFunctionExists.obj : error LNK2019: unresolved external symbol inet_ntop referenced in function main [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj]
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\cmTC_f3d69.exe : fatal error LNK1120: 1 unresolved externals [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_f3d69.vcxproj]
+
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.46
+
+
+Performing C SOURCE FILE Test HAS_MSGHDR_FLAGS failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_dcea7.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:34.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_dcea7.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_dcea7.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_dcea7.dir\Debug\cmTC_dcea7.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_dcea7.dir\Debug\cmTC_dcea7.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D HAS_MSGHDR_FLAGS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_dcea7.dir\Debug\\" /Fd"cmTC_dcea7.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\src.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D HAS_MSGHDR_FLAGS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_dcea7.dir\Debug\\" /Fd"cmTC_dcea7.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\src.c"
+  
+  src.c
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\src.c(3): fatal error C1083: Cannot open include file: 'sys/socket.h': No such file or directory [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_dcea7.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_dcea7.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_dcea7.vcxproj" (default target) (1) ->
+(ClCompile target) -> 
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\src.c(3): fatal error C1083: Cannot open include file: 'sys/socket.h': No such file or directory [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_dcea7.vcxproj]
+
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:00.38
+
+Source file was:
+
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int main()
+{
+   (void)sizeof(((struct msghdr *)0)->msg_flags);
+   return 0;
+}
+
+Determining size of socklen_t failed with the following output:
+Change Dir: C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_cb846.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) Build Engine version 14.0.23107.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.11.2016 12:05:35.
+Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb846.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_cb846.dir\Debug\".
+  Creating directory "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_cb846.dir\Debug\cmTC_cb846.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_cb846.dir\Debug\cmTC_cb846.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cb846.dir\Debug\\" /Fd"cmTC_cb846.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CheckTypeSize\HAS_SOCKLEN_T.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.23026 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cb846.dir\Debug\\" /Fd"cmTC_cb846.dir\Debug\vc140.pdb" /Gd /TC /errorReport:queue "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CheckTypeSize\HAS_SOCKLEN_T.c"
+  
+  HAS_SOCKLEN_T.c
+C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CheckTypeSize\HAS_SOCKLEN_T.c(2): fatal error C1083: Cannot open include file: 'sys/socket.h': No such file or directory [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb846.vcxproj]
+Done Building Project "C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb846.vcxproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb846.vcxproj" (default target) (1) ->
+(ClCompile target) -> 
+  C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CheckTypeSize\HAS_SOCKLEN_T.c(2): fatal error C1083: Cannot open include file: 'sys/socket.h': No such file or directory [C:\Projekte\P3D-ECS\thirdparty\libenet\libenet-x64\CMakeFiles\CMakeTmp\cmTC_cb846.vcxproj]
+
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:00.35
+
+C:/Projekte/P3D-ECS/thirdparty/libenet/libenet-x64/CMakeFiles/CheckTypeSize/HAS_SOCKLEN_T.c:
+#include "sys/types.h"
+#include "sys/socket.h"
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#endif
+
+#define SIZE (sizeof(socklen_t))
+char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+

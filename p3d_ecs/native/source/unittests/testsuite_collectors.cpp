@@ -1,16 +1,10 @@
 
 #include "testsuite_collectors.h"
 
-#include "movement_system.h"
 #include "unittest.h"
-
-#include <iostream>
-#include <unordered_set>
-#include <functional>
-#include <string>
-#include <fstream>
-#include <sstream>
-using namespace std;
+#include "entity_system.h"
+#include "transform_component.h"
+#include "physics_component.h"
 
 void
 testsuite_collectors() {
@@ -22,7 +16,7 @@ testsuite_collectors() {
 
       processed_entities = 0;
       for (auto entity : get_entities()) {
-        TC_REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
+        REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
         ++processed_entities;
       };
     }
@@ -41,13 +35,13 @@ testsuite_collectors() {
     mgr->process_changes();
     sys->process(1.0);
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 1u);
+    REQUIRE_EQ(sys->get_entities().size(), 1u);
 
     entity->remove();
 
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
 
     delete sys;
   }
@@ -63,12 +57,12 @@ testsuite_collectors() {
     mgr->process_changes();
     sys->process(1.0);
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
 
     entity->new_component<PhysicsComponent>();
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 1u);
+    REQUIRE_EQ(sys->get_entities().size(), 1u);
 
     mgr->process_changes();
 
@@ -76,7 +70,7 @@ testsuite_collectors() {
 
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
 
     delete sys;
   }
@@ -88,28 +82,28 @@ testsuite_collectors() {
 
     Entity* entity = mgr->new_entity();
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
     mgr->process_changes();
 
     entity->new_component<PhysicsComponent>();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     mgr->process_changes();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 1);
+    REQUIRE_EQ(sys->processed_entities, 1);
 
     entity->remove();
 
-    mgr->print_status();
+    // mgr->print_status();
     mgr->process_changes();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
 
     delete sys;
   }
@@ -125,31 +119,31 @@ testsuite_collectors() {
     entity->new_component<PhysicsComponent>();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     mgr->process_changes();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 1);
+    REQUIRE_EQ(sys->processed_entities, 1);
 
     entity->remove_component<PhysicsComponent>();
 
     sys->process(1.0);
     // Removal of components directly affects the list of
     // captured entities
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     mgr->process_changes();
 
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     entity->remove();
 
-    mgr->print_status();
+    // mgr->print_status();
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(sys->get_entities().size(), 0u);
+    REQUIRE_EQ(sys->get_entities().size(), 0u);
 
     delete sys;
   }
@@ -163,7 +157,7 @@ testsuite_collectors() {
       virtual void process(float dt) override {
         processed_entities = 0;
         for (auto entity : get_entities()) {
-          TC_REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
+          REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
           ++processed_entities;
           if (processed_entities == 10)
             entity->remove();
@@ -183,25 +177,25 @@ testsuite_collectors() {
       entities.push_back(entity);
     }
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     mgr->process_changes();
     sys->process(1.0);
     sys2->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 10);
-    TC_REQUIRE_EQ(sys2->processed_entities, 9);
+    REQUIRE_EQ(sys->processed_entities, 10);
+    REQUIRE_EQ(sys2->processed_entities, 9);
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     mgr->process_changes(); // entity should be removed here
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 9);
+    REQUIRE_EQ(mgr->get_num_entities(), 9);
 
     sys->process(1.0);
     sys2->process(1.0);
 
-    TC_REQUIRE_EQ(sys->processed_entities, 9);
-    TC_REQUIRE_EQ(sys2->processed_entities, 9);
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 9);
+    REQUIRE_EQ(sys->processed_entities, 9);
+    REQUIRE_EQ(sys2->processed_entities, 9);
+    REQUIRE_EQ(mgr->get_num_entities(), 9);
 
     entities.pop_back(); // last one is already removed
     for (auto entity : entities)
@@ -209,7 +203,10 @@ testsuite_collectors() {
 
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 0);
+    REQUIRE_EQ(mgr->get_num_entities(), 0);
+
+    delete sys;
+    delete sys2;
   }
   END_TESTCASE;
 
@@ -221,7 +218,7 @@ testsuite_collectors() {
       virtual void process(float dt) override {
         processed_entities = 0;
         for (auto entity : get_entities()) {
-          TC_REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
+          REQUIRE_EQ(entity->has_component<PhysicsComponent>(), true);
           ++processed_entities;
           if (processed_entities == 10)
             entity->remove_component<PhysicsComponent>();
@@ -241,32 +238,35 @@ testsuite_collectors() {
       entities.push_back(entity);
     }
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     mgr->process_changes();
     sys->process(1.0);
     sys2->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 10);
-    TC_REQUIRE_EQ(sys2->processed_entities, 9);
+    REQUIRE_EQ(sys->processed_entities, 10);
+    REQUIRE_EQ(sys2->processed_entities, 9);
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     mgr->process_changes(); // entity should be removed here
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     sys->process(1.0);
     sys2->process(1.0);
 
-    TC_REQUIRE_EQ(sys->processed_entities, 9);
-    TC_REQUIRE_EQ(sys2->processed_entities, 9);
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 10);
+    REQUIRE_EQ(sys->processed_entities, 9);
+    REQUIRE_EQ(sys2->processed_entities, 9);
+    REQUIRE_EQ(mgr->get_num_entities(), 10);
 
     for (auto entity : entities)
       entity->remove();
 
     mgr->process_changes();
 
-    TC_REQUIRE_EQ(mgr->get_num_entities(), 0);
+    REQUIRE_EQ(mgr->get_num_entities(), 0);
+
+    delete sys;
+    delete sys2;
   }
   END_TESTCASE;
 
@@ -283,25 +283,25 @@ testsuite_collectors() {
       entity->remove_component<PhysicsComponent>();
     }
 
-    TC_REQUIRE_EQ(entity->get_num_components(), 0);
-    TC_REQUIRE_EQ(entity->get_component_mask(), 0);
+    REQUIRE_EQ(entity->get_num_components(), 0);
+    REQUIRE_EQ(entity->get_component_mask(), 0);
 
     mgr->process_changes();
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     entity->new_component<PhysicsComponent>();
     entity->remove_component<PhysicsComponent>();
 
     mgr->process_changes();
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 0);
+    REQUIRE_EQ(sys->processed_entities, 0);
 
     entity->new_component<PhysicsComponent>();
 
     mgr->process_changes();
     sys->process(1.0);
-    TC_REQUIRE_EQ(sys->processed_entities, 1);
+    REQUIRE_EQ(sys->processed_entities, 1);
 
     entity->remove();
 

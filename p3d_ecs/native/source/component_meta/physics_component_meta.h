@@ -8,47 +8,51 @@
 
 #include "config_module.h"
 #include "component.h"
-#include "perf_utility.h"
+#include "leak_detector.h"
 #include "memory_pool.h"
 #include "luse.h"
+#include "uuid.h"
+#include <string>
 
 class Entity;
 class EntityManager;
 class PhysicsComponent;
 
 class PhysicsComponentMeta : public Component {
-  protected:
-    using superclass = PhysicsComponentMeta;
+protected:
+  using superclass = PhysicsComponentMeta;
 
-  public:
-    DEFINE_COMPONENT_BASE();
+public:
+  DEFINE_COMPONENT_BASE();
 
-    // AUTOGEN:: accessors
-    inline bool get_is_static() const { return _is_static; }
-    inline void set_is_static(bool val) { _is_static = val; }
+  // AUTOGEN:: accessors
+  inline float get_mass() const { return _mass; }
+  inline void set_mass(float val) { _mass = val; }
 
-    inline float get_mass() const { return _mass; }
-    inline void set_mass(float val) { _mass = val; }
+  inline bool get_is_static() const { return _is_static; }
+  inline void set_is_static(bool val) { _is_static = val; }
 
+  // AUTOGEN:: serialization
 
-    // AUTOGEN:: serialization
-    virtual void serialize(PlainTextSerializer* serializer) const override;
+#ifndef INTERROGATE
+  virtual void serialize(p3d_ecs::proto::Components* dest) const override;
+  void deserialize(const p3d_ecs::proto::PhysicsComponent& message);
+  virtual bool data_equals(const Component& other) const override;
+  virtual void fillin_ptrs() override;
+#endif
 
-    virtual bool data_equals(const Component &other) const override;
-  protected:
-    // AUTOGEN:: constructor
-    inline PhysicsComponentMeta(Entity* entity) : Component(entity)
-      , _is_static(false)
-      , _mass(10.0)
-      {};
+protected:
+  // AUTOGEN:: constructor
+  inline PhysicsComponentMeta(Entity* entity) : Component(entity)
+    , _mass(10.0)
+    , _is_static(false)
+    { ECS_ON_CREATE("PhysicsComponentMeta"); };
 
-    // AUTOGEN:: internal members
-    bool _is_static;
-    float _mass;
+  ~PhysicsComponentMeta() { ECS_ON_DELETE("PhysicsComponentMeta"); };
+  // AUTOGEN:: internal members
+  float _mass;
 
-    // AUTOGEN:: member names for plain text serialization
-    static const char* is_static_CSTR;
-    static const char* mass_CSTR;
+  bool _is_static;
 
 };
 #endif
