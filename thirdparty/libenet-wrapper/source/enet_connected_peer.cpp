@@ -9,7 +9,7 @@
 
 struct ENetConnectedPeerPy::impl {
 
-  impl(const std::string& context) : _context(context) {}
+  impl() {}
 
   ~impl() {
     if (_peer) {
@@ -30,15 +30,18 @@ struct ENetConnectedPeerPy::impl {
   }
 
   void set_peer(ENetPeer* peer) { _peer = peer; }
+  void set_host(ENetHost* host) { _host = host; }
   ENetPeer* get_peer() { return _peer;  }
 
   void send_message(const std::string& bytes, enet_uint8 channel, bool reliable) {
     NETWORK_THREAD_SAFE;
-    log_sent_packet(_context, bytes, channel, reliable);
+    log_sent_packet(bytes, channel, reliable);
     assert(_peer);
     ENetPacket* packet =
       enet_packet_create(bytes.c_str(), bytes.size() + 1, reliable ? ENET_PACKET_FLAG_RELIABLE : 0);
     enet_peer_send(_peer, channel, packet);
+    enet_host_flush(_host);
+    
   }
 
   void on_message_recieved(const std::string& bytes, enet_uint8 channel) {
@@ -49,12 +52,12 @@ struct ENetConnectedPeerPy::impl {
 
 private:
   std::queue<std::string> _messages;
-  std::string _context;
   ENetPeer* _peer = nullptr;
+  ENetHost* _host = nullptr;
 };
 
-ENetConnectedPeerPy::ENetConnectedPeerPy(const std::string& context) {
-  _impl = new impl(context);
+ENetConnectedPeerPy::ENetConnectedPeerPy() {
+  _impl = new impl();
 }
 
 ENetConnectedPeerPy::~ENetConnectedPeerPy() {
@@ -80,6 +83,11 @@ ENetConnectedPeerPy::send_message(const std::string& bytes, enet_uint8 channel, 
 void ENetConnectedPeerPy::set_peer(ENetPeer* peer) {
   _impl->set_peer(peer);
 }
+
+void ENetConnectedPeerPy::set_host(ENetHost* host) {
+  _impl->set_host(host);
+}
+
 
 ENetPeer* ENetConnectedPeerPy::get_peer() {
   return _impl->get_peer();

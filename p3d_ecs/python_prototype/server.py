@@ -13,20 +13,37 @@ from libenet import *
 from direct.showbase.ShowBase import ShowBase
 
 
-class ServerApp(ShowBase):
+GUI_INTERFACE = False
 
+class FakeTask(object):
+    cont = None
+
+class ServerApp(ShowBase if GUI_INTERFACE else object):
+    UPDATE_RATE = 60 if GUI_INTERFACE else 10000
 
     def __init__(self, ip, port):
-        ShowBase.__init__(self)
+        set_context("SERVER")
+        if GUI_INTERFACE:
+            ShowBase.__init__(self)
+            self.addTask(self.update_task, "update")
+
         self.addr = (ip, port)
         self.peer_to_client = {}
+        self.last_update = 0
 
-        self.addTask(self.update_task, "update")
         self.game_logic = ServerLogic(self)
+        self.game_logic.load()
 
-        # self.renderer = self.game_logic.manager.new_system(RenderSystem)
-        self.setBackgroundColor(0.95, 0.95, 0.95, 1.0)
+        if GUI_INTERFACE:
+            self.renderer = self.game_logic.entity_mgr.new_system(RenderSystem)
+            self.setBackgroundColor(0.95, 0.95, 0.95, 1.0)
+
         self.init_socket()
+
+        if not GUI_INTERFACE:
+            print("Starting listener loop")
+            while True:
+                self.update_task(FakeTask)
 
     def init_socket(self):
         self.socket = ENetServerSocketPy()
@@ -35,9 +52,14 @@ class ServerApp(ShowBase):
             os._exit(-1)
 
     def update_task(self, task):
+        duration = time.time() - self.last_update
+        if duration < 1.0 / self.UPDATE_RATE:
+            return task.cont
+        self.last_update = time.time()
+
         event = self.socket.poll()
         while event.type != ENetSocketEvent.Empty:
-            print("Server recieved event: ", event.type)
+            # print("Server recieved event: ", event.type)
             event = self.socket.poll()
 
         processed_clients = []
@@ -46,7 +68,7 @@ class ServerApp(ShowBase):
             if peer not in self.peer_to_client:
                 client = VirtualClient(peer, self.addr)
                 self.peer_to_client[peer] = client
-                print("NEW CLIENT CONNECTED")
+                # print("NEW CLIENT CONNECTED")
                 self.game_logic.handle_new_client(client)
             else:
                 client = self.peer_to_client[peer]
@@ -58,8 +80,11 @@ class ServerApp(ShowBase):
 
         for peer in list(self.peer_to_client.keys()):
             if peer not in processed_clients:
-                print("REMOVING disconnected client", peer)
+                print("removing disconnected client", peer)
                 del self.peer_to_client[peer]
 
-        self.game_logic.tick(globalClock.getDt())
+        if GUI_INTERFACE:
+            self.game_logic.tick(globalClock.getDt())
+        else:
+            self.game_logic.tick(1.0 / self.UPDATE_RATE)
         return task.cont

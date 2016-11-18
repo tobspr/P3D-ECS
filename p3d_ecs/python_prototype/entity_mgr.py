@@ -39,7 +39,7 @@ class Entity(object):
         for cls_name, data in json["components"].items():
             type_handle = globals()[cls_name]
             if not self.has_component(type_handle):
-                print("Adding new component", type_handle)
+                # print("Adding new component", type_handle)
                 self.new_component(type_handle)
             self.get_component(type_handle).load(data)
             components_ok.append(type_handle)
@@ -48,7 +48,7 @@ class Entity(object):
             if comp not in components_ok:
                 bad_comps.append(comp)
         for comp in bad_comps:
-            print("Removing outdated component", comp)
+            # print("Removing outdated component", comp)
             self._components[comp].clear()
             del self._components[comp]
 

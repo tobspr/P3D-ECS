@@ -15,10 +15,14 @@ from panda3d.core import *
 from game_client import GameClient
 from server import ServerApp
 
+from libenet import get_time
+
 if __name__ == "__main__":
     IP = "localhost"
     PORT = random.randint(1025, 2**16 - 1)
     PORT = 5553
+
+    print("TIME", get_time())
 
     def client_main():
         print("Initializing client ..")
@@ -44,17 +48,11 @@ if __name__ == "__main__":
         server = ServerApp(IP, PORT)
         server.run()
 
-    # server_main()
-    for log in ["packets-client.log", "packets-server.log"]:
-        try:
-            os.remove(log)
-        except:
-            pass
-
     if "--client" in sys.argv:
-        time.sleep(0.5)
+        time.sleep(0.3)
         client_main()
     elif "--server" in sys.argv:
+        time.sleep(0.1)
         server_main()
     else:
         # parallel

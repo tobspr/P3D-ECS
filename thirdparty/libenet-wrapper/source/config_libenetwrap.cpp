@@ -22,7 +22,7 @@ init_libenetwrap() {
   if (enet_initialize() != 0) {
     fprintf(stderr, "An error occurred while initializing ENet.\n");
   } else {
-    std::cout << "Successfully initialized LibENET" << std::endl;
+    std::cout << "Successfully initialized LibENET v" << enet_linked_version() << std::endl;
   }
   atexit(enet_deinitialize);
 

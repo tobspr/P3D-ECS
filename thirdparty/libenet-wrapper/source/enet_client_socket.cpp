@@ -41,8 +41,9 @@ struct ENetClientSocketPy::impl {
     ENetEvent event;
     if (enet_host_service(_host, &event, timeout) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
       std::cout << "RECV: Connection to " << host << ":" << port << " succeeded." << std::endl;
-      _connected_peer = new ENetConnectedPeerPy("client");
+      _connected_peer = new ENetConnectedPeerPy();
       _connected_peer->set_peer(peer);
+      _connected_peer->set_host(_host);
 
     } else {
       /* Either the 5 seconds are up or a disconnect event was */
@@ -69,7 +70,7 @@ struct ENetClientSocketPy::impl {
         assert(event.peer == _connected_peer->get_peer());
         const enet_uint8* data = event.packet->data;
         std::string bytes(data, data + event.packet->dataLength - 1); // -1 to crop '\0' ending
-        log_recv_packet("client", bytes, event.channelID);
+        log_recv_packet(bytes, event.channelID);
         _connected_peer->on_message_recieved(bytes, event.channelID);
         enet_packet_destroy(event.packet);
         return ENetSocketEvent(_connected_peer, ENetSocketEvent::MessageRecieved);

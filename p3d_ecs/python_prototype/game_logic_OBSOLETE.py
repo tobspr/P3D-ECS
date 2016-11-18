@@ -23,6 +23,8 @@ class GameLogic(object):
         self.waiting_deltas = []
         self.predicted_events = []
 
+        self.simulation_time_delta = 0
+
         self.velocity_system = self.manager.new_system(ForceSystem)
 
 

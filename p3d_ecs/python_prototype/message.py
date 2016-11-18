@@ -7,12 +7,13 @@ class Message(object):
     CHANNEL_RELIABLE = 1
 
     MID_CONNECT = "connect"
-    MID_CONNECT_ACCEPT = "accept_connection"
-    MID_CONSTRUCT_ENTITY = "construct_entity"
-    MID_ASSIGN_PLAYER_ENTITY = "assign_player_entity"
-    MID_GAMESTATE = "gamestate"
+    MID_INIT_GAMESTATE = "init_gamestate"
+    MID_CLIENT_READY = "client_ready"
+
     MID_GAMEDELTA = "gamedelta"
-    MID_TRIGGER_EVENT = "trigger_event"
+    MID_CONFIRM_DELTA = "confirm_delta"
+
+    MID_REQUEST_EVENT = "request_event"
 
     @classmethod
     def make(cls, mid, data):
@@ -22,5 +23,5 @@ class Message(object):
     def parse(cls, data):
         parts = data.split(cls.DIVIDER)
         assert len(parts) == 2
-        print("Parsing message:", parts)
+        # print("Parsing message:", parts)
         return parts[0], json.loads(parts[1])

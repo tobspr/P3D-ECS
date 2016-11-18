@@ -17,6 +17,7 @@ from libenet import *
 class GameClient(ShowBase):
 
     def __init__(self, ip, port):
+        set_context("CLIENT")
         super().__init__()
         self.addr = ip, port
         self.game_logic = ClientLogic(self)
@@ -27,10 +28,10 @@ class GameClient(ShowBase):
         self.addTask(self.update, "update")
 
     def init_systems(self):
-        # self.render_system = self.game_logic.manager.new_system(RenderSystem)
+        self.render_system = self.game_logic.entity_mgr.new_system(RenderSystem)
         # self.interact_system = self.game_logic.manager.new_system(
         #     InteractSystem)
-        pass
+
 
     def init_networking(self):
         self.socket = ENetClientSocketPy()
@@ -45,7 +46,7 @@ class GameClient(ShowBase):
     def update(self, task):
         event = self.socket.poll()
         while event.type != ENetSocketEvent.Empty:
-            print("Client recieved event: ", event.type)
+            # print("Client recieved event: ", event.type)
             event = self.socket.poll()
 
         for message_id, data in self.vclient.unprocessed_messages:
@@ -80,10 +81,10 @@ class GameClient(ShowBase):
         pass
 
     def set_velocity(self, x, y):
-        # speed = 1.0
-        # if self.player_entity:
-        #     # vel = self.player_entity.get_component(VelocityComponent)
-        #     # vel.velocity = Vec2(x, y) * speed
-        #     event = EventMovementRequested.create(self.player_entity, Vec2(x, y) * speed)
-        #     self.game_logic.trigger_event(self.vclient, event)
+        speed = 1.0
+        if self.game_logic.player_entity:
+            # vel = self.player_entity.get_component(VelocityComponent)
+            # vel.velocity = Vec2(x, y) * speed
+            event = EventMovement.create(self.game_logic.player_entity, Vec2(x, y) * speed)
+            self.game_logic.request_event(event)
         pass

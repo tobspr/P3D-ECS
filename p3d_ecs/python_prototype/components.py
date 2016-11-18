@@ -17,6 +17,13 @@ class TransformComponent(Component):
         self.pos = Vec2(0)
         self.rotation = 0
 
+    def serialize(self):
+        return {"pos": (self.pos.x, self.pos.y), "rotation": self.rotation}
+
+    def load(self, data):
+        self.pos = Vec2(*data["pos"])
+        self.rotation = data["rotation"]
+
 class VelocityComponent(Component):
 
     def __init__(self, entity):
@@ -55,10 +62,14 @@ class DrawComponent(Component):
 
     def load(self, data):
         if not self.mesh:
-            self.mesh = DirectFrame(frameColor=Vec4(*data["mesh"]), frameSize=(-0.05, 0.05, -0.05, 0.05))
+            try:
+                self.mesh = DirectFrame(frameColor=Vec4(*data["mesh"]), frameSize=(-0.05, 0.05, -0.05, 0.05))
+            except:
+                # In server
+                self.mesh = {"frameColor": data["mesh"]}
 
     def clear(self):
         super().clear()
-        if self.mesh:
+        if self.mesh and isinstance(self.mesh, DirectFrame):
             self.mesh.remove_node()
             del self.mesh

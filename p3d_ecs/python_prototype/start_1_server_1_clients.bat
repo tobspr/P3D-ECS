@@ -1,5 +1,5 @@
-@echo of
+@echo off
 
-start start_server.bat
-start start_client.bat
+start call start_server.bat
+start call start_client.bat
 

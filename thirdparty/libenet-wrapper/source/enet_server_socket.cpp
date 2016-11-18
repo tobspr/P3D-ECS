@@ -50,8 +50,9 @@ struct ENetServerSocketPy::impl {
                   << std::endl;
         /* Store any relevant client information here. */
 
-        ENetConnectedPeerPy* peer = new ENetConnectedPeerPy("server");
+        ENetConnectedPeerPy* peer = new ENetConnectedPeerPy();
         peer->set_peer(event.peer);
+        peer->set_host(_host);
         event.peer->data = peer;
         {
           NETWORK_THREAD_SAFE;
@@ -66,7 +67,7 @@ struct ENetServerSocketPy::impl {
           assert(peer);
           std::string bytes(event.packet->data, event.packet->data + event.packet->dataLength - 1);
 
-          log_recv_packet("server", bytes, event.channelID);
+          log_recv_packet(bytes, event.channelID);
           peer->on_message_recieved(bytes, event.channelID);
           enet_packet_destroy(event.packet);
           return ENetSocketEvent(nullptr, ENetSocketEvent::Type::MessageRecieved);

@@ -1,17 +1,23 @@
 import re
+import os
 
-targets = ["server", "client"]
+targets = []
+
+for f in os.listdir("."):
+    if f.startswith("packets-") and f.endswith(".log"):
+        name = f[8:-4]
+        targets.append(name)
+
+print("Targets:", *targets)
 
 output = []
 messages = []
 
-from message import Message
-
 output.append(["timestamp"] + targets)
 
-packet_re = re.compile(r"^([0-9]+): (recv|sent) packet, reliable=(0|1), size=([0-9]+), data=(.*)")
+log_re = re.compile(r"^([0-9]+) \[([0-9 ]+)\] (.*)")
 
-class Packet(object):
+class LogEntry(object):
     pass
 
 for i, target in enumerate(targets):
@@ -19,27 +25,22 @@ for i, target in enumerate(targets):
         for line in handle.readlines():
             line = line.strip()
             if line:
-                parts = packet_re.match(line)
-                p = Packet()
+                parts = log_re.match(line)
+
+                p = LogEntry()
                 p.timestamp = int(parts.group(1))
-                p.sent_or_recv = parts.group(2)
-                p.reliable = bool(int(parts.group(3)))
-                p.size = int(parts.group(4))
-                p.data = parts.group(5)
+                p.sim_time = int(parts.group(2))
+                p.content = parts.group(3)
                 p.index = i
                 messages.append(p)
 
 messages = list(sorted(messages, key=lambda packet: packet.timestamp))
 first_timestamp = messages[0].timestamp
 
-
 for message in messages:
-    parts = message.data.split(Message.DIVIDER)
-
-    serialized = message.sent_or_recv.upper() + " [" + parts[0] + "] " + parts[1]
+    serialized = "[" + str(message.sim_time).ljust(6) + "] " + message.content
     line = [""] * (len(targets) + 1)
-    print(message.timestamp)
-    line[0] = str( int((message.timestamp - first_timestamp) / (1000.0 ** 2) )) + " ms"
+    line[0] = str(int((message.timestamp - first_timestamp) / 1000000.0)) + " ms"
     line[message.index + 1] = serialized
     output.append(line)
 

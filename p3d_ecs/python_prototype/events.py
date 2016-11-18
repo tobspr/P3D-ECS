@@ -9,18 +9,15 @@ class Event(object):
         self.uuid = None
 
     def serialize(self):
-        return self.data
-
+        return {"uuid": self.uuid, "data": self.data}
 
 class EventInteractKeyPressed(Event):
     pass
 
-
 class EventRequestInteraction(Event):
     pass
 
-
-class EventMovementRequested(Event):
+class EventMovement(Event):
 
     @classmethod
     def create(cls, entity, velocity):

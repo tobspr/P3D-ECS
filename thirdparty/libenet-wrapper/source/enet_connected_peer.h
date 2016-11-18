@@ -9,6 +9,8 @@
 // Needs a bit different forward definiton because thats how enet declares its types
 struct _ENetPeer;
 typedef _ENetPeer ENetPeer;
+struct _ENetHost;
+typedef _ENetHost ENetHost;
 
 #ifdef INTERROGATE
 typedef unsigned char enet_uint8;
@@ -17,7 +19,7 @@ typedef unsigned char enet_uint8;
 #endif
 
 class ENetConnectedPeerPy {
-  PUBLISHED : ENetConnectedPeerPy(const std::string& context);
+  PUBLISHED : ENetConnectedPeerPy();
   ~ENetConnectedPeerPy();
 
   bool get_has_messages() const;
@@ -29,6 +31,8 @@ class ENetConnectedPeerPy {
 public:
 #ifndef INTERROGATE
   void set_peer(ENetPeer* peer);
+  void set_host(ENetHost* peer);
+
   ENetPeer* get_peer();
   void on_message_recieved(const std::string& bytes, enet_uint8 channel);
 #endif
