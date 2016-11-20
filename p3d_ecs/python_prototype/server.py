@@ -53,11 +53,10 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
 
     def update_task(self, task):
 
-        if not GUI_INTERFACE:
-            duration = fast_time() - self.last_update
-            if duration < 1.0 / self.UPDATE_RATE:
-                return task.cont
-            self.last_update = fast_time()
+        duration = fast_time() - self.last_update
+        if duration < 1.0 / self.UPDATE_RATE:
+            return task.cont
+        self.last_update = fast_time()
 
         event = self.socket.poll()
         while event.type != ENetSocketEvent.Empty:
@@ -83,10 +82,7 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
                 print("removing disconnected client", peer)
                 del self.peer_to_client[peer]
 
-        if GUI_INTERFACE:
-            self.game_logic.tick(globalClock.getDt())
-        else:
-            self.game_logic.tick(duration)
+        self.game_logic.tick(duration)
 
         for entity in self.game_logic.entity_mgr.entities:
             entity.interpolate(self.game_logic.simulation_time - 300.0 / 1000.0)

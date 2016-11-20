@@ -18,8 +18,6 @@ from libenet import *
 
 class GameClient(ShowBase):
 
-    UPDATE_RATE = 5
-
     def __init__(self, ip, port):
         set_context("CLIENT")
         super().__init__()

@@ -14,16 +14,18 @@ from libenet import add_to_packet_log, set_simulation_time, fast_time
 class ServerLogic(object):
 
     # Send deltas at least every x milliseconds
-    AUTO_DELTA_RATE = 500
+    AUTO_DELTA_RATE = 1000
 
-    # Execute deltas on client side x milliseconds after being sent 
-    DELTA_DELAY = 1000
 
     # Do not send deltas too frequently
-    MIN_DELTA_DELAY = 25
+    MAX_DELTAS_PER_FRAME = 20 # Max 10 deltas per frame
 
     # Execute events x milliseconds after being executed on the client
-    EVENT_DELAY = 1000
+    EVENT_DELAY = 50
+
+    # Execute deltas on client side x milliseconds after being sent 
+    DELTA_DELAY = 2.0 / MAX_DELTAS_PER_FRAME * 1000.0
+
 
     def __init__(self, server_app):
         self.server_app = server_app
@@ -55,9 +57,9 @@ class ServerLogic(object):
             if entity.has_changes() and entity not in self.current_delta.new_entities:
                 self.current_delta.changed_entities.add(entity)
                 
-        if self.current_delta.changed_entities or self.current_delta.new_entities:
-            self.log("Swapped delta, version =", self.current_delta.version_no,
-                    "changed =", len(self.current_delta.changed_entities), "new=", len(self.current_delta.new_entities))
+        # if self.current_delta.changed_entities or self.current_delta.new_entities:
+            # self.log("Swapped delta, version =", self.current_delta.version_no,
+            #         "changed =", len(self.current_delta.changed_entities), "new=", len(self.current_delta.new_entities))
         self.current_delta.sent_timestamp = self.simulation_time
         self.current_delta.timestamp = self.simulation_time + self.DELTA_DELAY / 1000.0
         self.current_delta.store_serialization()
@@ -167,7 +169,7 @@ class ServerLogic(object):
                 client.last_confirmed_delta = self.deltas[-1].version_no
 
         duration = self.simulation_time - self.deltas[-1].sent_timestamp
-        if (duration > (self.MIN_DELTA_DELAY / 1000.0)) and any_changes:
+        if (duration > (1.0 / self.MAX_DELTAS_PER_FRAME)) and any_changes:
             self.swap_delta()
         elif duration > self.AUTO_DELTA_RATE / 1000.0:
             self.swap_delta()

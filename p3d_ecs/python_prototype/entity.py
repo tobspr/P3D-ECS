@@ -66,7 +66,6 @@ class Entity(object):
             del self._components[comp]
 
     def load_delta(self, json, timestamp):
-        
         for cls_name, data in json.items():
             type_handle = globals()[cls_name]
             component = self.get_component(type_handle)

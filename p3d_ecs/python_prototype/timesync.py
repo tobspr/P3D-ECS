@@ -33,7 +33,7 @@ class TimeSynchronization(object):
     def sync_interval(self):
         if len(self._confirmed_syncs) < self.MIN_CONFIRMED_SYNCS:
             return 0.05
-        return 20.0
+        return 360.0
 
     @property
     def time_information_sufficient(self):

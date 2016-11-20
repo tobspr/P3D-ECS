@@ -41,7 +41,7 @@ class EventMovement(GameEvent):
             print("WARNING: Failed to resolve delta, entity", vclient.entity_uuid, "not found")
             return
 
-        speed = 0.5
+        speed = 1.4
         entity.get_component(VelocityComponent).velocity = Vec2(*self.data["velocity"]) * speed
 
     def can_execute(self, vclient, mgr):

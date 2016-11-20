@@ -1,4 +1,5 @@
 
+MAX_INTERPOLATION_DELAY = 1.0
 
 
 class NetworkedFloat(object):
@@ -26,7 +27,7 @@ class NetworkedFloat(object):
         self._changed = False
     
     def add_point(self, data, timestamp):
-        print("FLOAT: point at ", timestamp, " -> ", data)
+        # print("FLOAT: point at ", timestamp, " -> ", data)
         self._points.append((timestamp, data))
         # self._value = data
 
@@ -46,7 +47,12 @@ class NetworkedFloat(object):
             # print("No interpolation with just 1 point possible!")
             # print(timestamp, past_point, future_point, self._points)
 
-            # self._value = self._points[0][1]
+            self._value = past_point[1] if past_point[1] is not None else future_point[1]
+            return
+
+        if future_point[0] - past_point[0] > MAX_INTERPOLATION_DELAY:
+            # Interpolation delay too big. just use first point 
+            self._value = past_point[1]
             return
 
         # print("Interpolate between", past_point, "and", future_point)

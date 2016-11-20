@@ -27,7 +27,7 @@ if __name__ == "__main__":
     def client_main():
         print("Initializing client ..")
         load_prc_file_data("", """
-            sync-video #f
+            sync-video #t
             win-size 600 400
             window-title CLIENT
             show-frame-rate-meter #t

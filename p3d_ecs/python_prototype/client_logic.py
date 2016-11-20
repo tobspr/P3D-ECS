@@ -79,7 +79,8 @@ class ClientLogic(object):
         # Apply deltas
         for delta in self.deltas.take_entries(self.simulation_time):
             if delta.new_entities or delta.changed_entities:
-                self.log("Applying delta", delta.version_no, "-", len(delta.new_entities), "new,", len(delta.changed_entities), "changed")
+                # self.log("Applying delta", delta.version_no, "-", len(delta.new_entities), "new,", len(delta.changed_entities), "changed")
+                pass
 
             for entity_data in delta.new_entities:
                 entity = self.entity_mgr.new_entity()
