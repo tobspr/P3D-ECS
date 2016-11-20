@@ -12,14 +12,14 @@ from virtual_client import VirtualClient
 from libenet import *
 from direct.showbase.ShowBase import ShowBase
 
-GUI_INTERFACE = False
+GUI_INTERFACE = True
 
 class FakeTask(object):
     cont = None
 
 class ServerApp(ShowBase if GUI_INTERFACE else object):
 
-    UPDATE_RATE = 60 if GUI_INTERFACE else 60
+    UPDATE_RATE = 60
 
     def __init__(self, ip, port):
         set_context("SERVER")
@@ -38,7 +38,7 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
             self.renderer = self.game_logic.entity_mgr.new_system(RenderSystem)
             self.setBackgroundColor(0.95, 0.95, 0.95, 1.0)
 
-        # self.physics = self.game_logic.entity_mgr.new_system(PhysicsSystem)
+        self.physics = self.game_logic.entity_mgr.new_system(PhysicsSystem)
 
         self.init_socket()
         if not GUI_INTERFACE:
@@ -53,15 +53,14 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
 
     def update_task(self, task):
 
-        duration = fast_time() - self.last_update
-        if duration < 1.0 / self.UPDATE_RATE:
-            return task.cont
-        
-        self.last_update = fast_time()
+        if not GUI_INTERFACE:
+            duration = fast_time() - self.last_update
+            if duration < 1.0 / self.UPDATE_RATE:
+                return task.cont
+            self.last_update = fast_time()
 
         event = self.socket.poll()
         while event.type != ENetSocketEvent.Empty:
-            # print("Server recieved event: ", event.type)
             event = self.socket.poll()
 
         processed_clients = []
@@ -88,4 +87,8 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
             self.game_logic.tick(globalClock.getDt())
         else:
             self.game_logic.tick(duration)
+
+        for entity in self.game_logic.entity_mgr.entities:
+            entity.interpolate(self.game_logic.simulation_time - 300.0 / 1000.0)
+
         return task.cont

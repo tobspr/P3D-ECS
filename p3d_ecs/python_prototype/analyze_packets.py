@@ -36,8 +36,18 @@ for i, target in enumerate(targets):
 
 messages = list(sorted(messages, key=lambda packet: packet.timestamp))
 first_timestamp = messages[0].timestamp
+last_timestamp = 0
 
 for message in messages:
+
+    if message.timestamp - last_timestamp > (30 * (1000.0 * 1000.0)):
+        output.append([])
+
+    if message.timestamp - last_timestamp > (100 * (1000.0 * 1000.0)):
+        output.append([])
+
+
+    last_timestamp = message.timestamp
     serialized = "[" + str(message.sim_time).ljust(6) + "] " + message.content
     line = [""] * (len(targets) + 1)
     line[0] = str(int((message.timestamp - first_timestamp) / 1000000.0)) + " ms"

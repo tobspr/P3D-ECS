@@ -18,11 +18,11 @@ class VirtualClient(object):
         self.connected_peer = connected_peer
         self.addr = addr
         self.ready = False
-        self.last_sent_delta = -1
-        self.unconfirmed_deltas = set()
-        self.last_resend_attempt = 0
-        self.last_confirmation_time = 0
         self.entity_uuid = None
+
+        self.last_confirmed_delta = -1
+        self.unconfirmed_deltas = set()
+        
 
     def send(self, message_id, data, reliable=True, channel=None):
         data = Message.make(message_id, data)
@@ -38,10 +38,6 @@ class VirtualClient(object):
             message = self.connected_peer.take_message()
             messages.append(Message.parse(message))
         return messages
-
-    @property
-    def prefix(self):
-        return "CLIENT:: VirtualClient:: " if self.addr[0] == "client" else "SERVER:: VirtualClient:: "
 
     def __repr__(self):
         return "CLIENT[" + self.addr[0] + ":" + str(self.addr[1]) + "]"

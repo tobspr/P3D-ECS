@@ -20,8 +20,6 @@ class Message(object):
     MID_GAMEDELTA = "gamedelta"
     MID_CONFIRM_DELTA = "confirm_delta"
 
-    MID_CLIENT_DELTA = "client_delta"
-
     MID_REQUEST_EVENT = "request_event"
 
     @classmethod

@@ -15,6 +15,15 @@ class Component(object):
     def get_changed_vars(self):
         return {}
 
+    def load_delta(self, json, timestamp):
+        pass
+
+    def interpolate(self, timestamp):
+        pass
+
+    def has_changes(self):
+        return False
+
 class TransformComponent(Component):
 
     def __init__(self, entity):
@@ -43,6 +52,16 @@ class TransformComponent(Component):
             self.pos_y.updated()
         return result
 
+    def load_delta(self, json, timestamp):
+        self.pos_x.add_point(json["pos_x"], timestamp)
+        self.pos_y.add_point(json["pos_y"], timestamp)
+
+    def interpolate(self, timestamp):
+        self.pos_x.interpolate(timestamp)
+        self.pos_y.interpolate(timestamp)
+
+    def has_changes(self):
+        return self.pos_x.changed or self.pos_y.changed
 
 class VelocityComponent(Component):
 
