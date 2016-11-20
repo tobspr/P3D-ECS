@@ -2,16 +2,25 @@
 import json
 
 class Message(object):
+
     DIVIDER = "%$%"
     CHANNEL_UNRELIABLE = 0
     CHANNEL_RELIABLE = 1
+    CHANNEL_TIMESYNC = 2
 
     MID_CONNECT = "connect"
+
+    MID_SYNC_TIME = "sync_time"
+    MID_SYNC_TIME_RESP = "sync_time_response"
+
+    MID_CLIENT_INITIAL_SYNC = "initial_sync"
     MID_INIT_GAMESTATE = "init_gamestate"
     MID_CLIENT_READY = "client_ready"
 
     MID_GAMEDELTA = "gamedelta"
     MID_CONFIRM_DELTA = "confirm_delta"
+
+    MID_CLIENT_DELTA = "client_delta"
 
     MID_REQUEST_EVENT = "request_event"
 

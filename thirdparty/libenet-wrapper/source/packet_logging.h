@@ -8,6 +8,7 @@
 BEGIN_PUBLISH
 
 uint64_t get_time();
+double fast_time();
 
 void set_context(const std::string& context);
 void set_simulation_time(float simulation_time);

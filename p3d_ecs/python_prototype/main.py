@@ -15,14 +15,14 @@ from panda3d.core import *
 from game_client import GameClient
 from server import ServerApp
 
-from libenet import get_time
+from libenet import fast_time
 
 if __name__ == "__main__":
     IP = "localhost"
     PORT = random.randint(1025, 2**16 - 1)
     PORT = 5553
 
-    print("TIME", get_time())
+    print("TIME", fast_time())
 
     def client_main():
         print("Initializing client ..")

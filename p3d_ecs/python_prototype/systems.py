@@ -18,10 +18,10 @@ class RenderSystem(object):
             transform = entity.get_component(TransformComponent)
 
             if draw.mesh:
-                draw.mesh.set_pos(transform.pos.x, 0, transform.pos.y)
+                draw.mesh.set_pos(transform.pos_x.v, 0, transform.pos_y.v)
                 draw.mesh.set_r(transform.rotation)
 
-class ForceSystem(object):
+class PhysicsSystem(object):
     REQUIRES = [TransformComponent, VelocityComponent]
 
     def __init__(self, mgr):
@@ -29,9 +29,13 @@ class ForceSystem(object):
 
     def process(self, entities, dt):
         for entity in entities:
-            vel = entity.get_component(VelocityComponent).velocity * dt
-            entity.get_component(TransformComponent).pos += vel
+            c_velocity = entity.get_component(VelocityComponent)
+            c_transform = entity.get_component(TransformComponent)
 
+            vel = c_velocity.velocity * dt
+            if vel.length() > 0.0:
+                c_transform.pos_x.v += vel.x
+                c_transform.pos_y.v += vel.y
 
 class InteractSystem(object):
     REQUIRES = [InteractableComponent, TransformComponent]

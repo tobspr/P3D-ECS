@@ -45,8 +45,8 @@ class GameLogic(object):
         draw = door.new_component(DrawComponent)
         interact = door.new_component(InteractableComponent)
         interact.radius = 0.3
-
-        transform.pos.set(0.7, 0.1)
+        transform.pos_x.v = 0.7
+        transform.pos_y.v = 0.1
         transform.rotation = 45
         draw.load({"mesh": (0.2, 0.6, 0.3, 1.0)})
 
@@ -208,6 +208,6 @@ class GameLogic(object):
         velocity = entity.new_component(VelocityComponent)
         draw = entity.new_component(DrawComponent)
         draw.load({"mesh": (0.2, 0.6, 1.0, 1.0)})
-        transform.pos.x = random.random() - 0.5
-        transform.pos.y = random.random() - 0.5
+        transform.pos_x.v = random.random() - 0.5
+        transform.pos_y.v = random.random() - 0.5
         return entity.uuid

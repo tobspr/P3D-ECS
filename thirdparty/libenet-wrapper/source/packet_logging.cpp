@@ -24,8 +24,15 @@ std::ofstream globals::log_file_handle;
 
 uint64_t
 get_time() {
+  //return (uint64_t)(globals::simulation_time * 1000.0 * 1000.0 * 1000.0);
+  
   nanoseconds ns = duration_cast<nanoseconds>(system_clock::now().time_since_epoch());
   return ns.count();
+}
+
+double fast_time() {
+  double t = get_time() / (1000.0 * 1000.0 * 1000.0);
+  return t;
 }
 
 std::string
@@ -41,7 +48,7 @@ set_context(const std::string& context) {
 
 void
 set_simulation_time(float simulation_time) {
-  ::globals::simulation_time = simulation_time;
+  globals::simulation_time = simulation_time;
 }
 
 std::string
@@ -60,15 +67,15 @@ add_to_packet_log(const std::string& content) {
 void
 do_log_packet(const std::string& sent_or_recv, const std::string& bytes, size_t channel,
               bool reliable) {
-  add_to_packet_log(sent_or_recv + " packet, data=" + bytes + ", channel=" + to_string(channel));
+  add_to_packet_log(sent_or_recv + " packet ch " + to_string(channel) + " data=" + bytes);
 }
 
 void
 log_sent_packet(const std::string& bytes, size_t channel, bool reliable) {
-  do_log_packet("sent", bytes, channel, reliable);
+  do_log_packet("{ SENT }", bytes, channel, reliable);
 }
 
 void
 log_recv_packet(const std::string& bytes, size_t channel) {
-  do_log_packet("recv", bytes, channel, true);
+  do_log_packet("{ RECV }", bytes, channel, true);
 }

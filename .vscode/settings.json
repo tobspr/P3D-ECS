@@ -16,8 +16,6 @@
         "**/thirdparty": true,
         "**/win_amd64_py35": true,
         "**/__pycache__": true
-    },
-
-    "python.linting.enabled": false
+    }
 
 }

@@ -22,12 +22,14 @@ class VirtualClient(object):
         self.unconfirmed_deltas = set()
         self.last_resend_attempt = 0
         self.last_confirmation_time = 0
+        self.entity_uuid = None
 
-    def send(self, message_id, data, reliable=True):
+    def send(self, message_id, data, reliable=True, channel=None):
         data = Message.make(message_id, data)
-        channel = Message.CHANNEL_RELIABLE if reliable else Message.CHANNEL_UNRELIABLE
-        self.connected_peer.send_message(data, channel, reliable=reliable)
-        time.sleep(1.0 / 1000.0) # Makes it easier for logging
+        send_channel = Message.CHANNEL_RELIABLE if reliable else Message.CHANNEL_UNRELIABLE
+        if channel:
+            send_channel = channel
+        self.connected_peer.send_message(data, send_channel, reliable=reliable)
 
     @property
     def unprocessed_messages(self):

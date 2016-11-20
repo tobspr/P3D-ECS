@@ -25,6 +25,15 @@ class Entity(object):
         self._components[comp_cls] = instance
         return instance
 
+    def get_changed_vars(self):
+        result = {}
+        for k, comp in self._components.items():
+            changed = comp.get_changed_vars()
+            if changed:
+                result[k.__name__] = changed
+        return result
+
+
     def serialize(self):
         return {
             "uuid": self.uuid,
