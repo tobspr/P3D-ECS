@@ -6,6 +6,11 @@ class ScheduledQueue(object):
         self._delay = schedule_delay
         self._entries = []
 
+    @property
+    def items(self):
+        for entry in self._entries:
+            yield entry[1]
+
     def append(self, index, data):
         self._entries.append((index + self._delay, data))
 

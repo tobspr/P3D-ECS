@@ -9,6 +9,8 @@ from scheduler import ScheduledQueue
 
 from libenet import add_to_packet_log, set_simulation_time
 
+import config
+
 class ClientLogic(object):
 
     def __init__(self, client_app):
@@ -57,7 +59,7 @@ class ClientLogic(object):
             for entity_data in bulk:
                 entity = self.entity_mgr.new_entity()
                 entity.load(entity_data)
-            self.vclient.send(Message.MID_CLIENT_READY, {})
+            self.vclient.send(Message.MID_CLIENT_READY, {}, reliable=True)
             self.ready = True
 
         elif message_id == Message.MID_SYNC_SIMULATION_INDEX:
@@ -72,6 +74,14 @@ class ClientLogic(object):
             # todo
             delta = GameDelta.from_serialized(data)
 
+            # Send confirmation
+            self.vclient.send(Message.MID_CONFIRM_DELTA, {"version_no": delta.version_no}, reliable=False)
+
+            for other_delta in self.deltas.items:
+                if other_delta.version_no == delta.version_no:
+                    self.log("Skipping double delta")
+                    return
+
             # self.log("At steps =", self.entity_mgr.simulation_index, "recv. delta for", delta.index)
             self.deltas.append(delta.index, delta)
 
@@ -83,6 +93,7 @@ class ClientLogic(object):
                         self.error("Failed to resolve delta, entity with uuid", uuid, "not found")
                         continue
                     entity.load_delta(entity_data["changes"], delta.index * self.entity_mgr.simulation_dt, delta.index)
+
 
         elif message_id == Message.MID_REJECT_EVENT:
             self.error("Server rejected event", data["event"])
@@ -137,7 +148,7 @@ class ClientLogic(object):
 
         if not self.initial_synced and self.time_sync.time_information_sufficient:
             # Time synchronized, can connect
-            self.vclient.send(Message.MID_CLIENT_INITIAL_SYNC, {})
+            self.vclient.send(Message.MID_CLIENT_INITIAL_SYNC, {}, reliable=True)
             self.initial_synced = True
             return
 
@@ -174,5 +185,5 @@ class ClientLogic(object):
         event.index = self.entity_mgr.simulation_index
         event.uuid = str(random.randint(10**9, 10**10 - 1))
         # self.log("Sending event", event)
-        self.vclient.send(Message.MID_REQUEST_EVENT, event.serialize())
+        self.vclient.send(Message.MID_REQUEST_EVENT, event.serialize(), reliable=True)
         self.unconfirmed_events.append(event)

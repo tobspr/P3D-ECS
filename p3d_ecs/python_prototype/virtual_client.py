@@ -20,11 +20,12 @@ class VirtualClient(object):
         self.ready = False
         self.entity_uuid = None
 
-        self.last_confirmed_delta = -1
+        self.last_sent_delta = -1
         self.unconfirmed_deltas = set()
+        self.last_resend_attempt = 0
         
 
-    def send(self, message_id, data, reliable=True, channel=None):
+    def send(self, message_id, data, reliable, channel=None):
         data = Message.make(message_id, data)
         send_channel = Message.CHANNEL_RELIABLE if reliable else Message.CHANNEL_UNRELIABLE
         if channel:

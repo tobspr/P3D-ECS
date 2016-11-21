@@ -22,12 +22,12 @@ import builtins
 if __name__ == "__main__":
     IP = "localhost"
     PORT = random.randint(1025, 2**16 - 1)
-    PORT = 5553
 
     print("TIME", fast_time())
 
     def client_main():
         __builtins__.IS_SERVER = False
+        PORT = 5553
 
         print("Initializing client ..")
         win_size = "600 400"
@@ -37,7 +37,7 @@ if __name__ == "__main__":
             win_origin = "800 50"
 
         load_prc_file_data("", """
-            sync-video #f
+            sync-video #t
             win-size """ + win_size + """
             win-origin """ + win_origin + """
             window-title CLIENT
@@ -50,6 +50,8 @@ if __name__ == "__main__":
 
     def server_main():
         __builtins__.IS_SERVER = True
+        PORT = 5555
+
 
         print("Starting local server ..")
         load_prc_file_data("", """
@@ -64,10 +66,10 @@ if __name__ == "__main__":
 
 
     if "--client" in sys.argv:
-        time.sleep(0.3)
+        time.sleep(0.5)
         client_main()
     elif "--server" in sys.argv:
-        time.sleep(0.1)
+        time.sleep(0.2)
         server_main()
     else:
         # parallel
