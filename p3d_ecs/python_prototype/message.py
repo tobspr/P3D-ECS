@@ -12,6 +12,7 @@ class Message(object):
 
     MID_SYNC_TIME = "sync_time"
     MID_SYNC_TIME_RESP = "sync_time_response"
+    MID_SYNC_SIMULATION_INDEX = "sync_simulation_index"
 
     MID_CLIENT_INITIAL_SYNC = "initial_sync"
     MID_INIT_GAMESTATE = "init_gamestate"
@@ -21,6 +22,9 @@ class Message(object):
     MID_CONFIRM_DELTA = "confirm_delta"
 
     MID_REQUEST_EVENT = "request_event"
+
+    MID_REJECT_EVENT = "reject_event"
+    MID_CONFIRM_EVENT = "confirm_event"
 
     @classmethod
     def make(cls, mid, data):

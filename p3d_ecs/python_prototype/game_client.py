@@ -28,7 +28,9 @@ class GameClient(ShowBase):
         self.init_networking()
 
         self.last_watch = fast_time()
-        self.addTask(self.update, "update", sort=0)
+        self.addTask(self.update, "update", sort=38)
+
+        self.movements = {"top": 0, "right": 0, "bottom": 0, "left": 0}
 
     def init_systems(self):
         self.render_system = self.game_logic.entity_mgr.new_system(RenderSystem)
@@ -53,27 +55,51 @@ class GameClient(ShowBase):
             self.game_logic.handle_message(message_id, data)
 
         self.game_logic.tick(globalClock.get_dt())
+
         return task.cont
 
     def init_input(self):
         for suffix in ("",):
-            self.accept("w" + suffix, self.set_velocity, [None, 1])
-            self.accept("a" + suffix, self.set_velocity, [-1, None])
-            self.accept("s" + suffix, self.set_velocity, [None, -1])
-            self.accept("d" + suffix, self.set_velocity, [1, None])
+            self.accept("w" + suffix, self.set_velocity, ["top"])
+            self.accept("a" + suffix, self.set_velocity, ["left"])
+            self.accept("s" + suffix, self.set_velocity, ["bottom"])
+            self.accept("d" + suffix, self.set_velocity, ["right"])
 
-        self.accept("w-up", self.clear_velocity, [None, 1])
-        self.accept("a-up", self.clear_velocity, [-1, None])
-        self.accept("s-up", self.clear_velocity, [None, -1])
-        self.accept("d-up", self.clear_velocity, [1, None])
+        self.accept("w-up", self.clear_velocity, ["top"])
+        self.accept("a-up", self.clear_velocity, ["left"])
+        self.accept("s-up", self.clear_velocity, ["bottom"])
+        self.accept("d-up", self.clear_velocity, ["right"])
 
-    def clear_velocity(self, x, y):
+    def clear_velocity(self, idx):
         if self.game_logic.player_entity:
-            event = EventMovement.create(Vec2(0, 0))
-            self.game_logic.request_event(event)
+            self.movements[idx] = 0
+            self.recompute_movement()
 
-    def set_velocity(self, x, y):
+    def set_velocity(self, idx):
         speed = 2.0
+
+        # TODO: This is TOTALLY overcomplicated. could solve it much, much simpler.
         if self.game_logic.player_entity:
-            event = EventMovement.create(Vec2(x or 0, y or 0))
-            self.game_logic.request_event(event)
+            if idx in ("left", "right"):
+                self.movements["left"] = 0
+                self.movements["right"] = 0
+            elif idx in ("top", "bottom"):
+                self.movements["top"] = 0
+                self.movements["bottom"] = 0
+
+            self.movements[idx] = 1
+            self.recompute_movement()
+
+    def recompute_movement(self):
+        vel_x, vel_y = 0, 0
+        if self.movements["left"]:
+            vel_x -= 1
+        if self.movements["right"]:
+            vel_x += 1
+        if self.movements["top"]:
+            vel_y += 1
+        if self.movements["bottom"]:
+            vel_y -= 1
+
+        event = EventMovement.create(Vec2(vel_x, vel_y))
+        self.game_logic.request_event(event)

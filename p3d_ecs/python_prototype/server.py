@@ -12,14 +12,14 @@ from virtual_client import VirtualClient
 from libenet import *
 from direct.showbase.ShowBase import ShowBase
 
+import config
+
 GUI_INTERFACE = True
 
 class FakeTask(object):
     cont = None
 
 class ServerApp(ShowBase if GUI_INTERFACE else object):
-
-    UPDATE_RATE = 60
 
     def __init__(self, ip, port):
         set_context("SERVER")
@@ -54,8 +54,9 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
     def update_task(self, task):
 
         duration = fast_time() - self.last_update
-        if duration < 1.0 / self.UPDATE_RATE:
+        if duration < 1.0 / config.SERVER_UPDATE_RATE:
             return task.cont
+
         self.last_update = fast_time()
 
         event = self.socket.poll()
@@ -85,6 +86,6 @@ class ServerApp(ShowBase if GUI_INTERFACE else object):
         self.game_logic.tick(duration)
 
         for entity in self.game_logic.entity_mgr.entities:
-            entity.interpolate(self.game_logic.simulation_time - 300.0 / 1000.0)
+            entity.interpolate(self.game_logic.simulation_time, self.game_logic.entity_mgr.simulation_index)
 
         return task.cont

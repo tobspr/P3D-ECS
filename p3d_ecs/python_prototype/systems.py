@@ -8,6 +8,7 @@ from events import *
 class RenderSystem(object):
     REQUIRES = [TransformComponent, DrawComponent]
     CATCH_EVENTS = []
+    FIXED_STEP = False
 
     def __init__(self, mgr):
         self._manager = mgr
@@ -23,6 +24,7 @@ class RenderSystem(object):
 
 class PhysicsSystem(object):
     REQUIRES = [TransformComponent, VelocityComponent]
+    FIXED_STEP = True
 
     def __init__(self, mgr):
         self._manager = mgr

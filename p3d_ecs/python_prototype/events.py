@@ -1,5 +1,6 @@
 
 import time
+import random
 
 from panda3d.core import *
 from components import *
@@ -12,21 +13,24 @@ class GameEvent(object):
     def __init__(self, data):
         self.data = data
         self.uuid = None
-        self.timestamp = None
+        self.index = None
 
     def serialize(self):
-        return {"uuid": self.uuid, "data": self.data, "timestamp": self.timestamp, "cls": self.__class__.__name__}
+        return {"uuid": self.uuid, "data": self.data, "index": self.index, "cls": self.__class__.__name__}
 
     @staticmethod
     def from_serialized(data):
         cls_name = data["cls"]
         instance = globals()[cls_name](data["data"])
         instance.uuid = data["uuid"]
-        instance.timestamp = data["timestamp"]
+        instance.index = data["index"]
         return instance
 
+    def get_affected_entities(self, vclient, mgr):
+        return []
+
     def __repr__(self):
-        return str(self.__class__.__name__) + "[uuid=" + str(self.uuid) + ", data=" + str(self.data) + ", timestamp=" + str(self.timestamp) + "]"
+        return str(self.__class__.__name__) + "[uuid=" + str(self.uuid) + ", data=" + str(self.data) + ", index=" + str(self.index) + "]"
 
 
 class EventMovement(GameEvent):
@@ -42,7 +46,13 @@ class EventMovement(GameEvent):
             return
 
         speed = 1.4
-        entity.get_component(VelocityComponent).velocity = Vec2(*self.data["velocity"]) * speed
+        vel = Vec2(*self.data["velocity"])
+        vel.normalize()
+
+        entity.get_component(VelocityComponent).velocity = vel * speed
 
     def can_execute(self, vclient, mgr):
         return True
+
+    def get_affected_entities(self, vclient, mgr):
+        return [vclient.entity_uuid]

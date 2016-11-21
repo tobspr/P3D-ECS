@@ -1,4 +1,5 @@
 @echo off
 
-ppython main.py --client
+ppython main.py --client %*
+
 pause

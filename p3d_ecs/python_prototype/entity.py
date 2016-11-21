@@ -30,10 +30,10 @@ class Entity(object):
                 return True
         return False
 
-    def serialize_changes(self):
+    def serialize_changes(self, keep_update_status=False):
         result = {}
         for k, comp in self._components.items():
-            changed = comp.get_changed_vars()
+            changed = comp.get_changed_vars(keep_update_status=keep_update_status)
             if changed:
                 result[k.__name__] = changed
         return {"uuid": self.uuid, "changes": result}
@@ -65,18 +65,32 @@ class Entity(object):
             self._components[comp].clear()
             del self._components[comp]
 
-    def load_delta(self, json, timestamp):
+    def load_delta(self, json, timestamp, index):
         for cls_name, data in json.items():
             type_handle = globals()[cls_name]
             component = self.get_component(type_handle)
-            component.load_delta(data, timestamp)
+            component.load_delta(data, timestamp, index)
 
-    def interpolate(self, timestamp):
+    def correct_delta(self, json, index):
+        for cls_name, data in json.items():
+            type_handle = globals()[cls_name]
+            component = self.get_component(type_handle)
+            component.correct_delta(data, index)
+    
+    def save_delta(self, index):
         for component in self._components.values():
-            component.interpolate(timestamp)
+            component.save_delta(index)
+
+    def interpolate(self, timestamp, index):
+        for component in self._components.values():
+            component.interpolate(timestamp, index)
 
     def clear(self):
         for component in self._components.items():
             component.clear()
             del component
         self._components = {}
+
+    def correct(self, dt):
+        for component in self._components.values():
+            component.correct(dt)

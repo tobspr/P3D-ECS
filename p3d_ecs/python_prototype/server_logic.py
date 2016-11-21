@@ -10,22 +10,9 @@ from events import GameEvent
 from scheduler import ScheduledQueue
 from libenet import add_to_packet_log, set_simulation_time, fast_time
 
+import config
 
 class ServerLogic(object):
-
-    # Send deltas at least every x milliseconds
-    AUTO_DELTA_RATE = 1000
-
-
-    # Do not send deltas too frequently
-    MAX_DELTAS_PER_FRAME = 20 # Max 10 deltas per frame
-
-    # Execute events x milliseconds after being executed on the client
-    EVENT_DELAY = 50
-
-    # Execute deltas on client side x milliseconds after being sent 
-    DELTA_DELAY = 2.0 / MAX_DELTAS_PER_FRAME * 1000.0
-
 
     def __init__(self, server_app):
         self.server_app = server_app
@@ -37,7 +24,7 @@ class ServerLogic(object):
         self.entity_mgr.creation_callback = lambda entity: self.current_delta.on_entity_created(entity)
 
         self.deltas = []
-        self.event_queue = ScheduledQueue(self.EVENT_DELAY)
+        self.event_queue = ScheduledQueue(config.EVENT_DELAY)
         self.swap_delta()
 
     @property
@@ -58,10 +45,10 @@ class ServerLogic(object):
                 self.current_delta.changed_entities.add(entity)
                 
         # if self.current_delta.changed_entities or self.current_delta.new_entities:
-            # self.log("Swapped delta, version =", self.current_delta.version_no,
+            # self.log("New delta, version =", self.current_delta.version_no,
             #         "changed =", len(self.current_delta.changed_entities), "new=", len(self.current_delta.new_entities))
+        self.current_delta.index = self.entity_mgr.simulation_index + config.DELTA_DELAY
         self.current_delta.sent_timestamp = self.simulation_time
-        self.current_delta.timestamp = self.simulation_time + self.DELTA_DELAY / 1000.0
         self.current_delta.store_serialization()
         self.deltas.append(self.current_delta)
 
@@ -69,7 +56,8 @@ class ServerLogic(object):
 
         for client in self.clients:
             if client.ready:
-                client.send(Message.MID_GAMEDELTA, self.deltas[-1].serialized)
+                if random.random() >= config.SIMULATED_SNAPSHOT_DROP_RATE:
+                    client.send(Message.MID_GAMEDELTA, self.deltas[-1].serialized)
                 client.last_confirmed_delta = self.deltas[-1].version_no # todo
 
     def load(self):
@@ -86,7 +74,6 @@ class ServerLogic(object):
         # transform.pos_y.v = 0.1
         # transform.rotation = 45
         # draw.load({"mesh": (0.2, 0.6, 0.3, 1.0)})
-
 
     def handle_new_client(self, client):
         self.clients.add(client)
@@ -125,6 +112,7 @@ class ServerLogic(object):
                         "entities": [entity.serialize() for entity in self.entity_mgr.entities],
                         "player_entity": player_entity.uuid,
                         "simulation_time": self.simulation_time,
+                        "index": self.entity_mgr.simulation_index,
                         "version_no": self.current_delta.version_no - 1
                         })
             client.last_confirmed_delta = self.current_delta.version_no - 1
@@ -133,26 +121,48 @@ class ServerLogic(object):
 
             self.log("Client", client, "is now ready")
             client.ready = True
+            client.send(Message.MID_SYNC_SIMULATION_INDEX, {
+                "index": self.entity_mgr.simulation_index,
+                "timestamp": self.simulation_time
+            })
 
         elif message_id == Message.MID_REQUEST_EVENT:
             
             event = GameEvent.from_serialized(data)
-            time_to_execute = event.timestamp
-            self.event_queue.append(time_to_execute, (client, event))
+            self.event_queue.append(event.index + config.EVENT_DELAY, (client, event))
+
 
     def tick(self, dt):
         set_simulation_time(self.simulation_time)
         self.entity_mgr.update(dt)
 
         # Process events
-        for client, event in self.event_queue.take_entries(self.simulation_time):
-            self.log("Processing event", client, event)
+        for client, event in self.event_queue.take_entries(self.entity_mgr.simulation_index):
 
             if not event.can_execute(client, self.entity_mgr):
-                self.error("Event execution denied. TODO.")
+                response_data = []
+                for entity_uuid in event.get_affected_entities(client, self.entity_mgr):
+                    entity = self.entity_mgr.find(entity_uuid)
+                    assert entity
+                    response_data.append(entity.serialize())
+            
+        
+                self.error("Event execution denied. TODO.")        
+                client.send(Message.MID_REJECT_EVENT, {"event": event.uuid, "affected_entities": response_data})
                 continue
 
+            response_data = []
+            for entity_uuid in event.get_affected_entities(client, self.entity_mgr):
+                entity = self.entity_mgr.find(entity_uuid)
+                assert entity
+                response_data.append(entity.serialize_changes(keep_update_status=True))
+        
+
             event.execute(client, self.entity_mgr)
+
+            # TODO: Send only variables which are predicted
+            client.send(Message.MID_CONFIRM_EVENT, {"event": event.uuid, "affected_entities": response_data})
+
 
         any_changes = False
         for entity in self.entity_mgr.entities:
@@ -169,8 +179,8 @@ class ServerLogic(object):
                 client.last_confirmed_delta = self.deltas[-1].version_no
 
         duration = self.simulation_time - self.deltas[-1].sent_timestamp
-        if (duration > (1.0 / self.MAX_DELTAS_PER_FRAME)) and any_changes:
+        if (duration > (1.0 / config.MAX_DELTAS_PER_FRAME)) and any_changes:
             self.swap_delta()
-        elif duration > self.AUTO_DELTA_RATE / 1000.0:
+        elif duration > config.AUTO_DELTA_RATE / 1000.0:
             self.swap_delta()
 
