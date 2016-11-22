@@ -12,7 +12,6 @@ addons:
             - libfreetype6-dev
             - panda3d1.10
             - libprotobuf-dev
-            - libprotobuf10
             - libprotoc-dev
             - protobuf-compiler
 
