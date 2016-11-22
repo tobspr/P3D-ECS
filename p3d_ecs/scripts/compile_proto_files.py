@@ -23,7 +23,7 @@ dest = join(src_dir, "proto_gen")
 
 os.chdir(proto_src_dir)
 
-for f in glob.glob("**/*.proto", recursive=True):
+for f in glob.glob("**/*.proto"):
     abspath = join(proto_src_dir, f)
     # print(f)
     subprocess.call([protoc, "-I=" + src_dir, "--cpp_out=" + dest, "--proto_path=" + proto_src_dir, abspath])
