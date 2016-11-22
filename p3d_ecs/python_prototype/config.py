@@ -12,10 +12,10 @@ AUTO_DELTA_RATE = 350
 MAX_DELTAS_PER_FRAME = UPDATE_RATE
 
 # Execute events n milliseconds after being executed on the client
-EVENT_DELAY_MS = 100
+EVENT_DELAY_MS = 200
 
 # Execute deltas n milliseconds after being sent
-DELTA_DELAY_MS = 300
+DELTA_DELAY_MS = 600
 
 # Maximum interpolation duration, after which interpolation is no longer performed
 MAX_INTERPOLATION_DELAY = 2.0
@@ -24,13 +24,17 @@ MAX_INTERPOLATION_DELAY = 2.0
 # when prediction errors occured
 PREDICTION_CORRECTION = 0.07
 
-DELTA_RESEND_RATE = 0.25
+# Resend buffer before resending unconfirmed deltas in ms
+DELTA_RESEND_RATE = 250
+
+# Only resend deltas n milliseconds after they were sent out initially
+DELTA_RESEND_MIN_DUR = 50
 
 # ----- PACKETS -------
 
 SIMULATED_PING_MIN = 25
 SIMULATED_PING_MAX = 35
-SIMULATED_PACKET_DROP = 0.01
+SIMULATED_PACKET_DROP = 0.1
 
 
 # ------ INTERNAL ------------

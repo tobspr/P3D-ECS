@@ -119,7 +119,7 @@ class ClientLogic(object):
 
 
         elif message_id == Message.MID_CONFIRM_EVENT:
-            self.log("Server confirmed event", data["event"])
+            # self.log("Server confirmed event", data["event"])
 
             affected_event = None
             for event in self.unconfirmed_events:

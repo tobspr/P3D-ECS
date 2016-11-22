@@ -30,6 +30,7 @@ class GameClient(ShowBase):
         self.last_watch = fast_time()
         self.addTask(self.update, "update", sort=38)
 
+        self._velocity = 0, 0
         self.movements = {"top": 0, "right": 0, "bottom": 0, "left": 0}
 
     def init_systems(self):
@@ -53,6 +54,11 @@ class GameClient(ShowBase):
 
         for message_id, data in self.game_logic.vclient.unprocessed_messages:
             self.game_logic.handle_message(message_id, data)
+
+        if self.game_logic.player_entity:
+            event = EventMovement.create(Vec2(*self._velocity))
+            self.game_logic.request_event(event)
+
 
         self.game_logic.tick(globalClock.get_dt())
 
@@ -101,5 +107,4 @@ class GameClient(ShowBase):
         if self.movements["bottom"]:
             vel_y -= 1
 
-        event = EventMovement.create(Vec2(vel_x, vel_y))
-        self.game_logic.request_event(event)
+        self._velocity = vel_x, vel_y

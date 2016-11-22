@@ -184,7 +184,7 @@ class ServerLogic(object):
                     client.unconfirmed_deltas = set()
                     continue
 
-                if fast_time() - client.last_resend_attempt > config.DELTA_RESEND_RATE / 1000.0:
+                if (fast_time() - client.last_resend_attempt) > config.DELTA_RESEND_RATE / 1000.0:
                     client.last_resend_attempt = fast_time()
                     for version_no in client.unconfirmed_deltas:
                         delta = None
@@ -193,8 +193,9 @@ class ServerLogic(object):
                                 delta = delta_
                                 break
                         assert delta
-                        self.log("Resending delta", delta.version_no, "because of missing ack")
-                        self.send_delta(client, delta)
+                        if (fast_time() - delta.sent_timestamp) > config.DELTA_RESEND_MIN_DUR / 1000.0:
+                            self.log("Resending delta", delta.version_no, "because of missing ack")
+                            self.send_delta(client, delta)
 
         duration = self.simulation_time - self.deltas[-1].sent_timestamp
         if (duration > (1.0 / config.MAX_DELTAS_PER_FRAME)) and any_changes:

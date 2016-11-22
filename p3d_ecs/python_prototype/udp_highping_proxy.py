@@ -47,6 +47,7 @@ incoming = 0
 outgoing = 0
 loss = 0
 sent = 0
+recv = 0
 last_stats = time.time()
 
 def get_delayed_time():
@@ -84,19 +85,21 @@ while True:
                 # print("Forward", len(data), "to", *addr)
                 s.sendto(data, addr)
                 first_sent = True
-                sent += 1
 
-                if addr == knownServer:
+                if addr != knownServer:
                     incoming += len(data)
+                    recv += 1
                 else:
                     outgoing += len(data)
+                    sent += 1
 
     if time.time() - last_stats > 1.0:
         last_stats = time.time()
-        print("{:3.2f} KB/s incoming, {:3.2f} KB/s outgoing, {} sent, {} lost".format(incoming / 1024.0, outgoing / 1024.0, sent, loss))
+        print("{:3.2f} KB/s to client, {:3.2f} KB/s from client, {} from client, {} to client, {} lost".format(incoming / 1024.0, outgoing / 1024.0, sent, recv, loss))
         incoming = 0
         outgoing = 0 
         loss = 0
         sent = 0
+        recv = 0
 
     time.sleep(2.0 / 1000.0)

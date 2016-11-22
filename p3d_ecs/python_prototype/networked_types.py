@@ -44,7 +44,6 @@ class NetworkedFloat(object):
         self._values_at_simtime[index] = self._value
 
     def correct(self, dt):
-
         delta = self._required_correction - self._current_correction
         delta *= dt
         delta /= config.PREDICTION_CORRECTION
@@ -57,8 +56,8 @@ class NetworkedFloat(object):
             return
         predicted_value = self._values_at_simtime[index]
         self._required_correction = data - predicted_value
-        if abs(self._required_correction) > 1e-5:
-            print("PREDICTION ERROR! required correction =", self._required_correction)
+        # if abs(self._required_correction) > 1e-5:
+        #     print("PREDICTION ERROR! required correction =", self._required_correction)
         
 
     def interpolate(self, timestamp, index):

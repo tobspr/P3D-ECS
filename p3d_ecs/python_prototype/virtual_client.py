@@ -3,7 +3,6 @@ import time
 import random
 from message import Message
 
-import zlib
 from libenet import *
 
 
