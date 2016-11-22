@@ -13,6 +13,11 @@ addons:
             - panda3d1.10
             - libprotobuf-dev
 
+install:
+  - wget https://github.com/google/protobuf/archive/v3.1.0-alpha-1.tar.gz
+  - tar -xzvf v3.1.0-alpha-1.tar.gz
+  - pushd v3.1.0-alpha-1.tar.gz && ./configure --prefix=/usr && make && sudo make install && popd
+
 script:
     - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
     - export PYTHONPATH=${PYTHONPATH}:/usr/share/panda3d
