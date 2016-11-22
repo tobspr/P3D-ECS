@@ -31,286 +31,290 @@
 // @@protoc_insertion_point(includes)
 
 namespace p3d_ecs {
-  namespace proto {
+namespace proto {
 
-    // Internal implementation detail -- do not call these.
-    void protobuf_AddDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
-    void protobuf_InitDefaults_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
-    void protobuf_AssignDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
-    void protobuf_ShutdownFile_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+// Internal implementation detail -- do not call these.
+void protobuf_AddDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+void protobuf_InitDefaults_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+void protobuf_AssignDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+void protobuf_ShutdownFile_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
 
-    class TransformComponent;
-
-    // ===================================================================
-
-    class TransformComponent
-      : public ::google::protobuf::
-          Message /* @@protoc_insertion_point(class_definition:p3d_ecs.proto.TransformComponent) */ {
-    public:
-      TransformComponent();
-      virtual ~TransformComponent();
-
-      TransformComponent(const TransformComponent& from);
-
-      inline TransformComponent& operator=(const TransformComponent& from) {
-        CopyFrom(from);
-        return *this;
-      }
-
-      static const ::google::protobuf::Descriptor* descriptor();
-      static const TransformComponent& default_instance();
-
-      static const TransformComponent* internal_default_instance();
-
-      void Swap(TransformComponent* other);
-
-      // implements Message ----------------------------------------------
-
-      inline TransformComponent* New() const { return New(NULL); }
-
-      TransformComponent* New(::google::protobuf::Arena* arena) const;
-      void CopyFrom(const ::google::protobuf::Message& from);
-      void MergeFrom(const ::google::protobuf::Message& from);
-      void CopyFrom(const TransformComponent& from);
-      void MergeFrom(const TransformComponent& from);
-      void Clear();
-      bool IsInitialized() const;
-
-      size_t ByteSizeLong() const;
-      bool MergePartialFromCodedStream(::google::protobuf::io::CodedInputStream* input);
-      void SerializeWithCachedSizes(::google::protobuf::io::CodedOutputStream* output) const;
-      ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-        bool deterministic, ::google::protobuf::uint8* output) const;
-      ::google::protobuf::uint8* SerializeWithCachedSizesToArray(
-        ::google::protobuf::uint8* output) const {
-        return InternalSerializeWithCachedSizesToArray(false, output);
-      }
-      int GetCachedSize() const { return _cached_size_; }
-
-    private:
-      void SharedCtor();
-      void SharedDtor();
-      void SetCachedSize(int size) const;
-      void InternalSwap(TransformComponent* other);
-      void UnsafeMergeFrom(const TransformComponent& from);
-
-    private:
-      inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-        return _internal_metadata_.arena();
-      }
-      inline void* MaybeArenaPtr() const { return _internal_metadata_.raw_arena_ptr(); }
-
-    public:
-      ::google::protobuf::Metadata GetMetadata() const;
-
-      // nested types ----------------------------------------------------
-
-      // accessors -------------------------------------------------------
-
-      // optional .p3d_ecs.proto.LMatrix4f matrix = 1;
-      bool has_matrix() const;
-      void clear_matrix();
-      static const int kMatrixFieldNumber = 1;
-      const ::p3d_ecs::proto::LMatrix4f& matrix() const;
-      ::p3d_ecs::proto::LMatrix4f* mutable_matrix();
-      ::p3d_ecs::proto::LMatrix4f* release_matrix();
-      void set_allocated_matrix(::p3d_ecs::proto::LMatrix4f* matrix);
-
-      // optional bytes parent = 2;
-      void clear_parent();
-      static const int kParentFieldNumber = 2;
-      const ::std::string& parent() const;
-      void set_parent(const ::std::string& value);
-      void set_parent(const char* value);
-      void set_parent(const void* value, size_t size);
-      ::std::string* mutable_parent();
-      ::std::string* release_parent();
-      void set_allocated_parent(::std::string* parent);
-
-      // repeated bytes children = 3;
-      int children_size() const;
-      void clear_children();
-      static const int kChildrenFieldNumber = 3;
-      const ::std::string& children(int index) const;
-      ::std::string* mutable_children(int index);
-      void set_children(int index, const ::std::string& value);
-      void set_children(int index, const char* value);
-      void set_children(int index, const void* value, size_t size);
-      ::std::string* add_children();
-      void add_children(const ::std::string& value);
-      void add_children(const char* value);
-      void add_children(const void* value, size_t size);
-      const ::google::protobuf::RepeatedPtrField<::std::string>& children() const;
-      ::google::protobuf::RepeatedPtrField<::std::string>* mutable_children();
-
-      // @@protoc_insertion_point(class_scope:p3d_ecs.proto.TransformComponent)
-    private:
-      ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-      ::google::protobuf::RepeatedPtrField<::std::string> children_;
-      ::google::protobuf::internal::ArenaStringPtr parent_;
-      ::p3d_ecs::proto::LMatrix4f* matrix_;
-      mutable int _cached_size_;
-      friend void
-      protobuf_InitDefaults_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto_impl();
-      friend void protobuf_AddDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto_impl();
-      friend void protobuf_AssignDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
-      friend void protobuf_ShutdownFile_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
-
-      void InitAsDefaultInstance();
-    };
-    extern ::google::protobuf::internal::ExplicitlyConstructed<TransformComponent>
-      TransformComponent_default_instance_;
+class TransformComponent;
 
 // ===================================================================
+
+class TransformComponent : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:p3d_ecs.proto.TransformComponent) */ {
+ public:
+  TransformComponent();
+  virtual ~TransformComponent();
+
+  TransformComponent(const TransformComponent& from);
+
+  inline TransformComponent& operator=(const TransformComponent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TransformComponent& default_instance();
+
+  static const TransformComponent* internal_default_instance();
+
+  void Swap(TransformComponent* other);
+
+  // implements Message ----------------------------------------------
+
+  inline TransformComponent* New() const { return New(NULL); }
+
+  TransformComponent* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const TransformComponent& from);
+  void MergeFrom(const TransformComponent& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(TransformComponent* other);
+  void UnsafeMergeFrom(const TransformComponent& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .p3d_ecs.proto.LMatrix4f matrix = 1;
+  bool has_matrix() const;
+  void clear_matrix();
+  static const int kMatrixFieldNumber = 1;
+  const ::p3d_ecs::proto::LMatrix4f& matrix() const;
+  ::p3d_ecs::proto::LMatrix4f* mutable_matrix();
+  ::p3d_ecs::proto::LMatrix4f* release_matrix();
+  void set_allocated_matrix(::p3d_ecs::proto::LMatrix4f* matrix);
+
+  // optional bytes parent = 2;
+  void clear_parent();
+  static const int kParentFieldNumber = 2;
+  const ::std::string& parent() const;
+  void set_parent(const ::std::string& value);
+  void set_parent(const char* value);
+  void set_parent(const void* value, size_t size);
+  ::std::string* mutable_parent();
+  ::std::string* release_parent();
+  void set_allocated_parent(::std::string* parent);
+
+  // repeated bytes children = 3;
+  int children_size() const;
+  void clear_children();
+  static const int kChildrenFieldNumber = 3;
+  const ::std::string& children(int index) const;
+  ::std::string* mutable_children(int index);
+  void set_children(int index, const ::std::string& value);
+  void set_children(int index, const char* value);
+  void set_children(int index, const void* value, size_t size);
+  ::std::string* add_children();
+  void add_children(const ::std::string& value);
+  void add_children(const char* value);
+  void add_children(const void* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& children() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_children();
+
+  // @@protoc_insertion_point(class_scope:p3d_ecs.proto.TransformComponent)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> children_;
+  ::google::protobuf::internal::ArenaStringPtr parent_;
+  ::p3d_ecs::proto::LMatrix4f* matrix_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto_impl();
+  friend void  protobuf_AddDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto_impl();
+  friend void protobuf_AssignDesc_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+  friend void protobuf_ShutdownFile_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<TransformComponent> TransformComponent_default_instance_;
+
+// ===================================================================
+
 
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-    // TransformComponent
+// TransformComponent
 
-    // optional .p3d_ecs.proto.LMatrix4f matrix = 1;
-    inline bool TransformComponent::has_matrix() const {
-      return this != internal_default_instance() && matrix_ != NULL;
-    }
-    inline void TransformComponent::clear_matrix() {
-      if (GetArenaNoVirtual() == NULL && matrix_ != NULL)
-        delete matrix_;
-      matrix_ = NULL;
-    }
-    inline const ::p3d_ecs::proto::LMatrix4f& TransformComponent::matrix() const {
-      // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.matrix)
-      return matrix_ != NULL ? *matrix_ : *::p3d_ecs::proto::LMatrix4f::internal_default_instance();
-    }
-    inline ::p3d_ecs::proto::LMatrix4f* TransformComponent::mutable_matrix() {
+// optional .p3d_ecs.proto.LMatrix4f matrix = 1;
+inline bool TransformComponent::has_matrix() const {
+  return this != internal_default_instance() && matrix_ != NULL;
+}
+inline void TransformComponent::clear_matrix() {
+  if (GetArenaNoVirtual() == NULL && matrix_ != NULL) delete matrix_;
+  matrix_ = NULL;
+}
+inline const ::p3d_ecs::proto::LMatrix4f& TransformComponent::matrix() const {
+  // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.matrix)
+  return matrix_ != NULL ? *matrix_
+                         : *::p3d_ecs::proto::LMatrix4f::internal_default_instance();
+}
+inline ::p3d_ecs::proto::LMatrix4f* TransformComponent::mutable_matrix() {
+  
+  if (matrix_ == NULL) {
+    matrix_ = new ::p3d_ecs::proto::LMatrix4f;
+  }
+  // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.matrix)
+  return matrix_;
+}
+inline ::p3d_ecs::proto::LMatrix4f* TransformComponent::release_matrix() {
+  // @@protoc_insertion_point(field_release:p3d_ecs.proto.TransformComponent.matrix)
+  
+  ::p3d_ecs::proto::LMatrix4f* temp = matrix_;
+  matrix_ = NULL;
+  return temp;
+}
+inline void TransformComponent::set_allocated_matrix(::p3d_ecs::proto::LMatrix4f* matrix) {
+  delete matrix_;
+  matrix_ = matrix;
+  if (matrix) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.TransformComponent.matrix)
+}
 
-      if (matrix_ == NULL) {
-        matrix_ = new ::p3d_ecs::proto::LMatrix4f;
-      }
-      // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.matrix)
-      return matrix_;
-    }
-    inline ::p3d_ecs::proto::LMatrix4f* TransformComponent::release_matrix() {
-      // @@protoc_insertion_point(field_release:p3d_ecs.proto.TransformComponent.matrix)
+// optional bytes parent = 2;
+inline void TransformComponent::clear_parent() {
+  parent_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& TransformComponent::parent() const {
+  // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.parent)
+  return parent_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void TransformComponent::set_parent(const ::std::string& value) {
+  
+  parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:p3d_ecs.proto.TransformComponent.parent)
+}
+inline void TransformComponent::set_parent(const char* value) {
+  
+  parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.TransformComponent.parent)
+}
+inline void TransformComponent::set_parent(const void* value, size_t size) {
+  
+  parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.TransformComponent.parent)
+}
+inline ::std::string* TransformComponent::mutable_parent() {
+  
+  // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.parent)
+  return parent_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* TransformComponent::release_parent() {
+  // @@protoc_insertion_point(field_release:p3d_ecs.proto.TransformComponent.parent)
+  
+  return parent_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void TransformComponent::set_allocated_parent(::std::string* parent) {
+  if (parent != NULL) {
+    
+  } else {
+    
+  }
+  parent_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), parent);
+  // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.TransformComponent.parent)
+}
 
-      ::p3d_ecs::proto::LMatrix4f* temp = matrix_;
-      matrix_ = NULL;
-      return temp;
-    }
-    inline void TransformComponent::set_allocated_matrix(::p3d_ecs::proto::LMatrix4f* matrix) {
-      delete matrix_;
-      matrix_ = matrix;
-      if (matrix) {
+// repeated bytes children = 3;
+inline int TransformComponent::children_size() const {
+  return children_.size();
+}
+inline void TransformComponent::clear_children() {
+  children_.Clear();
+}
+inline const ::std::string& TransformComponent::children(int index) const {
+  // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.children)
+  return children_.Get(index);
+}
+inline ::std::string* TransformComponent::mutable_children(int index) {
+  // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.children)
+  return children_.Mutable(index);
+}
+inline void TransformComponent::set_children(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:p3d_ecs.proto.TransformComponent.children)
+  children_.Mutable(index)->assign(value);
+}
+inline void TransformComponent::set_children(int index, const char* value) {
+  children_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.TransformComponent.children)
+}
+inline void TransformComponent::set_children(int index, const void* value, size_t size) {
+  children_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.TransformComponent.children)
+}
+inline ::std::string* TransformComponent::add_children() {
+  // @@protoc_insertion_point(field_add_mutable:p3d_ecs.proto.TransformComponent.children)
+  return children_.Add();
+}
+inline void TransformComponent::add_children(const ::std::string& value) {
+  children_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:p3d_ecs.proto.TransformComponent.children)
+}
+inline void TransformComponent::add_children(const char* value) {
+  children_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:p3d_ecs.proto.TransformComponent.children)
+}
+inline void TransformComponent::add_children(const void* value, size_t size) {
+  children_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:p3d_ecs.proto.TransformComponent.children)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+TransformComponent::children() const {
+  // @@protoc_insertion_point(field_list:p3d_ecs.proto.TransformComponent.children)
+  return children_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+TransformComponent::mutable_children() {
+  // @@protoc_insertion_point(field_mutable_list:p3d_ecs.proto.TransformComponent.children)
+  return &children_;
+}
 
-      } else {
-      }
-      // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.TransformComponent.matrix)
-    }
+inline const TransformComponent* TransformComponent::internal_default_instance() {
+  return &TransformComponent_default_instance_.get();
+}
+#endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 
-    // optional bytes parent = 2;
-    inline void TransformComponent::clear_parent() {
-      parent_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline const ::std::string& TransformComponent::parent() const {
-      // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.parent)
-      return parent_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline void TransformComponent::set_parent(const ::std::string& value) {
+// @@protoc_insertion_point(namespace_scope)
 
-      parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-      // @@protoc_insertion_point(field_set:p3d_ecs.proto.TransformComponent.parent)
-    }
-    inline void TransformComponent::set_parent(const char* value) {
-
-      parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-                         ::std::string(value));
-      // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.TransformComponent.parent)
-    }
-    inline void TransformComponent::set_parent(const void* value, size_t size) {
-
-      parent_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-                         ::std::string(reinterpret_cast<const char*>(value), size));
-      // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.TransformComponent.parent)
-    }
-    inline ::std::string* TransformComponent::mutable_parent() {
-
-      // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.parent)
-      return parent_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline ::std::string* TransformComponent::release_parent() {
-      // @@protoc_insertion_point(field_release:p3d_ecs.proto.TransformComponent.parent)
-
-      return parent_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline void TransformComponent::set_allocated_parent(::std::string* parent) {
-      if (parent != NULL) {
-
-      } else {
-      }
-      parent_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-                                  parent);
-      // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.TransformComponent.parent)
-    }
-
-    // repeated bytes children = 3;
-    inline int TransformComponent::children_size() const { return children_.size(); }
-    inline void TransformComponent::clear_children() { children_.Clear(); }
-    inline const ::std::string& TransformComponent::children(int index) const {
-      // @@protoc_insertion_point(field_get:p3d_ecs.proto.TransformComponent.children)
-      return children_.Get(index);
-    }
-    inline ::std::string* TransformComponent::mutable_children(int index) {
-      // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.TransformComponent.children)
-      return children_.Mutable(index);
-    }
-    inline void TransformComponent::set_children(int index, const ::std::string& value) {
-      // @@protoc_insertion_point(field_set:p3d_ecs.proto.TransformComponent.children)
-      children_.Mutable(index)->assign(value);
-    }
-    inline void TransformComponent::set_children(int index, const char* value) {
-      children_.Mutable(index)->assign(value);
-      // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.TransformComponent.children)
-    }
-    inline void TransformComponent::set_children(int index, const void* value, size_t size) {
-      children_.Mutable(index)->assign(reinterpret_cast<const char*>(value), size);
-      // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.TransformComponent.children)
-    }
-    inline ::std::string* TransformComponent::add_children() {
-      // @@protoc_insertion_point(field_add_mutable:p3d_ecs.proto.TransformComponent.children)
-      return children_.Add();
-    }
-    inline void TransformComponent::add_children(const ::std::string& value) {
-      children_.Add()->assign(value);
-      // @@protoc_insertion_point(field_add:p3d_ecs.proto.TransformComponent.children)
-    }
-    inline void TransformComponent::add_children(const char* value) {
-      children_.Add()->assign(value);
-      // @@protoc_insertion_point(field_add_char:p3d_ecs.proto.TransformComponent.children)
-    }
-    inline void TransformComponent::add_children(const void* value, size_t size) {
-      children_.Add()->assign(reinterpret_cast<const char*>(value), size);
-      // @@protoc_insertion_point(field_add_pointer:p3d_ecs.proto.TransformComponent.children)
-    }
-    inline const ::google::protobuf::RepeatedPtrField<::std::string>& TransformComponent::children()
-      const {
-      // @@protoc_insertion_point(field_list:p3d_ecs.proto.TransformComponent.children)
-      return children_;
-    }
-    inline ::google::protobuf::RepeatedPtrField<::std::string>*
-    TransformComponent::mutable_children() {
-      // @@protoc_insertion_point(field_mutable_list:p3d_ecs.proto.TransformComponent.children)
-      return &children_;
-    }
-
-    inline const TransformComponent* TransformComponent::internal_default_instance() {
-      return &TransformComponent_default_instance_.get();
-    }
-#endif // !PROTOBUF_INLINE_NOT_IN_HEADERS
-
-    // @@protoc_insertion_point(namespace_scope)
-
-  } // namespace proto
-} // namespace p3d_ecs
+}  // namespace proto
+}  // namespace p3d_ecs
 
 // @@protoc_insertion_point(global_scope)
 
-#endif // PROTOBUF_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto__INCLUDED
+#endif  // PROTOBUF_components_5fgen_2ftransform_5fcomponent_5fmeta_2eproto__INCLUDED

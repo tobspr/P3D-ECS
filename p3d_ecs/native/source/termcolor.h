@@ -9,6 +9,8 @@
 //! :license: BSD, see LICENSE for details
 //!
 
+#ifndef INTERROGATE
+
 #ifndef TERMCOLOR_HPP_
 #define TERMCOLOR_HPP_
 
@@ -391,3 +393,5 @@ namespace termcolor {
 #undef TERMCOLOR_OS_LINUX
 
 #endif // TERMCOLOR_HPP_
+
+#endif

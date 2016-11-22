@@ -100,7 +100,7 @@ testsuite_generic() {
       REQUIRE_EQ(mgr->find_entity(Entity::EMPTY_ID), nullptr);
     }
   }
-  END_TESTCASE;st
+  END_TESTCASE;
 
 
   BEGIN_TESTCASE("Testing EntityManager::reset") {

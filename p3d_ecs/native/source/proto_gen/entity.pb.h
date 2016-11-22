@@ -31,216 +31,218 @@
 // @@protoc_insertion_point(includes)
 
 namespace p3d_ecs {
-  namespace proto {
+namespace proto {
 
-    // Internal implementation detail -- do not call these.
-    void protobuf_AddDesc_entity_2eproto();
-    void protobuf_InitDefaults_entity_2eproto();
-    void protobuf_AssignDesc_entity_2eproto();
-    void protobuf_ShutdownFile_entity_2eproto();
+// Internal implementation detail -- do not call these.
+void protobuf_AddDesc_entity_2eproto();
+void protobuf_InitDefaults_entity_2eproto();
+void protobuf_AssignDesc_entity_2eproto();
+void protobuf_ShutdownFile_entity_2eproto();
 
-    class Entity;
-
-    // ===================================================================
-
-    class Entity : public ::google::protobuf::
-                     Message /* @@protoc_insertion_point(class_definition:p3d_ecs.proto.Entity) */ {
-    public:
-      Entity();
-      virtual ~Entity();
-
-      Entity(const Entity& from);
-
-      inline Entity& operator=(const Entity& from) {
-        CopyFrom(from);
-        return *this;
-      }
-
-      static const ::google::protobuf::Descriptor* descriptor();
-      static const Entity& default_instance();
-
-      static const Entity* internal_default_instance();
-
-      void Swap(Entity* other);
-
-      // implements Message ----------------------------------------------
-
-      inline Entity* New() const { return New(NULL); }
-
-      Entity* New(::google::protobuf::Arena* arena) const;
-      void CopyFrom(const ::google::protobuf::Message& from);
-      void MergeFrom(const ::google::protobuf::Message& from);
-      void CopyFrom(const Entity& from);
-      void MergeFrom(const Entity& from);
-      void Clear();
-      bool IsInitialized() const;
-
-      size_t ByteSizeLong() const;
-      bool MergePartialFromCodedStream(::google::protobuf::io::CodedInputStream* input);
-      void SerializeWithCachedSizes(::google::protobuf::io::CodedOutputStream* output) const;
-      ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-        bool deterministic, ::google::protobuf::uint8* output) const;
-      ::google::protobuf::uint8* SerializeWithCachedSizesToArray(
-        ::google::protobuf::uint8* output) const {
-        return InternalSerializeWithCachedSizesToArray(false, output);
-      }
-      int GetCachedSize() const { return _cached_size_; }
-
-    private:
-      void SharedCtor();
-      void SharedDtor();
-      void SetCachedSize(int size) const;
-      void InternalSwap(Entity* other);
-      void UnsafeMergeFrom(const Entity& from);
-
-    private:
-      inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-        return _internal_metadata_.arena();
-      }
-      inline void* MaybeArenaPtr() const { return _internal_metadata_.raw_arena_ptr(); }
-
-    public:
-      ::google::protobuf::Metadata GetMetadata() const;
-
-      // nested types ----------------------------------------------------
-
-      // accessors -------------------------------------------------------
-
-      // optional bytes uuid = 1;
-      void clear_uuid();
-      static const int kUuidFieldNumber = 1;
-      const ::std::string& uuid() const;
-      void set_uuid(const ::std::string& value);
-      void set_uuid(const char* value);
-      void set_uuid(const void* value, size_t size);
-      ::std::string* mutable_uuid();
-      ::std::string* release_uuid();
-      void set_allocated_uuid(::std::string* uuid);
-
-      // optional .p3d_ecs.proto.Components components = 2;
-      bool has_components() const;
-      void clear_components();
-      static const int kComponentsFieldNumber = 2;
-      const ::p3d_ecs::proto::Components& components() const;
-      ::p3d_ecs::proto::Components* mutable_components();
-      ::p3d_ecs::proto::Components* release_components();
-      void set_allocated_components(::p3d_ecs::proto::Components* components);
-
-      // @@protoc_insertion_point(class_scope:p3d_ecs.proto.Entity)
-    private:
-      ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-      ::google::protobuf::internal::ArenaStringPtr uuid_;
-      ::p3d_ecs::proto::Components* components_;
-      mutable int _cached_size_;
-      friend void protobuf_InitDefaults_entity_2eproto_impl();
-      friend void protobuf_AddDesc_entity_2eproto_impl();
-      friend void protobuf_AssignDesc_entity_2eproto();
-      friend void protobuf_ShutdownFile_entity_2eproto();
-
-      void InitAsDefaultInstance();
-    };
-    extern ::google::protobuf::internal::ExplicitlyConstructed<Entity> Entity_default_instance_;
+class Entity;
 
 // ===================================================================
+
+class Entity : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:p3d_ecs.proto.Entity) */ {
+ public:
+  Entity();
+  virtual ~Entity();
+
+  Entity(const Entity& from);
+
+  inline Entity& operator=(const Entity& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Entity& default_instance();
+
+  static const Entity* internal_default_instance();
+
+  void Swap(Entity* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Entity* New() const { return New(NULL); }
+
+  Entity* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Entity& from);
+  void MergeFrom(const Entity& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Entity* other);
+  void UnsafeMergeFrom(const Entity& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bytes uuid = 1;
+  void clear_uuid();
+  static const int kUuidFieldNumber = 1;
+  const ::std::string& uuid() const;
+  void set_uuid(const ::std::string& value);
+  void set_uuid(const char* value);
+  void set_uuid(const void* value, size_t size);
+  ::std::string* mutable_uuid();
+  ::std::string* release_uuid();
+  void set_allocated_uuid(::std::string* uuid);
+
+  // optional .p3d_ecs.proto.Components components = 2;
+  bool has_components() const;
+  void clear_components();
+  static const int kComponentsFieldNumber = 2;
+  const ::p3d_ecs::proto::Components& components() const;
+  ::p3d_ecs::proto::Components* mutable_components();
+  ::p3d_ecs::proto::Components* release_components();
+  void set_allocated_components(::p3d_ecs::proto::Components* components);
+
+  // @@protoc_insertion_point(class_scope:p3d_ecs.proto.Entity)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr uuid_;
+  ::p3d_ecs::proto::Components* components_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_entity_2eproto_impl();
+  friend void  protobuf_AddDesc_entity_2eproto_impl();
+  friend void protobuf_AssignDesc_entity_2eproto();
+  friend void protobuf_ShutdownFile_entity_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Entity> Entity_default_instance_;
+
+// ===================================================================
+
 
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-    // Entity
+// Entity
 
-    // optional bytes uuid = 1;
-    inline void Entity::clear_uuid() {
-      uuid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline const ::std::string& Entity::uuid() const {
-      // @@protoc_insertion_point(field_get:p3d_ecs.proto.Entity.uuid)
-      return uuid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline void Entity::set_uuid(const ::std::string& value) {
+// optional bytes uuid = 1;
+inline void Entity::clear_uuid() {
+  uuid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Entity::uuid() const {
+  // @@protoc_insertion_point(field_get:p3d_ecs.proto.Entity.uuid)
+  return uuid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Entity::set_uuid(const ::std::string& value) {
+  
+  uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:p3d_ecs.proto.Entity.uuid)
+}
+inline void Entity::set_uuid(const char* value) {
+  
+  uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.Entity.uuid)
+}
+inline void Entity::set_uuid(const void* value, size_t size) {
+  
+  uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.Entity.uuid)
+}
+inline ::std::string* Entity::mutable_uuid() {
+  
+  // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.Entity.uuid)
+  return uuid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Entity::release_uuid() {
+  // @@protoc_insertion_point(field_release:p3d_ecs.proto.Entity.uuid)
+  
+  return uuid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Entity::set_allocated_uuid(::std::string* uuid) {
+  if (uuid != NULL) {
+    
+  } else {
+    
+  }
+  uuid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), uuid);
+  // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.Entity.uuid)
+}
 
-      uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-      // @@protoc_insertion_point(field_set:p3d_ecs.proto.Entity.uuid)
-    }
-    inline void Entity::set_uuid(const char* value) {
+// optional .p3d_ecs.proto.Components components = 2;
+inline bool Entity::has_components() const {
+  return this != internal_default_instance() && components_ != NULL;
+}
+inline void Entity::clear_components() {
+  if (GetArenaNoVirtual() == NULL && components_ != NULL) delete components_;
+  components_ = NULL;
+}
+inline const ::p3d_ecs::proto::Components& Entity::components() const {
+  // @@protoc_insertion_point(field_get:p3d_ecs.proto.Entity.components)
+  return components_ != NULL ? *components_
+                         : *::p3d_ecs::proto::Components::internal_default_instance();
+}
+inline ::p3d_ecs::proto::Components* Entity::mutable_components() {
+  
+  if (components_ == NULL) {
+    components_ = new ::p3d_ecs::proto::Components;
+  }
+  // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.Entity.components)
+  return components_;
+}
+inline ::p3d_ecs::proto::Components* Entity::release_components() {
+  // @@protoc_insertion_point(field_release:p3d_ecs.proto.Entity.components)
+  
+  ::p3d_ecs::proto::Components* temp = components_;
+  components_ = NULL;
+  return temp;
+}
+inline void Entity::set_allocated_components(::p3d_ecs::proto::Components* components) {
+  delete components_;
+  components_ = components;
+  if (components) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.Entity.components)
+}
 
-      uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-                       ::std::string(value));
-      // @@protoc_insertion_point(field_set_char:p3d_ecs.proto.Entity.uuid)
-    }
-    inline void Entity::set_uuid(const void* value, size_t size) {
+inline const Entity* Entity::internal_default_instance() {
+  return &Entity_default_instance_.get();
+}
+#endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 
-      uuid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-                       ::std::string(reinterpret_cast<const char*>(value), size));
-      // @@protoc_insertion_point(field_set_pointer:p3d_ecs.proto.Entity.uuid)
-    }
-    inline ::std::string* Entity::mutable_uuid() {
+// @@protoc_insertion_point(namespace_scope)
 
-      // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.Entity.uuid)
-      return uuid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline ::std::string* Entity::release_uuid() {
-      // @@protoc_insertion_point(field_release:p3d_ecs.proto.Entity.uuid)
-
-      return uuid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    }
-    inline void Entity::set_allocated_uuid(::std::string* uuid) {
-      if (uuid != NULL) {
-
-      } else {
-      }
-      uuid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), uuid);
-      // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.Entity.uuid)
-    }
-
-    // optional .p3d_ecs.proto.Components components = 2;
-    inline bool Entity::has_components() const {
-      return this != internal_default_instance() && components_ != NULL;
-    }
-    inline void Entity::clear_components() {
-      if (GetArenaNoVirtual() == NULL && components_ != NULL)
-        delete components_;
-      components_ = NULL;
-    }
-    inline const ::p3d_ecs::proto::Components& Entity::components() const {
-      // @@protoc_insertion_point(field_get:p3d_ecs.proto.Entity.components)
-      return components_ != NULL ? *components_
-                                 : *::p3d_ecs::proto::Components::internal_default_instance();
-    }
-    inline ::p3d_ecs::proto::Components* Entity::mutable_components() {
-
-      if (components_ == NULL) {
-        components_ = new ::p3d_ecs::proto::Components;
-      }
-      // @@protoc_insertion_point(field_mutable:p3d_ecs.proto.Entity.components)
-      return components_;
-    }
-    inline ::p3d_ecs::proto::Components* Entity::release_components() {
-      // @@protoc_insertion_point(field_release:p3d_ecs.proto.Entity.components)
-
-      ::p3d_ecs::proto::Components* temp = components_;
-      components_ = NULL;
-      return temp;
-    }
-    inline void Entity::set_allocated_components(::p3d_ecs::proto::Components* components) {
-      delete components_;
-      components_ = components;
-      if (components) {
-
-      } else {
-      }
-      // @@protoc_insertion_point(field_set_allocated:p3d_ecs.proto.Entity.components)
-    }
-
-    inline const Entity* Entity::internal_default_instance() {
-      return &Entity_default_instance_.get();
-    }
-#endif // !PROTOBUF_INLINE_NOT_IN_HEADERS
-
-    // @@protoc_insertion_point(namespace_scope)
-
-  } // namespace proto
-} // namespace p3d_ecs
+}  // namespace proto
+}  // namespace p3d_ecs
 
 // @@protoc_insertion_point(global_scope)
 
-#endif // PROTOBUF_entity_2eproto__INCLUDED
+#endif  // PROTOBUF_entity_2eproto__INCLUDED
