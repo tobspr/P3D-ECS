@@ -21,7 +21,7 @@ addons:
 
 install:
   - wget https://github.com/google/protobuf/archive/v3.1.0-alpha-1.tar.gz
-  - tar -xzvf v3.1.0-alpha-1.tar.gz
+  - tar -xzvf v3.1.0-alpha-1.tar.gz > tar-log.txt
   - pushd protobuf-3.1.0-alpha-1
   - ./autogen.sh
   - ./configure --prefix=/usr
