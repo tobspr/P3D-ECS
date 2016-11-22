@@ -12,8 +12,6 @@ addons:
             - libfreetype6-dev
             - panda3d1.10
             - libprotobuf-dev
-            - libprotoc-dev
-            - protobuf-compiler
 
 script:
     - export PYTHONPATH=${PYTHONPATH}:/usr/lib/python2.7/dist-packages
