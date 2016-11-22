@@ -10,16 +10,31 @@ from os.path import isfile, isdir, realpath, dirname, join
 THIS_DIR = realpath(dirname(__file__)) or "."
 
 start_cwd = os.getcwd() or "."
-
 print("Processing meta files")
 os.chdir(THIS_DIR)
-subprocess.call([sys.executable, "process_meta_files.py"])
+try:
+  subprocess.call([sys.executable, "process_meta_files.py"])
+except Exception as msg:
+  print(msg)
+  sys.exit(-1)
+ 
 os.chdir(join(THIS_DIR, "../../p3d_ecs/native/"))
 
 print("Updating module builder ..")
-subprocess.call([sys.executable, "update_module_builder.py"])
+try:
+  subprocess.call([sys.executable, "update_module_builder.py"])
+except Exception as msg:
+  print(msg)
+  sys.exit(-1)
 
+  
 print("Compiling native code")
-subprocess.call([sys.executable, "build.py"])
+try:
+  subprocess.call([sys.executable, "build.py"])
+except Exception as msg:
+  print(msg)
+  sys.exit(-1)
+
+  
 os.chdir(start_cwd)
 sys.exit(0)
